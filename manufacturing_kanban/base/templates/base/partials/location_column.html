@@ -1,15 +1,11 @@
-<div class="m-1" style="width: 500px;">
-    <h3 style="height: 100px;"> {{ location.name }} </h3>
-    <div class="sortable" style="min-height: 100px;">
-        {% for workorder in location.workorder_set.all %}
-    
-        <div class="card">
-            <div class="card-header"> <b> {{ workorder.name }} </b></div>
-            <div class="card-body"> 
-                {{ workorder.part.name }}
-                {{ workorder.part.description }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+<div id="location-{{ location.id }}" class="m-1" style="width: 500px;">
+    <h3 style="height: 100px;">
+        {{ location.name }}
+    </h3>
+    <form class="sortable" style="min-height: 100px" hx-trigger="updateLocationColumn" hx-post="{% url 'base:workorder-sort' %}" hx-target="#location-{{ location.id }}" hx-swap="outerHTML">
+        <input type="hidden" name="location" value="{{ location.id }}">
+        {% for workorder in location.workorder_set.all|dictsort:"priority" %}
+            {% include "base/partials/workorder_card.html" %}
+        {% endfor %}  
+    </form>
 </div>

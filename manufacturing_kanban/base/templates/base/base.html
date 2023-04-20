@@ -41,10 +41,15 @@
             var sortables = content.querySelectorAll(".sortable");
             for (var i = 0; i < sortables.length; i++) {
                 var sortable = sortables[i];
-                new Sortable(sortable, {
+                var sortablinstance = Sortable.create(sortable, {
                     group: 'location',
                     animation: 150,
-                    ghostClass: 'blue-background-class'
+                    ghostClass: 'blue-background-class',
+                    onEnd: function(evt) {
+                        htmx.trigger(evt.to, "updateLocationColumn")
+                        // wait... i don't need to update the from column and deal with race conditions?
+                        // htmx.trigger(evt.from, "updateLocationColumn")
+                    }
                 });
             }
         })

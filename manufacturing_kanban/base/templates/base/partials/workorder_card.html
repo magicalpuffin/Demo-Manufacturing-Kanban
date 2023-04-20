@@ -1,0 +1,12 @@
+<div class="card">
+    <input type="hidden" name="workorder_priority" value="{{ workorder.id }}">
+    <div class="card-header">
+        <b>{{ workorder.name }}</b>
+    </div>
+    <div class="card-body">
+        <div style="max-height: 100px; overflow: hidden;">
+            {{ workorder.part.name }}
+            {{ workorder.part.description }}
+        </div>
+    </div>
+</div>

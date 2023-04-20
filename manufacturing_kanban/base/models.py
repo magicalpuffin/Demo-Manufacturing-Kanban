@@ -4,7 +4,7 @@ from django.db import models
 
 class Location(models.Model):
     name= models.CharField(max_length=128)
-    # sequence= models.PositiveSmallIntegerField()
+    sequence= models.PositiveSmallIntegerField(default=0)
 
     def __str__(self) -> str:
         return self.name
@@ -18,6 +18,7 @@ class Part(models.Model):
 
 class WorkOrder(models.Model):
     name= models.CharField(max_length=128)
+    priority= models.PositiveSmallIntegerField(default=0)
     location= models.ForeignKey(Location, on_delete= models.CASCADE)
     part= models.ForeignKey(Part, on_delete= models.CASCADE)
     
