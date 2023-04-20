@@ -1,3 +1,10 @@
+# zappa
+zappa_settings.json
+zappa_settings.py
+
+# Powershell variables
+env.ps1
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
