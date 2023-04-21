@@ -29,10 +29,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', 'localhost')]
 
+CSRF_TRUSTED_ORIGINS = ['https://*.puffinsystems.com']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_s3_sqlite',
     'base.apps.BaseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,11 +80,11 @@ WSGI_APPLICATION = 'manufacturing_kanban.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        'NAME': os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+        'BUCKET': os.environ.get("SQL_BUCKET", "")
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
