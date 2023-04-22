@@ -1,0 +1,18 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Parts</h5>
+        </div>
+        <div class="modal-body">
+            <form hx-post="{% url 'base:part-create' %}" hx-target="#part-list">
+                {% csrf_token %}
+                {{ part_form.as_p }}
+                <button type="submit" class="btn btn-outline-info">Create</button>
+            </form>
+            <div id="part-list">
+                {% include "base/partials/part_list.html" %}
+            </div>
+            <a class="btn btn-info" href="{% url 'base:index' %}">Save</a>
+        </div>
+    </div>
+</div>

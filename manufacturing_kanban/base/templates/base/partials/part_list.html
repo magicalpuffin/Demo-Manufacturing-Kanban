@@ -1,0 +1,13 @@
+<div>
+    {% for part in parts %}
+        <div class="card">
+            <div class="card-header">
+                <b>{{ part.name }}</b>
+                <a class="btn btn-danger btn-sm float-end" hx-delete="{% url 'base:part-delete' part.id %}" hx-confirm="Are you sure you want to delete {{ part.name }} and all work orders associated with it?" hx-target="#part-list">X</a>
+            </div>
+            <div class="card-body">
+                {{ part.description }}
+            </div>
+        </div>
+    {% endfor %}
+</div>

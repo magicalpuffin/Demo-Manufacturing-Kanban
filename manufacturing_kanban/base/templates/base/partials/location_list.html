@@ -1,0 +1,15 @@
+<div>
+    <div class="sortable">
+    {% for location in locations %}
+        <div>
+            <input type="hidden" name="location" value="{{ location.id }}">
+            <div class="card">
+                <div class="card-header">
+                    <b>{{ location.name }}</b>
+                    <a class="btn btn-danger btn-sm float-end" hx-delete="{% url 'base:location-delete' location.id %}" hx-confirm="Are you sure you want to delete {{ location.name }} and all work orders associated with it?" hx-target="#location-list">X</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

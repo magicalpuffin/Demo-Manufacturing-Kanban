@@ -37,6 +37,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.js"></script>
 
         <script>
+        // This could be a static file
         htmx.onLoad(function(content) {
             var sortables = content.querySelectorAll(".sortable");
             for (var i = 0; i < sortables.length; i++) {
@@ -48,6 +49,7 @@
                     onEnd: function(evt) {
                         htmx.trigger(evt.to, "updateLocationColumn")
                         // wait... i don't need to update the from column and deal with race conditions?
+                        // It looks like sortable handles removing the item from view
                         // htmx.trigger(evt.from, "updateLocationColumn")
                     }
                 });
