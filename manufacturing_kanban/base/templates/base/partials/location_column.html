@@ -2,7 +2,7 @@
     <h3 style="height: 100px;">
         {{ location.name }}
     </h3>
-    <form class="sortable" style="min-height: 100px" hx-trigger="updateLocationColumn" hx-post="{% url 'base:workorder-sort' %}" hx-target="#location-{{ location.id }}" hx-swap="outerHTML">
+    <form class="sortable" style="min-height: 100px" hx-trigger="updateLocationColumn" hx-post="{% url 'base:workorder-sort' %}" hx-target="#location-{{ location.id }}" hx-swap="none">
         <input type="hidden" name="location" value="{{ location.id }}">
         {% for workorder in location.workorder_set.all|dictsort:"priority" %}
             {% include "base/partials/workorder_card.html" %}
