@@ -13,7 +13,7 @@ export type LocationType = {
 export type WorkOrderType = {
 	id: number;
 	name: string;
-	priority: string;
+	priority: number;
 	location: LocationType;
 	part: PartType;
 };
