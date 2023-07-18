@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Navbar from '$lib/components/Navbar.svelte';
-	import CreateCardModal from '$lib/components/modals/CreateCardModal.svelte';
-	import LocationsModal from '$lib/components/modals/LocationsModal.svelte';
-	import PartsModal from '$lib/components/modals/PartsModal.svelte';
+	import CreateCardModal from '$lib/components/modals/CreateWorkOrder.svelte';
+	import LocationsModal from '$lib/components/modals/ManageLocationModal.svelte';
+	import PartsModal from '$lib/components/modals/ManagePartModal.svelte';
 
 	let showCreateCardModal = false;
 	let showLocationsModal = false;
