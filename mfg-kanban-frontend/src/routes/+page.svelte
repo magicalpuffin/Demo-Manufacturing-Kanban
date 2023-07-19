@@ -26,5 +26,6 @@
 <CreateCardModal bind:showModal={showCreateCardModal} />
 <LocationsModal bind:showModal={showLocationsModal} />
 <PartsModal bind:showModal={showPartsModal} />
-
-<KanbanBoard Locations={exlocations} WorkOrders={exworkorders} />
+<div class="justify-center flex">
+	<KanbanBoard Locations={exlocations} WorkOrders={exworkorders} />
+</div>

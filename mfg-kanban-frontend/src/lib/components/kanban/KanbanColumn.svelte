@@ -16,15 +16,16 @@
 			animation: 150,
 			ghostClass: 'blue-background-class',
 			onEnd: function (evt) {
+				// Need to figure out how update database
 				console.log('sort ended');
 			}
 		});
 	});
 </script>
 
-<div class="border rounded-lg">
-	<h1 class="font-bold text-2xl py-2 px-2">{Location.name}</h1>
-	<div bind:this={sortableEle} class="flex flex-col gap-2 px-2 py-2">
+<div class="px-4">
+	<h1 class="font-bold text-2xl pt-2 pb-4 px-2">{Location.name}</h1>
+	<div bind:this={sortableEle} class="flex flex-col gap-2 py-2 min-h-[100px]">
 		{#each WorkOrders as WorkOrder}
 			<KanbanCard {WorkOrder} />
 		{/each}

@@ -3,14 +3,30 @@
 	import KanbanColumn from './KanbanColumn.svelte';
 
 	export let Locations: LocationType[];
-	// temporary setup for dev, should only work orders at location in future
 	export let WorkOrders: WorkOrderType[];
+
+	// temporary setup for development, there may be a better method
+	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderType[] }[] = [];
+
+	Locations.forEach((Location) => {
+		let WorkOrdersAtLocation = WorkOrders.filter((WorkOrder) => {
+			return WorkOrder.location == Location;
+		});
+
+		LocationWorkOrders.push({
+			Location: Location,
+			WorkOrders: WorkOrdersAtLocation
+		});
+	});
 </script>
 
 <div class="mx-4">
-	<div class="flex flex-row gap-4">
-		{#each Locations as Location}
-			<KanbanColumn {Location} {WorkOrders} />
+	<div class="flex flex-row divide-x-2">
+		{#each LocationWorkOrders as LocationWorkOrder}
+			<KanbanColumn
+				Location={LocationWorkOrder.Location}
+				WorkOrders={LocationWorkOrder.WorkOrders}
+			/>
 		{/each}
 	</div>
 </div>
