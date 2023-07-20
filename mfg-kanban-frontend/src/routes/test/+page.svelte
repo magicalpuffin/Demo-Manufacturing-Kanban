@@ -40,3 +40,5 @@
 		>
 	</form>
 </div>
+
+<div class="container h-96 bg-blue-400 mx-auto" />

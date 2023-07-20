@@ -23,8 +23,8 @@
 		showPartsModal = true;
 	}}
 />
-<CreateCardModal bind:showModal={showCreateCardModal} />
-<LocationsModal bind:showModal={showLocationsModal} />
+<CreateCardModal bind:showModal={showCreateCardModal} Locations={exlocations} Parts={exparts} />
+<LocationsModal bind:showModal={showLocationsModal} Locations={exlocations} />
 <PartsModal bind:showModal={showPartsModal} />
 <div class="justify-center flex">
 	<KanbanBoard Locations={exlocations} WorkOrders={exworkorders} />

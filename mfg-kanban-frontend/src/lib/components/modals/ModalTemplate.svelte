@@ -8,13 +8,13 @@
 	$: if (dialog && showModal) dialog.showModal();
 </script>
 
-<dialog bind:this={dialog} on:close={() => (showModal = false)} class="p-0 rounded-lg">
+<dialog bind:this={dialog} on:close={() => (showModal = false)} class="p-0 rounded-lg my-24">
 	<div
 		use:clickOutside
 		on:click_outside={() => {
 			dialog.close();
 		}}
-		class="w-96 h-96 px-2 py-2"
+		class="px-4 py-4 md:max-w-xl container"
 	>
 		<div class="flex flex-row justify-between align-middle">
 			<h1 class="text-2xl font-bold">{modalTitle}</h1>
@@ -30,3 +30,12 @@
 		<slot />
 	</div>
 </dialog>
+
+<style>
+	dialog {
+		width: auto;
+	}
+	dialog:modal {
+		max-width: auto;
+	}
+</style>
