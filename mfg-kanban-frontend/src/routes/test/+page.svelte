@@ -41,4 +41,6 @@
 	</form>
 </div>
 
-<div class="container h-96 bg-blue-400 mx-auto" />
+<div class="bg-green-400 w-fit h-96">
+	<div class="container h-96 w-10 bg-blue-400 mx-auto" />
+</div>
