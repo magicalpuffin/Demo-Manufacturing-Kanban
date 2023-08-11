@@ -6,10 +6,24 @@
 
 	import KanbanBoard from '$lib/components/kanban/KanbanBoard.svelte';
 	import { exparts, exlocations, exworkorders } from '$lib/testdata';
+	import { onMount } from 'svelte';
 
 	let showCreateCardModal = false;
 	let showLocationsModal = false;
 	let showPartsModal = false;
+
+	onMount(async () => {
+		const response = await fetch('http://localhost:8000/kanban-api/workorder/list/', {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		});
+
+		console.log(response);
+
+		if (response.ok) {
+			console.log(await response.json());
+		}
+	});
 </script>
 
 <Navbar
