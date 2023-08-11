@@ -8,25 +8,44 @@
 	// temporary setup for development, there may be a better method
 	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderType[] }[] = [];
 
-	Locations.forEach((Location) => {
-		let WorkOrdersAtLocation = WorkOrders.filter((WorkOrder) => {
-			return WorkOrder.location == Location;
-		});
+	// work around due to reactivity issues, start off as undefined
+	$: console.log(Locations);
+	$: console.log(WorkOrders);
 
-		LocationWorkOrders.push({
-			Location: Location,
-			WorkOrders: WorkOrdersAtLocation
-		});
-	});
+	function updateLocationWorkOrders(Locations: LocationType[], WorkOrders: WorkOrderType[]) {
+		let TempLocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderType[] }[] = [];
+		// checking if undefined, work around to update after fetch completes
+		if (Locations && WorkOrders) {
+			Locations.forEach((Location) => {
+				let WorkOrdersAtLocation = WorkOrders.filter((WorkOrder) => {
+					// comparing objects directy doesn't work, need to compare property i guess
+					return WorkOrder.location.name == Location.name;
+				});
+
+				TempLocationWorkOrders.push({
+					Location: Location,
+					WorkOrders: WorkOrdersAtLocation
+				});
+			});
+		}
+		return TempLocationWorkOrders;
+	}
+
+	// work around, updating because values change after fetch completes
+	$: LocationWorkOrders = updateLocationWorkOrders(Locations, WorkOrders);
+
+	$: console.log(LocationWorkOrders);
 </script>
 
 <div class="mx-4">
 	<div class="flex flex-row divide-x-2">
-		{#each LocationWorkOrders as LocationWorkOrder}
-			<KanbanColumn
-				Location={LocationWorkOrder.Location}
-				WorkOrders={LocationWorkOrder.WorkOrders}
-			/>
-		{/each}
+		{#if LocationWorkOrders}
+			{#each LocationWorkOrders as LocationWorkOrder}
+				<KanbanColumn
+					Location={LocationWorkOrder.Location}
+					WorkOrders={LocationWorkOrder.WorkOrders}
+				/>
+			{/each}
+		{/if}
 	</div>
 </div>

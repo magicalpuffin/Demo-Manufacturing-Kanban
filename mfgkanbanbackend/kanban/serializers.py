@@ -15,6 +15,9 @@ class PartSerializer(serializers.ModelSerializer):
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):
+    location = LocationSerializer()
+    part = PartSerializer()
+
     class Meta:
         model = WorkOrder
         fields = "__all__"
