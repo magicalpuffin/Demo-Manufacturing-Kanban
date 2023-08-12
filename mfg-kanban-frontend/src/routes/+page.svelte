@@ -45,24 +45,28 @@
 	// });
 </script>
 
-<Navbar
-	on:clickCreateCard={() => {
-		showCreateCardModal = true;
-	}}
-	on:clickLocations={() => {
-		showLocationsModal = true;
-	}}
-	on:clickParts={() => {
-		showPartsModal = true;
-	}}
-/>
-<CreateCardModal
-	bind:showModal={showCreateCardModal}
-	Locations={data.kanbanLocations}
-	Parts={data.kanbanParts}
-/>
-<ManageLocationModal bind:showModal={showLocationsModal} Locations={data.kanbanLocations} />
-<ManagePartModal bind:showModal={showPartsModal} />
-<div class="justify-center flex">
-	<KanbanBoard Locations={data.kanbanLocations} WorkOrders={data.kanbanWorkorders} />
+<div class="flex h-screen flex-col">
+	<Navbar
+		on:clickCreateCard={() => {
+			showCreateCardModal = true;
+		}}
+		on:clickLocations={() => {
+			showLocationsModal = true;
+		}}
+		on:clickParts={() => {
+			showPartsModal = true;
+		}}
+	/>
+	<div class="flex flex-1 overflow-x-auto">
+		<CreateCardModal
+			bind:showModal={showCreateCardModal}
+			Locations={data.kanbanLocations}
+			Parts={data.kanbanParts}
+		/>
+		<ManageLocationModal bind:showModal={showLocationsModal} Locations={data.kanbanLocations} />
+		<ManagePartModal bind:showModal={showPartsModal} />
+		<div class="justify-center flex">
+			<KanbanBoard Locations={data.kanbanLocations} WorkOrders={data.kanbanWorkorders} />
+		</div>
+	</div>
 </div>

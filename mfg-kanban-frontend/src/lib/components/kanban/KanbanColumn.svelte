@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="px-4">
+<div class="px-4 w-64 h-full flex-none overflow-y-auto overflow-x-hidden">
 	<h1 class="font-bold text-2xl pt-2 pb-4 px-2">{Location.name}</h1>
 	<div bind:this={sortableEle} class="flex flex-col gap-2 py-2 min-h-[100px]">
 		{#each WorkOrders as WorkOrder}

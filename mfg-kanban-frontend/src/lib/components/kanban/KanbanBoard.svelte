@@ -49,8 +49,8 @@
 	// $: console.log(LocationWorkOrders);
 </script>
 
-<div class="mx-4">
-	<div class="flex flex-row divide-x-2">
+<div class="w-full h-full">
+	<div class="flex flex-row divide-x-2 h-full">
 		{#each LocationWorkOrders as LocationWorkOrder}
 			<KanbanColumn
 				Location={LocationWorkOrder.Location}
