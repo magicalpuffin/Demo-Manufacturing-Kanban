@@ -64,7 +64,7 @@
 			Parts={data.kanbanParts}
 		/>
 		<ManageLocationModal bind:showModal={showLocationsModal} Locations={data.kanbanLocations} />
-		<ManagePartModal bind:showModal={showPartsModal} />
+		<ManagePartModal bind:showModal={showPartsModal} Parts={data.kanbanParts} />
 		<div class="justify-center flex">
 			<KanbanBoard Locations={data.kanbanLocations} WorkOrders={data.kanbanWorkorders} />
 		</div>

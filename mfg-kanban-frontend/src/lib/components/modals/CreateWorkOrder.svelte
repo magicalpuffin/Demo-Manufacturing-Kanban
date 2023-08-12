@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<button
-				class="my-2 py-2 px-4 rounded-full bg-blue-600 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600 hover:border"
+				class="my-2 py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600 hover:border"
 				type="submit">Create</button
 			>
 		</form>
