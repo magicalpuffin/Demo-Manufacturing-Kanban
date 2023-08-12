@@ -25,22 +25,20 @@
 
 <span class="text-gray-600 mt-2">Re-Order Locations</span>
 <div bind:this={sortableEle} class="gap-2 flex flex-col max-w-sm">
-	{#if Locations}
-		{#each Locations as Location}
-			<div class="py-2 px-2 border justify-between flex flex-row rounded-lg">
-				<div>
-					<span class="mr-4">
-						{Location.sequence}
-					</span>
-					<span class="font-semibold">
-						{Location.name}
-					</span>
-				</div>
-				<button
-					class="hover:bg-gray-300 rounded-full place-self-end hover:text-red-600"
-					on:click={() => {}}><CancelIcon /></button
-				>
+	{#each Locations as Location}
+		<div class="py-2 px-2 border justify-between flex flex-row rounded-lg">
+			<div>
+				<span class="mr-4">
+					{Location.sequence}
+				</span>
+				<span class="font-semibold">
+					{Location.name}
+				</span>
 			</div>
-		{/each}
-	{/if}
+			<button
+				class="hover:bg-gray-300 rounded-full place-self-end hover:text-red-600"
+				on:click={() => {}}><CancelIcon /></button
+			>
+		</div>
+	{/each}
 </div>

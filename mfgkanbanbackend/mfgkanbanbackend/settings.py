@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-3cuakk7g7nh$07#hkzh%=-6$o7bdrft-)83i^+juvw*1ob&@)-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "demo-manufacturing-kanban-web-backend-1"]
 
 
 # Application definition
