@@ -24,6 +24,20 @@ class PartCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LocationCreate(APIView):
+    def post(self, request, *args, **kwargs):
+        data = {
+            "name": request.data.get("name"),
+            "sequence": request.data.get("sequence"),
+        }
+
+        serializer = LocationSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class PartList(APIView):
     def get(self, request, *args, **kwargs):
         parts = Part.objects.all()

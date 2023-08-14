@@ -1,0 +1,16 @@
+### Post location create
+POST  http://localhost:8000/kanban-api/location/create/
+Content-Type: application/json
+
+{
+    "name": "new location",
+    "sequence": "10"
+}
+
+### Post part create
+GET http://localhost:8000/kanban-api/part/create/
+Content-Type: application/json
+
+### Get workorder list
+GET http://localhost:8000/kanban-api/workorder/list/
+Content-Type: application/json

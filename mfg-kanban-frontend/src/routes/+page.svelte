@@ -18,8 +18,19 @@
 	let showLocationsModal = false;
 	let showPartsModal = false;
 
-	function onLocationCreate(partialLocation: Partial<LocationType>) {
+	async function onLocationCreate(partialLocation: Partial<LocationType>) {
 		console.log('onLocationCreate triggered', partialLocation);
+		const response = await fetch('http://localhost:8000/kanban-api/location/create/', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(partialLocation)
+		});
+		if (response.ok) {
+			let createdLocation: LocationType = await response.json();
+			data.kanbanLocations = [...data.kanbanLocations, createdLocation];
+
+			console.log(data.kanbanLocations);
+		}
 	}
 </script>
 
