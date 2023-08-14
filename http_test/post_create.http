@@ -8,8 +8,13 @@ Content-Type: application/json
 }
 
 ### Post part create
-GET http://localhost:8000/kanban-api/part/create/
+POST http://localhost:8000/kanban-api/part/create/
 Content-Type: application/json
+
+{
+    "name": "new part",
+    "description": "test description"
+}
 
 ### Get workorder list
 GET http://localhost:8000/kanban-api/workorder/list/
