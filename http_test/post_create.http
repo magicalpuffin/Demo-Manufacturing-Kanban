@@ -16,6 +16,13 @@ Content-Type: application/json
     "description": "test description"
 }
 
-### Get workorder list
-GET http://localhost:8000/kanban-api/workorder/list/
+### Post workorder create
+POST http://localhost:8000/kanban-api/workorder/create/
 Content-Type: application/json
+
+{
+    "name": "new workorder",
+    "priority": "1",
+    "location": "1",
+    "part": "1"
+}

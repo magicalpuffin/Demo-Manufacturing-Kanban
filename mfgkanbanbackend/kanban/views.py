@@ -3,7 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Location, Part, WorkOrder
-from .serializers import LocationSerializer, PartSerializer, WorkOrderSerializer
+from .serializers import (
+    LocationSerializer,
+    PartSerializer,
+    WorkOrderSerializer,
+    WorkOrderSerializerSimple,
+)
 
 from django.shortcuts import render
 
@@ -32,6 +37,23 @@ class LocationCreate(APIView):
         }
 
         serializer = LocationSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WorkOrderCreate(APIView):
+    def post(self, request, *args, **kwargs):
+        data = {
+            "name": request.data.get("name"),
+            "priority": request.data.get("priority"),
+            "location": request.data.get("location"),
+            "part": request.data.get("part"),
+        }
+
+        # Uses id of location and part instead of the object itself, consider finding object
+        serializer = WorkOrderSerializerSimple(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

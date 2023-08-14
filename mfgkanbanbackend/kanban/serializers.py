@@ -14,6 +14,13 @@ class PartSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# TODO: rename these to be easier to understand
+class WorkOrderSerializerSimple(serializers.ModelSerializer):
+    class Meta:
+        model = WorkOrder
+        fields = "__all__"
+
+
 class WorkOrderSerializer(serializers.ModelSerializer):
     location = LocationSerializer()
     part = PartSerializer()

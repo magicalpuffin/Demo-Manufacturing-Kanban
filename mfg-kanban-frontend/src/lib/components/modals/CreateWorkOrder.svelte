@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ModalTemplate from './ModalTemplate.svelte';
-	import type { LocationType, PartType } from '$lib/types';
+	import type { LocationType, PartType, WorkOrderType } from '$lib/types';
 
 	export let showModal: boolean;
 	// temporary, should get locations, parts from fetch
@@ -8,14 +8,23 @@
 	export let Parts: PartType[];
 
 	let workorderName: string;
+	let workorderPriority: number;
 	let locationId: number;
 	let partId: number;
 
-	async function submit() {}
+	// TODO: fix, need to decide if entire location and part objects are passed or just ID
+	async function submit() {
+		let partialWorkorder: Partial<WorkOrderType> = {
+			name: workorderName,
+			priority: workorderPriority
+			// location: locationId,
+			// part: partId
+		};
+	}
 </script>
 
 <ModalTemplate bind:showModal modalTitle="Create Work Order">
-	<div class="my-2 mx-2">
+	<div class="mx-2 my-2">
 		<form on:submit|preventDefault={submit}>
 			<div class="grid grid-cols-1 gap-6">
 				<div class="block">
@@ -26,6 +35,17 @@
 						type="text"
 						required
 						placeholder="Work Order Name"
+					/>
+				</div>
+				<div class="block">
+					<span class="text-gray-600">Priority</span>
+					<input
+						bind:value={workorderPriority}
+						class="block w-full"
+						type="number"
+						min="0"
+						required
+						placeholder="1"
 					/>
 				</div>
 				<div class="block">
@@ -46,7 +66,7 @@
 				</div>
 			</div>
 			<button
-				class="my-2 py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600 hover:border"
+				class="my-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:border hover:border-blue-600 hover:bg-white hover:text-blue-600"
 				type="submit">Create</button
 			>
 		</form>
