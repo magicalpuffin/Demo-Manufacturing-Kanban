@@ -1,4 +1,4 @@
-import type { PartType, LocationType, WorkOrderType } from './types';
+import type { PartType, LocationType, WorkOrderDetailType } from './types';
 
 export let exparts: PartType[] = [
 	{
@@ -30,7 +30,7 @@ export let exlocations: LocationType[] = [
 	}
 ];
 
-export let exworkorders: WorkOrderType[] = [
+export let exworkorders: WorkOrderDetailType[] = [
 	{
 		id: 1,
 		name: 'WO Num1',

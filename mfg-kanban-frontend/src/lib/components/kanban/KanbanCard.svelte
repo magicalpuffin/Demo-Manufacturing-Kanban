@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { WorkOrderType } from '$lib/types';
+	import type { WorkOrderDetailType } from '$lib/types';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let WorkOrder: WorkOrderType;
+	export let WorkOrder: WorkOrderDetailType;
 </script>
 
 <div class="h-48 rounded-lg border shadow-md">

@@ -1,10 +1,10 @@
 import type { PageLoad } from './$types';
-import type { LocationType, PartType, WorkOrderType } from '$lib/types';
+import type { LocationType, PartType, WorkOrderDetailType } from '$lib/types';
 
 export const load = (async ({ fetch }) => {
 	let kanbanLocations: LocationType[] = [];
 	let kanbanParts: PartType[] = [];
-	let kanbanWorkorders: WorkOrderType[] = [];
+	let kanbanWorkorders: WorkOrderDetailType[] = [];
 
 	try {
 		const location_response = await fetch('http://localhost:8000/kanban-api/location/list/', {

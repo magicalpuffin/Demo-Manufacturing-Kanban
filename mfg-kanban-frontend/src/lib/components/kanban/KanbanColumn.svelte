@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { LocationType, WorkOrderType } from '$lib/types';
+	import type { LocationType, WorkOrderDetailType } from '$lib/types';
 	import { onMount } from 'svelte';
 	import KanbanCard from './KanbanCard.svelte';
 	import Sortable from 'sortablejs';
 
 	export let Location: LocationType;
-	export let WorkOrders: WorkOrderType[];
+	export let WorkOrders: WorkOrderDetailType[];
 
 	let sortableEle: HTMLElement;
 	let sortableObj;
@@ -23,9 +23,9 @@
 	});
 </script>
 
-<div class="px-4 w-64 h-full flex-none overflow-y-auto overflow-x-hidden">
-	<h1 class="font-bold text-2xl pt-2 pb-4 px-2">{Location.name}</h1>
-	<div bind:this={sortableEle} class="flex flex-col gap-2 py-2 min-h-[100px]">
+<div class="h-full w-64 flex-none overflow-y-auto overflow-x-hidden px-4">
+	<h1 class="px-2 pb-4 pt-2 text-2xl font-bold">{Location.name}</h1>
+	<div bind:this={sortableEle} class="flex min-h-[100px] flex-col gap-2 py-2">
 		{#each WorkOrders as WorkOrder}
 			<KanbanCard {WorkOrder} />
 		{/each}

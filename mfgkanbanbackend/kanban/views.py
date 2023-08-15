@@ -7,7 +7,7 @@ from .serializers import (
     LocationSerializer,
     PartSerializer,
     WorkOrderSerializer,
-    WorkOrderSerializerSimple,
+    WorkOrderDetailSerializer,
 )
 
 from django.shortcuts import render
@@ -53,10 +53,11 @@ class WorkOrderCreate(APIView):
         }
 
         # Uses id of location and part instead of the object itself, consider finding object
-        serializer = WorkOrderSerializerSimple(data=data)
+        serializer = WorkOrderSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            newWorkorder = serializer.save()
+            detail_serializer = WorkOrderDetailSerializer(newWorkorder)
+            return Response(detail_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -79,6 +80,6 @@ class LocationList(APIView):
 class WorkOrderList(APIView):
     def get(self, request, *args, **kwargs):
         parts = WorkOrder.objects.all()
-        serializer = WorkOrderSerializer(parts, many=True)
+        serializer = WorkOrderDetailSerializer(parts, many=True)
 
         return Response(serializer.data)

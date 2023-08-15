@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LocationType, PartType, WorkOrderType } from '$lib/types';
+	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
 	import type { PageData } from './$types';
 
 	import Navbar from '$lib/components/Navbar.svelte';
@@ -50,6 +50,22 @@
 			console.log(data.kanbanParts);
 		}
 	}
+
+	async function onWorkorderCreate(partialWorkorder: Partial<WorkOrderType>) {
+		console.log('onWorkorderCreate triggered', partialWorkorder);
+		const response = await fetch('http://localhost:8000/kanban-api/workorder/create/', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(partialWorkorder)
+		});
+		if (response.ok) {
+			let createdWorkorder: WorkOrderDetailType = await response.json();
+			data.kanbanWorkorders = [...data.kanbanWorkorders, createdWorkorder];
+
+			console.log(data.kanbanWorkorders);
+			showCreateCardModal = false;
+		}
+	}
 </script>
 
 <div class="flex h-screen flex-col">
@@ -66,6 +82,7 @@
 	/>
 	<div class="flex flex-1 overflow-x-auto">
 		<CreateCardModal
+			on:workorderCreate={(e) => onWorkorderCreate(e.detail)}
 			bind:showModal={showCreateCardModal}
 			Locations={data.kanbanLocations}
 			Parts={data.kanbanParts}

@@ -1,25 +1,28 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import ModalTemplate from './ModalTemplate.svelte';
-	import type { LocationType, PartType, WorkOrderType } from '$lib/types';
+	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
 
 	export let showModal: boolean;
 	// temporary, should get locations, parts from fetch
 	export let Locations: LocationType[];
 	export let Parts: PartType[];
 
+	const dispatch = createEventDispatcher();
+
 	let workorderName: string;
 	let workorderPriority: number;
 	let locationId: number;
 	let partId: number;
 
-	// TODO: fix, need to decide if entire location and part objects are passed or just ID
 	async function submit() {
 		let partialWorkorder: Partial<WorkOrderType> = {
 			name: workorderName,
-			priority: workorderPriority
-			// location: locationId,
-			// part: partId
+			priority: workorderPriority,
+			location: locationId,
+			part: partId
 		};
+		dispatch('workorderCreate', partialWorkorder);
 	}
 </script>
 

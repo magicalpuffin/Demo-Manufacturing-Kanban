@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { LocationType, WorkOrderType } from '$lib/types';
+	import type { LocationType, WorkOrderDetailType } from '$lib/types';
 	import KanbanColumn from './KanbanColumn.svelte';
 
 	export let Locations: LocationType[];
-	export let WorkOrders: WorkOrderType[];
+	export let WorkOrders: WorkOrderDetailType[];
 
-	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderType[] }[] = [];
+	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderDetailType[] }[] = [];
 
-	function updateLocationWorkOrders(Locations: LocationType[], WorkOrders: WorkOrderType[]) {
-		let NewLocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderType[] }[] = [];
+	function updateLocationWorkOrders(Locations: LocationType[], WorkOrders: WorkOrderDetailType[]) {
+		let NewLocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderDetailType[] }[] = [];
 
 		Locations.forEach((Location) => {
 			let WorkOrdersAtLocation = WorkOrders.filter((WorkOrder) => {
