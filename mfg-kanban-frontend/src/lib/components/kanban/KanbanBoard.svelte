@@ -34,6 +34,7 @@
 	<div class="flex h-full flex-row divide-x-2">
 		{#each LocationWorkOrders as LocationWorkOrder}
 			<KanbanColumn
+				on:workorderDelete
 				Location={LocationWorkOrder.Location}
 				WorkOrders={LocationWorkOrder.WorkOrders}
 			/>

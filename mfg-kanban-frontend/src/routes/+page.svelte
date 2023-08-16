@@ -97,6 +97,20 @@
 			showCreateCardModal = false;
 		}
 	}
+
+	async function onWorkorderDelete(removeWorkorder: WorkOrderDetailType) {
+		// Using workorder detail while API uses workorder without detail
+		console.log('onWorkorderDelete triggered', removeWorkorder);
+		const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/${removeWorkorder.id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (response.ok) {
+			// Need to handle cascade delete
+			data.kanbanWorkorders = data.kanbanWorkorders.filter((t) => t.id != removeWorkorder.id);
+			console.log(data.kanbanWorkorders);
+		}
+	}
 </script>
 
 <div class="flex h-screen flex-col">
@@ -131,7 +145,11 @@
 			Parts={data.kanbanParts}
 		/>
 		<div class="flex justify-center">
-			<KanbanBoard Locations={data.kanbanLocations} WorkOrders={data.kanbanWorkorders} />
+			<KanbanBoard
+				on:workorderDelete={(e) => onWorkorderDelete(e.detail)}
+				Locations={data.kanbanLocations}
+				WorkOrders={data.kanbanWorkorders}
+			/>
 		</div>
 	</div>
 </div>
