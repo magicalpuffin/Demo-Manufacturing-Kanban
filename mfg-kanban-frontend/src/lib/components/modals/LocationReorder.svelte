@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { LocationType } from '$lib/types';
+	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let Locations: LocationType[];
+	const dispatch = createEventDispatcher();
 
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
@@ -23,10 +25,10 @@
 	});
 </script>
 
-<span class="text-gray-600 mt-2">Re-Order Locations</span>
-<div bind:this={sortableEle} class="gap-2 flex flex-col max-w-sm">
+<span class="mt-2 text-gray-600">Re-Order Locations</span>
+<div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
 	{#each Locations as Location}
-		<div class="py-2 px-2 border justify-between flex flex-row rounded-lg">
+		<div class="flex flex-row justify-between rounded-lg border px-2 py-2">
 			<div>
 				<span class="mr-4">
 					{Location.sequence}
@@ -36,8 +38,11 @@
 				</span>
 			</div>
 			<button
-				class="hover:bg-gray-300 rounded-full place-self-end hover:text-red-600"
-				on:click={() => {}}><CancelIcon /></button
+				class="place-self-end rounded-full hover:bg-gray-300 hover:text-red-600"
+				on:click={() => {
+					// add popup warning
+					dispatch('locationDelete', Location);
+				}}><CancelIcon /></button
 			>
 		</div>
 	{/each}

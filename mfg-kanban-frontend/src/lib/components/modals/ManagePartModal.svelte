@@ -51,7 +51,7 @@
 					type="submit">Create</button
 				>
 			</form>
-			<PartTable {Parts} />
+			<PartTable on:partDelete {Parts} />
 		</div>
 	</div>
 </ModalTemplate>

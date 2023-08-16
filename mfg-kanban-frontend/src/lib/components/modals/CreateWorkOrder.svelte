@@ -15,6 +15,7 @@
 	let locationId: number;
 	let partId: number;
 
+	// does this need to be async?
 	async function submit() {
 		let partialWorkorder: Partial<WorkOrderType> = {
 			name: workorderName,

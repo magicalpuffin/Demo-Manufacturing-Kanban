@@ -54,7 +54,7 @@
 					>
 				</div>
 			</form>
-			<LocationReorder {Locations} />
+			<LocationReorder on:locationDelete {Locations} />
 		</div>
 	</div>
 </ModalTemplate>

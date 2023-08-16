@@ -37,6 +37,22 @@
 		}
 	}
 
+	async function onLocationDelete(removeLocation: LocationType) {
+		console.log('onLocationDelete triggered', removeLocation);
+		const response = await fetch(`${PUBLIC_KANBAN_API}/location/${removeLocation.id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (response.ok) {
+			// Need to handle cascade delete
+			data.kanbanLocations = data.kanbanLocations.filter((t) => t.id != removeLocation.id);
+			data.kanbanWorkorders = data.kanbanWorkorders.filter(
+				(t) => t.location.id != removeLocation.id
+			);
+			console.log(data.kanbanLocations);
+		}
+	}
+
 	async function onPartCreate(partialPart: Partial<PartType>) {
 		console.log('onPartCreate triggered', partialPart);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
@@ -48,6 +64,20 @@
 			let createdPart: PartType = await response.json();
 			data.kanbanParts = [...data.kanbanParts, createdPart];
 
+			console.log(data.kanbanParts);
+		}
+	}
+
+	async function onPartDelete(removePart: PartType) {
+		console.log('onPartDelete triggered', removePart);
+		const response = await fetch(`${PUBLIC_KANBAN_API}/part/${removePart.id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (response.ok) {
+			// Need to handle cascade delete
+			data.kanbanParts = data.kanbanParts.filter((t) => t.id != removePart.id);
+			data.kanbanWorkorders = data.kanbanWorkorders.filter((t) => t.part.id != removePart.id);
 			console.log(data.kanbanParts);
 		}
 	}
@@ -90,11 +120,13 @@
 		/>
 		<ManageLocationModal
 			on:locationCreate={(e) => onLocationCreate(e.detail)}
+			on:locationDelete={(e) => onLocationDelete(e.detail)}
 			bind:showModal={showLocationsModal}
 			Locations={data.kanbanLocations}
 		/>
 		<ManagePartModal
 			on:partCreate={(e) => onPartCreate(e.detail)}
+			on:partDelete={(e) => onPartDelete(e.detail)}
 			bind:showModal={showPartsModal}
 			Parts={data.kanbanParts}
 		/>

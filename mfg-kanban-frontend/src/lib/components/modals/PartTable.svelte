@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { PartType } from '$lib/types';
+	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let Parts: PartType[];
+	const dispatch = createEventDispatcher();
 </script>
 
-<span class="text-gray-600 mt-2">Parts Table</span>
+<span class="mt-2 text-gray-600">Parts Table</span>
 <div>
 	<article class="prose">
 		<table>
@@ -23,8 +25,12 @@
 						<td>{Part.name}</td>
 						<td>{Part.description}</td>
 						<td
-							><button class="hover:bg-gray-300 rounded-full hover:text-red-600" on:click={() => {}}
-								><CancelIcon /></button
+							><button
+								class="rounded-full hover:bg-gray-300 hover:text-red-600"
+								on:click={() => {
+									// TODO, add popup warning
+									dispatch('partDelete', Part);
+								}}><CancelIcon /></button
 							></td
 						>
 					</tr>
