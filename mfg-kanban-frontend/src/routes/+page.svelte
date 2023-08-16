@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
 	import type { PageData } from './$types';
+	import { PUBLIC_KANBAN_API } from '$env/static/public';
 
 	import Navbar from '$lib/components/Navbar.svelte';
 	import CreateCardModal from '$lib/components/modals/CreateWorkOrder.svelte';
@@ -23,7 +24,7 @@
 	async function onLocationCreate(partialLocation: Partial<LocationType>) {
 		console.log('onLocationCreate triggered', partialLocation);
 
-		const response = await fetch('http://localhost:8000/kanban-api/location/create/', {
+		const response = await fetch(`${PUBLIC_KANBAN_API}/location/create/`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(partialLocation)
@@ -38,7 +39,7 @@
 
 	async function onPartCreate(partialPart: Partial<PartType>) {
 		console.log('onPartCreate triggered', partialPart);
-		const response = await fetch('http://localhost:8000/kanban-api/part/create/', {
+		const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(partialPart)
@@ -53,7 +54,7 @@
 
 	async function onWorkorderCreate(partialWorkorder: Partial<WorkOrderType>) {
 		console.log('onWorkorderCreate triggered', partialWorkorder);
-		const response = await fetch('http://localhost:8000/kanban-api/workorder/create/', {
+		const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/create/`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(partialWorkorder)

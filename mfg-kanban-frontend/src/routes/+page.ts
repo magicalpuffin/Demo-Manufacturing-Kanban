@@ -1,5 +1,6 @@
 import type { PageLoad } from './$types';
 import type { LocationType, PartType, WorkOrderDetailType } from '$lib/types';
+import { PUBLIC_KANBAN_API } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
 	let kanbanLocations: LocationType[] = [];
@@ -7,17 +8,17 @@ export const load = (async ({ fetch }) => {
 	let kanbanWorkorders: WorkOrderDetailType[] = [];
 
 	try {
-		const location_response = await fetch('http://localhost:8000/kanban-api/location/list/', {
+		const location_response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		const part_response = await fetch('http://localhost:8000/kanban-api/part/list/', {
+		const part_response = await fetch(`${PUBLIC_KANBAN_API}/part/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		const workorder_response = await fetch('http://localhost:8000/kanban-api/workorder/list/', {
+		const workorder_response = await fetch(`${PUBLIC_KANBAN_API}/workorder/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
