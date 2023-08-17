@@ -5,6 +5,7 @@
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
+	import CreateWorkOrder from './CreateWorkOrder.svelte';
 
 	export let Locations: LocationType[];
 	const dispatch = createEventDispatcher();
@@ -20,9 +21,25 @@
 			onEnd: function (evt) {
 				// Need to figure out how update database
 				console.log('sort ended');
+				console.log(evt.oldIndex);
+				console.log(evt.newIndex);
+
+				if (typeof evt.oldIndex !== 'undefined' && typeof evt.newIndex !== 'undefined') {
+					let movedLocation = Locations.splice(evt.oldIndex, 1);
+					Locations.splice(evt.newIndex, 0, movedLocation[0]);
+
+					// uhh so i probably don't want reactivity, should set values to new variable
+					// bug when reactive updating, sortable already reorders the dom
+					// Locations = Locations.map((item, index) => ({ ...item, sequence: index }));
+					Locations.forEach((object, index) => {
+						object.sequence = index;
+					});
+					console.log(Locations);
+				}
 			}
 		});
 	});
+	// $: console.log(Locations);
 </script>
 
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
