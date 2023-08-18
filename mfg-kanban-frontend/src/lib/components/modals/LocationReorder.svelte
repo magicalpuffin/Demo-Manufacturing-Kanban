@@ -21,21 +21,31 @@
 			onEnd: function (evt) {
 				// Need to figure out how update database
 				console.log('sort ended');
-				console.log(evt.oldIndex);
-				console.log(evt.newIndex);
+				// console.log(evt.oldIndex);
+				// console.log(evt.newIndex);
+				console.log(sortableObj.toArray());
 
-				if (typeof evt.oldIndex !== 'undefined' && typeof evt.newIndex !== 'undefined') {
-					let movedLocation = Locations.splice(evt.oldIndex, 1);
-					Locations.splice(evt.newIndex, 0, movedLocation[0]);
+				// i guess this works
+				// uses the ids added to div to determine order of obj, update sequence to index
+				let reorderedLocations = sortableObj.toArray().map((id, index) => {
+					let updatingLocation = Locations.find((item) => item.id == parseInt(id));
+					return { ...updatingLocation, sequence: index };
+				});
+				console.log(reorderedLocations);
 
-					// uhh so i probably don't want reactivity, should set values to new variable
-					// bug when reactive updating, sortable already reorders the dom
-					// Locations = Locations.map((item, index) => ({ ...item, sequence: index }));
-					Locations.forEach((object, index) => {
-						object.sequence = index;
-					});
-					console.log(Locations);
-				}
+				// seems like there was a easier method using toArray() method
+				// if (typeof evt.oldIndex !== 'undefined' && typeof evt.newIndex !== 'undefined') {
+				// 	let movedLocation = Locations.splice(evt.oldIndex, 1);
+				// 	Locations.splice(evt.newIndex, 0, movedLocation[0]);
+
+				// 	// uhh so i probably don't want reactivity, should set values to new variable
+				// 	// bug when reactive updating, sortable already reorders the dom
+				// 	// Locations = Locations.map((item, index) => ({ ...item, sequence: index }));
+				// 	Locations.forEach((object, index) => {
+				// 		object.sequence = index;
+				// 	});
+				// 	console.log(Locations);
+				// }
 			}
 		});
 	});
@@ -45,7 +55,7 @@
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
 	{#each Locations as Location}
-		<div class="flex flex-row justify-between rounded-lg border px-2 py-2">
+		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
 			<div>
 				<span class="mr-4">
 					{Location.sequence}

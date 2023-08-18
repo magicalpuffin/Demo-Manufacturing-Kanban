@@ -8,16 +8,20 @@
 	export let WorkOrders: WorkOrderDetailType[];
 
 	let sortableEle: HTMLElement;
-	let sortableObj;
+	let sortableObj: Sortable;
 
 	onMount(() => {
 		sortableObj = Sortable.create(sortableEle, {
 			group: 'location',
 			animation: 150,
 			ghostClass: 'blue-background-class',
-			onEnd: function (evt) {
+			onSort: function (evt) {
 				// Need to figure out how update database
-				console.log('sort ended');
+				// console.log('sort ended');
+				// console.log(evt.from);
+				// console.log(evt.to);
+				console.log(Location.name);
+				console.log(sortableObj.toArray());
 			}
 		});
 	});
