@@ -53,6 +53,12 @@
 		}
 	}
 
+	async function onLocationReorder(reorderedLocations: LocationType[]) {
+		console.log('onLocationReorder triggered', reorderedLocations);
+		// TODO: create backend for updating list
+		data.kanbanLocations = reorderedLocations
+	}
+
 	async function onPartCreate(partialPart: Partial<PartType>) {
 		console.log('onPartCreate triggered', partialPart);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
@@ -135,6 +141,7 @@
 		<ManageLocationModal
 			on:locationCreate={(e) => onLocationCreate(e.detail)}
 			on:locationDelete={(e) => onLocationDelete(e.detail)}
+			on:locationReorder={(e) => onLocationReorder(e.detail)}
 			bind:showModal={showLocationsModal}
 			Locations={data.kanbanLocations}
 		/>

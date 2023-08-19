@@ -13,12 +13,18 @@
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
 
+	// TODO: figure out all of the pass by reference or value
+	// This sort of works? i don't understand
+	let copyLocations = Locations.slice();
+	// Locations.sort((a, b) => a.sequence - b.sequence);
+	// let sortedLocations: LocationType[]
+
 	onMount(() => {
 		sortableObj = Sortable.create(sortableEle, {
 			group: 'location',
 			animation: 150,
 			ghostClass: 'blue-background-class',
-			onEnd: function (evt) {
+			onSort: function (evt) {
 				// Need to figure out how update database
 				console.log('sort ended');
 				// console.log(evt.oldIndex);
@@ -32,6 +38,8 @@
 					return { ...updatingLocation, sequence: index };
 				});
 				console.log(reorderedLocations);
+
+				dispatch('locationReorder', reorderedLocations);
 
 				// seems like there was a easier method using toArray() method
 				// if (typeof evt.oldIndex !== 'undefined' && typeof evt.newIndex !== 'undefined') {
@@ -54,7 +62,7 @@
 
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each Locations as Location}
+	{#each copyLocations as Location}
 		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
 			<div>
 				<span class="mr-4">
