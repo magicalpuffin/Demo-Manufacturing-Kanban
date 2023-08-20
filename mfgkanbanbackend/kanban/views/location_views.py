@@ -76,7 +76,7 @@ class LocationDetail(APIView):
 
 class LocationList(APIView):
     def get(self, request, *args, **kwargs):
-        parts = Location.objects.all()
+        parts = Location.objects.all().order_by("sequence")
         serializer = LocationSerializer(parts, many=True)
 
         return Response(serializer.data)

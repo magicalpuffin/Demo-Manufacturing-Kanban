@@ -14,8 +14,8 @@
 	let sortableObj: Sortable;
 
 	// TODO: figure out all of the pass by reference or value
-	// This sort of works? i don't understand
-	let copyLocations = Locations.slice();
+	// This sort of works? i don't understand. It messes with reactivity
+	// let copyLocations = Locations.slice();
 	// Locations.sort((a, b) => a.sequence - b.sequence);
 	// let sortedLocations: LocationType[]
 
@@ -62,7 +62,8 @@
 
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each copyLocations as Location}
+	<!-- {#each copyLocations as Location} -->
+	{#each Locations as Location (Location.id)}
 		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
 			<div>
 				<span class="mr-4">

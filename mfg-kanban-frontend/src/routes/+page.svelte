@@ -32,6 +32,7 @@
 		if (response.ok) {
 			let createdLocation: LocationType = await response.json();
 			data.kanbanLocations = [...data.kanbanLocations, createdLocation];
+			data.kanbanLocations = data.kanbanLocations.slice().sort((a, b) => a.sequence - b.sequence);
 
 			console.log(data.kanbanLocations);
 		}
@@ -56,7 +57,7 @@
 	async function onLocationReorder(reorderedLocations: LocationType[]) {
 		console.log('onLocationReorder triggered', reorderedLocations);
 		// TODO: create backend for updating list
-		data.kanbanLocations = reorderedLocations
+		data.kanbanLocations = reorderedLocations;
 	}
 
 	async function onPartCreate(partialPart: Partial<PartType>) {
