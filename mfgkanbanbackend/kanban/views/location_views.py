@@ -80,3 +80,30 @@ class LocationList(APIView):
         serializer = LocationSerializer(parts, many=True)
 
         return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        # TODO fix this. This is messy, need to fix most of this
+        # Looping through and updating each model item individually
+        # Should use a custom list serializer
+        # Doesn't return the id, not sure why id was lost
+        serializer = LocationSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            for location_data in request.data:
+                # Second serializer and second validation, messy
+                location = Location.objects.get(id=location_data["id"])
+                location_update_data = {
+                    "name": location_data["name"],
+                    "sequence": location_data["sequence"],
+                }
+                newserializer = LocationSerializer(
+                    instance=location, data=location_update_data, partial=True
+                )
+                if newserializer.is_valid():
+                    newserializer.save()
+                else:
+                    return Response(
+                        newserializer.errors, status=status.HTTP_400_BAD_REQUEST
+                    )
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

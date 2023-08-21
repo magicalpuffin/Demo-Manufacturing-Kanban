@@ -57,7 +57,15 @@
 	async function onLocationReorder(reorderedLocations: LocationType[]) {
 		console.log('onLocationReorder triggered', reorderedLocations);
 		// TODO: create backend for updating list
-		data.kanbanLocations = reorderedLocations;
+		const response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(reorderedLocations)
+		});
+		if (response.ok) {
+			console.log(await response.json());
+			data.kanbanLocations = reorderedLocations;
+		}
 	}
 
 	async function onPartCreate(partialPart: Partial<PartType>) {

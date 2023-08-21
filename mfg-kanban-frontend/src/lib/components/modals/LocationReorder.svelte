@@ -13,12 +13,6 @@
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
 
-	// TODO: figure out all of the pass by reference or value
-	// This sort of works? i don't understand. It messes with reactivity
-	// let copyLocations = Locations.slice();
-	// Locations.sort((a, b) => a.sequence - b.sequence);
-	// let sortedLocations: LocationType[]
-
 	onMount(() => {
 		sortableObj = Sortable.create(sortableEle, {
 			group: 'location',
@@ -27,42 +21,21 @@
 			onSort: function (evt) {
 				// Need to figure out how update database
 				console.log('sort ended');
-				// console.log(evt.oldIndex);
-				// console.log(evt.newIndex);
-				console.log(sortableObj.toArray());
 
-				// i guess this works
-				// uses the ids added to div to determine order of obj, update sequence to index
+				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
 					let updatingLocation = Locations.find((item) => item.id == parseInt(id));
 					return { ...updatingLocation, sequence: index };
 				});
-				console.log(reorderedLocations);
 
 				dispatch('locationReorder', reorderedLocations);
-
-				// seems like there was a easier method using toArray() method
-				// if (typeof evt.oldIndex !== 'undefined' && typeof evt.newIndex !== 'undefined') {
-				// 	let movedLocation = Locations.splice(evt.oldIndex, 1);
-				// 	Locations.splice(evt.newIndex, 0, movedLocation[0]);
-
-				// 	// uhh so i probably don't want reactivity, should set values to new variable
-				// 	// bug when reactive updating, sortable already reorders the dom
-				// 	// Locations = Locations.map((item, index) => ({ ...item, sequence: index }));
-				// 	Locations.forEach((object, index) => {
-				// 		object.sequence = index;
-				// 	});
-				// 	console.log(Locations);
-				// }
 			}
 		});
 	});
-	// $: console.log(Locations);
 </script>
 
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	<!-- {#each copyLocations as Location} -->
 	{#each Locations as Location (Location.id)}
 		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
 			<div>
