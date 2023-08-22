@@ -88,22 +88,32 @@ class LocationList(APIView):
         # Doesn't return the id, not sure why id was lost
         serializer = LocationSerializer(data=request.data, many=True)
         if serializer.is_valid():
-            for location_data in request.data:
-                # Second serializer and second validation, messy
-                location = Location.objects.get(id=location_data["id"])
-                location_update_data = {
-                    "name": location_data["name"],
-                    "sequence": location_data["sequence"],
-                }
-                newserializer = LocationSerializer(
-                    instance=location, data=location_update_data, partial=True
-                )
-                if newserializer.is_valid():
-                    newserializer.save()
-                else:
-                    return Response(
-                        newserializer.errors, status=status.HTTP_400_BAD_REQUEST
-                    )
+            # Should add a check if locations exist
+            locations = Location.objects.filter(
+                id__in=[location_data["id"] for location_data in request.data]
+            )
+
+            # print(serializer.validated_data)
+            # Just returning serializer data, not sure how well this error handles
+            serializer.update(locations, serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+            # for location_data in request.data:
+            #     # Second serializer and second validation, messy
+            #     location = Location.objects.get(id=location_data["id"])
+            #     location_update_data = {
+            #         "name": location_data["name"],
+            #         "sequence": location_data["sequence"],
+            #     }
+            #     newserializer = LocationSerializer(
+            #         instance=location, data=location_update_data, partial=True
+            #     )
+            #     if newserializer.is_valid():
+            #         newserializer.save()
+            #     else:
+            #         return Response(
+            #             newserializer.errors, status=status.HTTP_400_BAD_REQUEST
+            #         )
+            # return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
