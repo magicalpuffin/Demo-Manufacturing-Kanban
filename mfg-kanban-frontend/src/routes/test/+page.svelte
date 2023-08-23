@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Sortable from 'sortablejs';
 	import { onMount } from 'svelte';
-
+	import { toast } from '@zerodevx/svelte-toast';
 	let testlist: HTMLElement;
 	onMount(() => {
 		let sortablelist = Sortable.create(testlist);
@@ -12,13 +12,17 @@
 	}
 </script>
 
+<button
+	class="rounded-lg bg-blue-400 px-4 py-4 text-white"
+	on:click={() => toast.push('Hello world!')}>SHOW TOAST</button
+>
 <ul bind:this={testlist}>
 	<li>item 1</li>
 	<li>item 2</li>
 	<li>item 3</li>
 </ul>
 
-<div class="my-2 mx-2">
+<div class="mx-2 my-2">
 	<form on:submit|preventDefault={submit}>
 		<div class="grid grid-cols-1 gap-6">
 			<div class="block">
@@ -35,12 +39,12 @@
 			</div>
 		</div>
 		<button
-			class="my-2 py-2 px-4 rounded-full bg-blue-600 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600 hover:border"
+			class="my-2 rounded-full bg-blue-600 px-4 py-2 text-white hover:border hover:border-blue-600 hover:bg-white hover:text-blue-600"
 			type="submit">Create</button
 		>
 	</form>
 </div>
 
-<div class="bg-green-400 w-fit h-96">
-	<div class="container h-96 w-10 bg-blue-400 mx-auto" />
+<div class="h-96 w-fit bg-green-400">
+	<div class="container mx-auto h-96 w-10 bg-blue-400" />
 </div>
