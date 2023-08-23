@@ -3,6 +3,8 @@
 	import type { PageData } from './$types';
 	import { PUBLIC_KANBAN_API } from '$env/static/public';
 
+	import { toast } from '@zerodevx/svelte-toast';
+
 	import Navbar from '$lib/components/Navbar.svelte';
 	import CreateCardModal from '$lib/components/modals/CreateWorkOrder.svelte';
 	import ManageLocationModal from '$lib/components/modals/ManageLocationModal.svelte';
@@ -22,7 +24,7 @@
 
 	// TODO: Move separate utils function
 	async function onLocationCreate(partialLocation: Partial<LocationType>) {
-		console.log('onLocationCreate triggered', partialLocation);
+		// console.log('onLocationCreate triggered', partialLocation);
 
 		const response = await fetch(`${PUBLIC_KANBAN_API}/location/create/`, {
 			method: 'POST',
@@ -34,42 +36,46 @@
 			data.kanbanLocations = [...data.kanbanLocations, createdLocation];
 			data.kanbanLocations = data.kanbanLocations.slice().sort((a, b) => a.sequence - b.sequence);
 
-			console.log(data.kanbanLocations);
+			toast.push(`Location, ${createdLocation.name}, created`);
+			// console.log(data.kanbanLocations);
 		}
 	}
 
 	async function onLocationDelete(removeLocation: LocationType) {
-		console.log('onLocationDelete triggered', removeLocation);
+		// console.log('onLocationDelete triggered', removeLocation);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/location/${removeLocation.id}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' }
 		});
 		if (response.ok) {
+			// Not sure if this deletion should check with the response data
 			// Need to handle cascade delete
 			data.kanbanLocations = data.kanbanLocations.filter((t) => t.id != removeLocation.id);
 			data.kanbanWorkorders = data.kanbanWorkorders.filter(
 				(t) => t.location.id != removeLocation.id
 			);
-			console.log(data.kanbanLocations);
+			toast.push(`Location, ${removeLocation.name}, deleted`);
+			// console.log(data.kanbanLocations);
 		}
 	}
 
 	async function onLocationReorder(reorderedLocations: LocationType[]) {
-		console.log('onLocationReorder triggered', reorderedLocations);
-		// TODO: create backend for updating list
+		// console.log('onLocationReorder triggered', reorderedLocations);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(reorderedLocations)
 		});
 		if (response.ok) {
-			console.log(await response.json());
+			let reorderedLocations: LocationType[] = await response.json();
 			data.kanbanLocations = reorderedLocations;
+			toast.push('Locations reordered');
+			// console.log(data.kanbanLocations);
 		}
 	}
 
 	async function onPartCreate(partialPart: Partial<PartType>) {
-		console.log('onPartCreate triggered', partialPart);
+		// console.log('onPartCreate triggered', partialPart);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -79,12 +85,13 @@
 			let createdPart: PartType = await response.json();
 			data.kanbanParts = [...data.kanbanParts, createdPart];
 
-			console.log(data.kanbanParts);
+			toast.push(`Part, ${createdPart.name}, created`);
+			// console.log(data.kanbanParts);
 		}
 	}
 
 	async function onPartDelete(removePart: PartType) {
-		console.log('onPartDelete triggered', removePart);
+		// console.log('onPartDelete triggered', removePart);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/part/${removePart.id}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' }
@@ -93,12 +100,13 @@
 			// Need to handle cascade delete
 			data.kanbanParts = data.kanbanParts.filter((t) => t.id != removePart.id);
 			data.kanbanWorkorders = data.kanbanWorkorders.filter((t) => t.part.id != removePart.id);
-			console.log(data.kanbanParts);
+			toast.push(`Part, ${removePart.name}, deleted`);
+			// console.log(data.kanbanParts);
 		}
 	}
 
 	async function onWorkorderCreate(partialWorkorder: Partial<WorkOrderType>) {
-		console.log('onWorkorderCreate triggered', partialWorkorder);
+		// console.log('onWorkorderCreate triggered', partialWorkorder);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/create/`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -108,14 +116,15 @@
 			let createdWorkorder: WorkOrderDetailType = await response.json();
 			data.kanbanWorkorders = [...data.kanbanWorkorders, createdWorkorder];
 
-			console.log(data.kanbanWorkorders);
+			// console.log(data.kanbanWorkorders);
 			showCreateCardModal = false;
+			toast.push(`Workorder, ${createdWorkorder.name}, created`);
 		}
 	}
 
 	async function onWorkorderDelete(removeWorkorder: WorkOrderDetailType) {
 		// Using workorder detail while API uses workorder without detail
-		console.log('onWorkorderDelete triggered', removeWorkorder);
+		// console.log('onWorkorderDelete triggered', removeWorkorder);
 		const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/${removeWorkorder.id}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' }
@@ -123,7 +132,8 @@
 		if (response.ok) {
 			// Need to handle cascade delete
 			data.kanbanWorkorders = data.kanbanWorkorders.filter((t) => t.id != removeWorkorder.id);
-			console.log(data.kanbanWorkorders);
+			toast.push(`Workorder, ${removeWorkorder.name}, deleted`);
+			// console.log(data.kanbanWorkorders);
 		}
 	}
 </script>

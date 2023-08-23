@@ -13,7 +13,8 @@ class LocationCreate(APIView):
             "sequence": request.data.get("sequence"),
         }
 
-        serializer = LocationSerializer(data=data)
+        # Partial because id was added to serializer
+        serializer = LocationSerializer(data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
