@@ -1,14 +1,22 @@
 <script lang="ts">
 	import type { LocationType, WorkOrderDetailType } from '$lib/types';
 	import { onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+
 	import KanbanCard from './KanbanCard.svelte';
 	import Sortable from 'sortablejs';
 
 	export let Location: LocationType;
 	export let WorkOrders: WorkOrderDetailType[];
 
+	const dispatch = createEventDispatcher();
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
+
+	interface ColumnReorderData {
+		location: LocationType;
+		workorderIds: string[];
+	}
 
 	onMount(() => {
 		sortableObj = Sortable.create(sortableEle, {
@@ -20,8 +28,20 @@
 				// console.log('sort ended');
 				// console.log(evt.from);
 				// console.log(evt.to);
-				console.log(Location.name);
-				console.log(sortableObj.toArray());
+				// let reorderedWorkorders = sortableObj.toArray().map((id, index) => {
+				// 	let updatingWorkorder = WorkOrders.find((item) => item.id == parseInt(id));
+				// 	return { ...updatingWorkorder, priority: index, location: Location };
+				// });
+				// console.log(Location.name);
+				// console.log(sortableObj.toArray());
+				// console.log(reorderedWorkorders);
+
+				const eventData: ColumnReorderData = {
+					location: Location,
+					workorderIds: sortableObj.toArray()
+				};
+
+				dispatch('workorderColumnReorder', eventData);
 			}
 		});
 	});

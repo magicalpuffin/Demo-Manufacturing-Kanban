@@ -8,20 +8,26 @@ export const load = (async ({ fetch }) => {
 	let kanbanWorkorders: WorkOrderDetailType[] = [];
 
 	try {
-		const location_response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
+		const location_promise = fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		const part_response = await fetch(`${PUBLIC_KANBAN_API}/part/list/`, {
+		const part_promise = fetch(`${PUBLIC_KANBAN_API}/part/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		const workorder_response = await fetch(`${PUBLIC_KANBAN_API}/workorder/list/`, {
+		const workorder_promise = fetch(`${PUBLIC_KANBAN_API}/workorder/list/`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
+
+		let [location_response, part_response, workorder_response] = await Promise.all([
+			location_promise,
+			part_promise,
+			workorder_promise
+		]);
 
 		if (location_response.ok && part_response.ok && workorder_response.ok) {
 			kanbanLocations = await location_response.json();

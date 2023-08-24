@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<div class="h-48 rounded-lg border shadow-md" data-id={WorkOrder.name}>
+<div class="h-48 rounded-lg border shadow-md" data-id={WorkOrder.id}>
 	<div class="flex flex-row justify-between bg-gray-100 px-2 py-2">
 		<h1 class="text-lg font-semibold">{WorkOrder.name}</h1>
 		<button

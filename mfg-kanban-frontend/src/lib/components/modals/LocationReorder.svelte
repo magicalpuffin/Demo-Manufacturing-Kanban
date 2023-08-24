@@ -19,8 +19,7 @@
 			animation: 150,
 			ghostClass: 'blue-background-class',
 			onSort: function (evt) {
-				// Need to figure out how update database
-				console.log('sort ended');
+				// console.log('sort ended');
 
 				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
