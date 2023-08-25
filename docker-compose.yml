@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  web-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    volumes:
+      - ./mfgkanbanbackend:/app
+    ports:
+      - 8000:8000
+  web-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    volumes:
+      - ./mfg-kanban-frontend:/app
+      - /app/node_modules/
+    ports:
+      - 5173:5173
+      - 24678:24678

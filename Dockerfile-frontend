@@ -1,0 +1,18 @@
+# https://jenyus.web.app/blog/2021-05-30-setting-up-a-development-environment-for-sveltekit-with-docker-and-compose
+# https://github.com/vitejs/vite/issues/4116
+# https://medium.com/@alpercitak/dockerize-sveltekit-1323771a12b1
+
+FROM node:18-slim
+
+# Set work directory
+WORKDIR /app
+
+COPY ./mfg-kanban-frontend/package.json .
+RUN npm install
+
+COPY ./mfg-kanban-frontend .
+
+EXPOSE 5173
+EXPOSE 24678
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

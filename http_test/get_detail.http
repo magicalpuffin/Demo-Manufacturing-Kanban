@@ -1,0 +1,11 @@
+### Get location detail
+GET http://localhost:8000/kanban-api/location/1/
+Content-Type: application/json
+
+### Get part detail
+GET http://localhost:8000/kanban-api/part/1/
+Content-Type: application/json
+
+### Get workorder detail
+GET http://localhost:8000/kanban-api/workorder/1/
+Content-Type: application/json
