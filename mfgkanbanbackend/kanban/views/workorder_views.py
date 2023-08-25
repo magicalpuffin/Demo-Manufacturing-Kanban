@@ -16,7 +16,7 @@ class WorkOrderCreate(APIView):
             "part": request.data.get("part"),
         }
 
-        serializer = WorkOrderSerializer(data=data)
+        serializer = WorkOrderSerializer(data=data, partial=True)
         if serializer.is_valid():
             # Reserializes to return details of location and part
             newWorkorder = serializer.save()
@@ -87,3 +87,16 @@ class WorkOrderList(APIView):
         serializer = WorkOrderDetailSerializer(parts, many=True)
 
         return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        serializer = WorkOrderSerializer(data=request.data, many=True)
+
+        if serializer.is_valid():
+            workorders = WorkOrder.objects.filter(
+                id__in=[workorder_data["id"] for workorder_data in request.data]
+            )
+
+            serializer.update(workorders, serializer.validated_data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

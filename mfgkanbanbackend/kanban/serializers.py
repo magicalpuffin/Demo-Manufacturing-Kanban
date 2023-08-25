@@ -37,10 +37,27 @@ class PartSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class WorkOrderListSerializer(serializers.ListSerializer):
+    def update(self, instance, validated_data):
+        workorder_mapping = {workorder.id: workorder for workorder in instance}
+        data_mapping = {item["id"]: item for item in validated_data}
+
+        updated_list = []
+        for workorder_id, data in data_mapping.items():
+            updated_list.append(
+                self.child.update(workorder_mapping[workorder_id], data)
+            )
+
+        return updated_list
+
+
 class WorkOrderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
     class Meta:
         model = WorkOrder
         fields = "__all__"
+        list_serializer_class = WorkOrderListSerializer
 
 
 class WorkOrderDetailSerializer(serializers.ModelSerializer):

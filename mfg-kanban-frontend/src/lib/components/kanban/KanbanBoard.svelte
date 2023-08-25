@@ -9,11 +9,6 @@
 
 	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderDetailType[] }[] = [];
 
-	interface ColumnReorderData {
-		location: LocationType;
-		workorderIds: string[];
-	}
-
 	function updateLocationWorkOrders(Locations: LocationType[], WorkOrders: WorkOrderDetailType[]) {
 		let NewLocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderDetailType[] }[] = [];
 
@@ -28,26 +23,12 @@
 				WorkOrders: WorkOrdersAtLocation
 			});
 		});
+		// console.log(NewLocationWorkOrders);
 		return NewLocationWorkOrders;
 	}
 
 	// Reactive to change when Locations and WorkOrders change
 	$: LocationWorkOrders = updateLocationWorkOrders(Locations, WorkOrders);
-
-	// This might be better in the main page
-	function onWorkorderColumnReorder(eventDetail: ColumnReorderData) {
-		let { location, workorderIds } = eventDetail;
-
-		let reorderedWorkorders = workorderIds.map((id, index) => {
-			let updatingWorkorder = WorkOrders.find((item) => item.id == parseInt(id));
-			return { ...updatingWorkorder, priority: index, location: location };
-		});
-		console.log(location);
-		console.log(workorderIds);
-		console.log(reorderedWorkorders);
-
-		dispatch('workorderReorder', reorderedWorkorders);
-	}
 
 	// $: console.log(LocationWorkOrders);
 </script>
@@ -57,7 +38,7 @@
 		{#each LocationWorkOrders as LocationWorkOrder}
 			<KanbanColumn
 				on:workorderDelete
-				on:workorderColumnReorder={(e) => onWorkorderColumnReorder(e.detail)}
+				on:workorderColumnReorder
 				Location={LocationWorkOrder.Location}
 				WorkOrders={LocationWorkOrder.WorkOrders}
 			/>

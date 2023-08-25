@@ -9,6 +9,8 @@
 	export let Location: LocationType;
 	export let WorkOrders: WorkOrderDetailType[];
 
+	$: sortedWorkOrders = WorkOrders.sort((a, b) => a.priority - b.priority);
+
 	const dispatch = createEventDispatcher();
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
@@ -50,7 +52,7 @@
 <div class="h-full w-64 flex-none overflow-y-auto overflow-x-hidden px-4">
 	<h1 class="px-2 pb-4 pt-2 text-2xl font-bold">{Location.name}</h1>
 	<div bind:this={sortableEle} class="flex min-h-[100px] flex-col gap-2 py-2">
-		{#each WorkOrders as WorkOrder}
+		{#each sortedWorkOrders as WorkOrder (WorkOrder.id)}
 			<KanbanCard on:workorderDelete {WorkOrder} />
 		{/each}
 	</div>

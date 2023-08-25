@@ -12,11 +12,18 @@
 
 	import KanbanBoard from '$lib/components/kanban/KanbanBoard.svelte';
 	import { onMount } from 'svelte';
+	import PartTable from '$lib/components/modals/PartTable.svelte';
+	import { json } from '@sveltejs/kit';
 
 	// Consider setting data to variables
 	export let data: PageData;
 
 	// console.log(data);
+
+	interface ColumnReorderData {
+		location: LocationType;
+		workorderIds: string[];
+	}
 
 	let showCreateCardModal = false;
 	let showLocationsModal = false;
@@ -136,6 +143,50 @@
 			// console.log(data.kanbanWorkorders);
 		}
 	}
+
+	// This might be better in the main page
+	async function onWorkorderColumnReorder(eventDetail: ColumnReorderData) {
+		let { location, workorderIds } = eventDetail;
+
+		let reorderedWorkorders = workorderIds.map((id, index) => {
+			let updatingWorkorderDetail = data.kanbanWorkorders.find((item) => item.id == parseInt(id));
+			if (updatingWorkorderDetail) {
+				let updatingWorkorder: WorkOrderType = {
+					...updatingWorkorderDetail,
+					priority: index,
+					location: location.id,
+					part: updatingWorkorderDetail?.part.id
+				};
+				return updatingWorkorder;
+			}
+		});
+
+		console.log(location);
+		console.log(workorderIds);
+		console.log(reorderedWorkorders);
+
+		const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/list/`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(reorderedWorkorders)
+		});
+		if (response.ok) {
+			let reorderedWorkorders: WorkOrderType[] = await response.json();
+			data.kanbanWorkorders = data.kanbanWorkorders.map((workorder) => {
+				let updatedWorkorder = reorderedWorkorders.find((item) => item.id == workorder.id);
+				let location = data.kanbanLocations.find((item) => item.id == updatedWorkorder?.location);
+				let part = data.kanbanParts.find((item) => item.id == updatedWorkorder?.part);
+
+				if (updatedWorkorder && location && part) {
+					return { ...workorder, ...updatedWorkorder, location: location, part: part };
+				} else {
+					return workorder;
+				}
+			});
+			console.log(data.kanbanWorkorders);
+			toast.push(`Updated ${reorderedWorkorders.length} workorders in ${location.name}`);
+		}
+	}
 </script>
 
 <div class="flex h-screen flex-col">
@@ -173,6 +224,7 @@
 		<div class="flex justify-center">
 			<KanbanBoard
 				on:workorderDelete={(e) => onWorkorderDelete(e.detail)}
+				on:workorderColumnReorder={(e) => onWorkorderColumnReorder(e.detail)}
 				Locations={data.kanbanLocations}
 				WorkOrders={data.kanbanWorkorders}
 			/>
