@@ -7,7 +7,10 @@
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let Locations: LocationType[];
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		locationReorder: LocationType[];
+		locationDelete: LocationType;
+	}>();
 
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
@@ -22,7 +25,7 @@
 
 				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
-					let updatingLocation = Locations.find((item) => item.id == parseInt(id));
+					let updatingLocation = Locations.find((item) => item.id == parseInt(id)) as LocationType;
 					return { ...updatingLocation, sequence: index };
 				});
 

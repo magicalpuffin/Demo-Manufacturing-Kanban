@@ -5,7 +5,7 @@
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let Parts: PartType[];
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ partDelete: PartType }>();
 </script>
 
 <span class="mt-2 text-gray-600">Parts Table</span>

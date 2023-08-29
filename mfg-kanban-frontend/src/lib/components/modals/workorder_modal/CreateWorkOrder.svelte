@@ -8,7 +8,7 @@
 	export let Locations: LocationType[];
 	export let Parts: PartType[];
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ workorderCreate: Partial<WorkOrderType> }>();
 
 	let workorderName: string;
 	let workorderPriority: number;

@@ -11,14 +11,14 @@
 
 	$: sortedWorkOrders = WorkOrders.sort((a, b) => a.priority - b.priority);
 
-	const dispatch = createEventDispatcher();
-	let sortableEle: HTMLElement;
-	let sortableObj: Sortable;
-
 	interface ColumnReorderData {
 		location: LocationType;
 		workorderIds: string[];
 	}
+
+	const dispatch = createEventDispatcher<{ workorderColumnReorder: ColumnReorderData }>();
+	let sortableEle: HTMLElement;
+	let sortableObj: Sortable;
 
 	onMount(() => {
 		sortableObj = Sortable.create(sortableEle, {

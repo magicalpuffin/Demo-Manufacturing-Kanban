@@ -8,7 +8,7 @@
 	export let showModal: boolean;
 	export let Parts: PartType[];
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ partCreate: Partial<PartType> }>();
 
 	let partName: string;
 	let partDescription: string;

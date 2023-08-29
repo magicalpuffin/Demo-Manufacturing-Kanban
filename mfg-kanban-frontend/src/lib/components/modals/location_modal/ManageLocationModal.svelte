@@ -8,7 +8,7 @@
 	export let showModal: boolean;
 	export let Locations: LocationType[];
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ locationCreate: Partial<LocationType> }>();
 
 	let locationName: string;
 	let locationSequence: number;

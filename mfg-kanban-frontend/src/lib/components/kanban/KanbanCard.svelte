@@ -5,7 +5,7 @@
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let WorkOrder: WorkOrderDetailType;
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ workorderDelete: WorkOrderDetailType }>();
 </script>
 
 <div class="h-48 rounded-lg border shadow-md" data-id={WorkOrder.id}>
