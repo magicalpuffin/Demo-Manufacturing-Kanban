@@ -6,14 +6,10 @@
 	import { toast } from '@zerodevx/svelte-toast';
 
 	import Navbar from '$lib/components/Navbar.svelte';
-	import CreateCardModal from '$lib/components/modals/CreateWorkOrder.svelte';
-	import ManageLocationModal from '$lib/components/modals/ManageLocationModal.svelte';
-	import ManagePartModal from '$lib/components/modals/ManagePartModal.svelte';
-
+	import CreateCardModal from '$lib/components/modals/workorder_modal/CreateWorkOrder.svelte';
+	import ManageLocationModal from '$lib/components/modals/location_modal/ManageLocationModal.svelte';
+	import ManagePartModal from '$lib/components/modals/part_modal/ManagePartModal.svelte';
 	import KanbanBoard from '$lib/components/kanban/KanbanBoard.svelte';
-	import { onMount } from 'svelte';
-	import PartTable from '$lib/components/modals/PartTable.svelte';
-	import { json } from '@sveltejs/kit';
 
 	// Consider setting data to variables
 	export let data: PageData;

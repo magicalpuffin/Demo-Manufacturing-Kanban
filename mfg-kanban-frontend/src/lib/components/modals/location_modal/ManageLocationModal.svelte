@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { LocationType } from '$lib/types';
 
-	import ModalTemplate from './ModalTemplate.svelte';
+	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import LocationReorder from './LocationReorder.svelte';
 
 	export let showModal: boolean;

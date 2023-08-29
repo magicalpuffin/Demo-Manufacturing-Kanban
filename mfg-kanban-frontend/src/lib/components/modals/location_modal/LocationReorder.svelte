@@ -5,7 +5,6 @@
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
-	import CreateWorkOrder from './CreateWorkOrder.svelte';
 
 	export let Locations: LocationType[];
 	const dispatch = createEventDispatcher();

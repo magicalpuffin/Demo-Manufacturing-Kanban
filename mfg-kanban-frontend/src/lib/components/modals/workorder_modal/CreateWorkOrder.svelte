@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import ModalTemplate from './ModalTemplate.svelte';
+	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
+
 	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
 
 	export let showModal: boolean;
-	// temporary, should get locations, parts from fetch
 	export let Locations: LocationType[];
 	export let Parts: PartType[];
 
@@ -15,7 +15,6 @@
 	let locationId: number;
 	let partId: number;
 
-	// does this need to be async?
 	async function submit() {
 		let partialWorkorder: Partial<WorkOrderType> = {
 			name: workorderName,

@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { PartType } from '$lib/types';
 
-	import ModalTemplate from './ModalTemplate.svelte';
+	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import PartTable from './PartTable.svelte';
 
 	export let showModal: boolean;
