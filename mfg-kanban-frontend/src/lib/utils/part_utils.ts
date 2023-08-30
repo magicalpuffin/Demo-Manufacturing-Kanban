@@ -4,6 +4,9 @@ import { PUBLIC_KANBAN_API } from '$env/static/public';
 
 import { toast } from '@zerodevx/svelte-toast';
 
+// TODO
+// I think this isn't a good pattern avoid setting stores in utility functions
+// Should just return results and set by parent
 export async function onPartCreate(
 	partialPart: Partial<PartType>,
 	kanbanParts: Writable<PartType[]>
