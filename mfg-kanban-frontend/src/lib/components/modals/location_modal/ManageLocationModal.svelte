@@ -1,14 +1,16 @@
 <script lang="ts">
-	import type { LocationType } from '$lib/types';
-	import { showLocationsModal } from '$lib/stores/modal_stores';
+	import type { LocationType, WorkOrderDetailType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import LocationReorder from './LocationReorder.svelte';
 
-	export let Locations: LocationType[];
+	import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
 
-	const dispatch = createEventDispatcher<{ locationCreate: Partial<LocationType> }>();
+	export let showLocationsModal: Writable<boolean>;
+	export let Locations: Writable<LocationType[]>;
+	export let WorkOrders: Writable<WorkOrderDetailType[]>;
 
 	let locationName: string;
 	let locationSequence: number;
@@ -18,7 +20,7 @@
 			name: locationName,
 			sequence: locationSequence
 		};
-		dispatch('locationCreate', partialLocation);
+		onLocationCreate(partialLocation, Locations);
 	}
 </script>
 
@@ -54,7 +56,11 @@
 					>
 				</div>
 			</form>
-			<LocationReorder on:locationDelete on:locationReorder {Locations} />
+			<LocationReorder
+				on:locationDelete={(e) => onLocationDelete(e.detail, Locations, WorkOrders)}
+				on:locationReorder={(e) => onLocationReorder(e.detail, Locations)}
+				{Locations}
+			/>
 		</div>
 	</div>
 </ModalTemplate>

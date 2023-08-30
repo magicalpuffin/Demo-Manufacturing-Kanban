@@ -44,11 +44,9 @@
 			Parts={data.kanbanParts}
 		/>
 		<ManageLocationModal
-			on:locationCreate={(e) => onLocationCreate(e.detail, data.kanbanLocations)}
-			on:locationDelete={(e) =>
-				onLocationDelete(e.detail, data.kanbanLocations, data.kanbanWorkorders)}
-			on:locationReorder={(e) => onLocationReorder(e.detail, data.kanbanLocations)}
-			Locations={data.kanbanLocations}
+			{showLocationsModal}
+			Locations={kanbanLocations}
+			WorkOrders={kanbanWorkorders}
 		/>
 		<ManagePartModal {showPartsModal} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
 		<div class="flex justify-center">

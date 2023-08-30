@@ -1,12 +1,15 @@
 <script lang="ts">
 	import type { LocationType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let Locations: LocationType[];
+	export let Locations: Writable<LocationType[]>;
+
 	const dispatch = createEventDispatcher<{
 		locationReorder: LocationType[];
 		locationDelete: LocationType;
@@ -25,7 +28,7 @@
 
 				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
-					let updatingLocation = Locations.find((item) => item.id == parseInt(id)) as LocationType;
+					let updatingLocation = $Locations.find((item) => item.id == parseInt(id)) as LocationType;
 					return { ...updatingLocation, sequence: index };
 				});
 
@@ -37,7 +40,7 @@
 
 <span class="mt-2 text-gray-600">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each Locations as Location (Location.id)}
+	{#each $Locations as Location (Location.id)}
 		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
 			<div>
 				<span class="mr-4">

@@ -1,11 +1,12 @@
 import type { LocationType, WorkOrderDetailType } from '$lib/types';
+import type { Writable } from 'svelte/store';
 import { PUBLIC_KANBAN_API } from '$env/static/public';
 
 import { toast } from '@zerodevx/svelte-toast';
 
 export async function onLocationCreate(
 	partialLocation: Partial<LocationType>,
-	kanbanLocations: LocationType[]
+	kanbanLocations: Writable<LocationType[]>
 ) {
 	// console.log('onLocationCreate triggered', partialLocation);
 
@@ -16,8 +17,9 @@ export async function onLocationCreate(
 	});
 	if (response.ok) {
 		let createdLocation: LocationType = await response.json();
-		kanbanLocations = [...kanbanLocations, createdLocation];
-		kanbanLocations = kanbanLocations.slice().sort((a, b) => a.sequence - b.sequence);
+		kanbanLocations.update((locations) =>
+			[...locations, createdLocation].sort((a, b) => a.sequence - b.sequence)
+		);
 
 		toast.push(`Location, ${createdLocation.name}, created`);
 		// console.log(data.kanbanLocations);
@@ -26,8 +28,8 @@ export async function onLocationCreate(
 
 export async function onLocationDelete(
 	removeLocation: LocationType,
-	kanbanLocations: LocationType[],
-	kanbanWorkorders: WorkOrderDetailType[]
+	kanbanLocations: Writable<LocationType[]>,
+	kanbanWorkorders: Writable<WorkOrderDetailType[]>
 ) {
 	// console.log('onLocationDelete triggered', removeLocation);
 	const response = await fetch(`${PUBLIC_KANBAN_API}/location/${removeLocation.id}`, {
@@ -37,8 +39,10 @@ export async function onLocationDelete(
 	if (response.ok) {
 		// Not sure if this deletion should check with the response data
 		// Need to handle cascade delete
-		kanbanLocations = kanbanLocations.filter((t) => t.id != removeLocation.id);
-		kanbanWorkorders = kanbanWorkorders.filter((t) => t.location.id != removeLocation.id);
+		kanbanLocations.update((locations) => locations.filter((t) => t.id != removeLocation.id));
+		kanbanWorkorders.update((workorders) =>
+			workorders.filter((t) => t.location.id != removeLocation.id)
+		);
 		toast.push(`Location, ${removeLocation.name}, deleted`);
 		// console.log(data.kanbanLocations);
 	}
@@ -46,7 +50,7 @@ export async function onLocationDelete(
 
 export async function onLocationReorder(
 	reorderedLocations: LocationType[],
-	kanbanLocations: LocationType[]
+	kanbanLocations: Writable<LocationType[]>
 ) {
 	// console.log('onLocationReorder triggered', reorderedLocations);
 	const response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
@@ -55,8 +59,8 @@ export async function onLocationReorder(
 		body: JSON.stringify(reorderedLocations)
 	});
 	if (response.ok) {
-		let reorderedLocations: LocationType[] = await response.json();
-		kanbanLocations = reorderedLocations;
+		// let reorderedLocations: LocationType[] = await response.json();
+		kanbanLocations.set(reorderedLocations);
 		toast.push('Locations reordered');
 		// console.log(data.kanbanLocations);
 	}
