@@ -5,6 +5,13 @@
 
 	import { toast } from '@zerodevx/svelte-toast';
 
+	import { kanbanLocations, kanbanParts, kanbanWorkorders } from '$lib/stores/modal_stores';
+	import {
+		showCreateCardModal,
+		showLocationsModal,
+		showPartsModal
+	} from '$lib/stores/modal_stores';
+
 	import Navbar from '$lib/components/Navbar.svelte';
 	import CreateCardModal from '$lib/components/modals/workorder_modal/CreateWorkOrder.svelte';
 	import ManageLocationModal from '$lib/components/modals/location_modal/ManageLocationModal.svelte';
@@ -18,10 +25,14 @@
 		onWorkorderColumnReorder,
 		onWorkorderDelete
 	} from '$lib/utils/workorder_utils';
+
 	export let data: PageData;
 
-	// console.log(data);
+	kanbanLocations.set(data.kanbanLocations);
+	kanbanParts.set(data.kanbanParts);
+	kanbanWorkorders.set(data.kanbanWorkorders);
 
+	// console.log(data);
 </script>
 
 <div class="flex h-screen flex-col">
@@ -39,11 +50,7 @@
 			on:locationReorder={(e) => onLocationReorder(e.detail, data.kanbanLocations)}
 			Locations={data.kanbanLocations}
 		/>
-		<ManagePartModal
-			on:partCreate={(e) => onPartCreate(e.detail, data.kanbanParts)}
-			on:partDelete={(e) => onPartDelete(e.detail, data.kanbanParts, data.kanbanWorkorders)}
-			Parts={data.kanbanParts}
-		/>
+		<ManagePartModal {showPartsModal} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
 		<div class="flex justify-center">
 			<KanbanBoard
 				on:workorderDelete={(e) => onWorkorderDelete(e.detail, data.kanbanWorkorders)}

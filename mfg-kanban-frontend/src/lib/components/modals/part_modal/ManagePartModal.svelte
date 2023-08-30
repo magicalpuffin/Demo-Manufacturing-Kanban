@@ -1,14 +1,17 @@
 <script lang="ts">
-	import type { PartType } from '$lib/types';
-	import { showPartsModal } from '$lib/stores/show_modal_stores';
+	import type { PartType, WorkOrderDetailType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	import { createEventDispatcher } from 'svelte';
 
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import PartTable from './PartTable.svelte';
 
-	export let Parts: PartType[];
+	import { onPartCreate, onPartDelete } from '$lib/utils/part_utils';
 
-	const dispatch = createEventDispatcher<{ partCreate: Partial<PartType> }>();
+	export let showPartsModal: Writable<boolean>;
+	export let Parts: Writable<PartType[]>;
+	export let WorkOrders: Writable<WorkOrderDetailType[]>;
 
 	let partName: string;
 	let partDescription: string;
@@ -18,7 +21,7 @@
 			name: partName,
 			description: partDescription
 		};
-		dispatch('partCreate', partialPart);
+		onPartCreate(partialPart, Parts);
 	}
 </script>
 
@@ -51,7 +54,7 @@
 					type="submit">Create</button
 				>
 			</form>
-			<PartTable on:partDelete {Parts} />
+			<PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} />
 		</div>
 	</div>
 </ModalTemplate>

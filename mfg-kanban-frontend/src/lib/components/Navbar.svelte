@@ -3,7 +3,7 @@
 		showCreateCardModal,
 		showLocationsModal,
 		showPartsModal
-	} from '$lib/stores/show_modal_stores';
+	} from '$lib/stores/modal_stores';
 </script>
 
 <nav class="flex flex-row items-center gap-2 border-b py-2">

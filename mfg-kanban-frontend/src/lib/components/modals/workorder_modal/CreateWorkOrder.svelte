@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { showCreateCardModal } from '$lib/stores/show_modal_stores';
+	import { showCreateCardModal } from '$lib/stores/modal_stores';
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 
 	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';

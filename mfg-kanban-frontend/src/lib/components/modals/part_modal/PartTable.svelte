@@ -1,10 +1,13 @@
 <script lang="ts">
 	import type { PartType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let Parts: PartType[];
+	export let Parts: Writable<PartType[]>;
+
 	const dispatch = createEventDispatcher<{ partDelete: PartType }>();
 </script>
 
@@ -20,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each Parts as Part}
+				{#each $Parts as Part}
 					<tr>
 						<td>{Part.name}</td>
 						<td>{Part.description}</td>

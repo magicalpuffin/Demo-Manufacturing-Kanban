@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { LocationType } from '$lib/types';
-	import { showLocationsModal } from '$lib/stores/show_modal_stores';
+	import { showLocationsModal } from '$lib/stores/modal_stores';
 	import { createEventDispatcher } from 'svelte';
 
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';

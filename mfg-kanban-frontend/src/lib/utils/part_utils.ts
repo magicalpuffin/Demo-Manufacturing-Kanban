@@ -1,9 +1,13 @@
 import type { PartType, WorkOrderDetailType } from '$lib/types';
+import type { Writable } from 'svelte/store';
 import { PUBLIC_KANBAN_API } from '$env/static/public';
 
 import { toast } from '@zerodevx/svelte-toast';
 
-export async function onPartCreate(partialPart: Partial<PartType>, kanbanParts: PartType[]) {
+export async function onPartCreate(
+	partialPart: Partial<PartType>,
+	kanbanParts: Writable<PartType[]>
+) {
 	// console.log('onPartCreate triggered', partialPart);
 	const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
 		method: 'POST',
@@ -12,7 +16,7 @@ export async function onPartCreate(partialPart: Partial<PartType>, kanbanParts: 
 	});
 	if (response.ok) {
 		let createdPart: PartType = await response.json();
-		kanbanParts = [...kanbanParts, createdPart];
+		kanbanParts.update((parts) => [...parts, createdPart]);
 
 		toast.push(`Part, ${createdPart.name}, created`);
 		// console.log(data.kanbanParts);
@@ -21,8 +25,8 @@ export async function onPartCreate(partialPart: Partial<PartType>, kanbanParts: 
 
 export async function onPartDelete(
 	removePart: PartType,
-	kanbanParts: PartType[],
-	kanbanWorkorders: WorkOrderDetailType[]
+	kanbanParts: Writable<PartType[]>,
+	kanbanWorkorders: Writable<WorkOrderDetailType[]>
 ) {
 	// console.log('onPartDelete triggered', removePart);
 	const response = await fetch(`${PUBLIC_KANBAN_API}/part/${removePart.id}`, {
@@ -31,8 +35,8 @@ export async function onPartDelete(
 	});
 	if (response.ok) {
 		// Need to handle cascade delete
-		kanbanParts = kanbanParts.filter((t) => t.id != removePart.id);
-		kanbanWorkorders = kanbanWorkorders.filter((t) => t.part.id != removePart.id);
+		kanbanParts.update((parts) => parts.filter((t) => t.id != removePart.id));
+		kanbanWorkorders.update((workorders) => workorders.filter((t) => t.part.id != removePart.id));
 		toast.push(`Part, ${removePart.name}, deleted`);
 		// console.log(data.kanbanParts);
 	}
