@@ -1,29 +1,31 @@
 <script lang="ts">
+	import type { Writable } from 'svelte/store';
 	import { clickOutside, focusOutside } from '$lib/utils/customEvents';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
-	export let showModal: boolean;
+
+	export let showModal: Writable<boolean>;
 	export let modalTitle: string;
 </script>
 
 <div
-	on:close={() => (showModal = false)}
-	class="bg-black bg-opacity-40 absolute w-full h-full left-0 top-0 z-10 {showModal
+	on:close={() => showModal.set(false)}
+	class="absolute left-0 top-0 z-10 h-full w-full bg-black bg-opacity-40 {$showModal
 		? 'block'
 		: 'hidden'}"
 >
 	<div
 		use:clickOutside
 		on:click_outside={() => {
-			showModal = false;
+			showModal.set(false);
 		}}
-		class="px-4 py-4 bg-white container md:max-w-2xl rounded-lg my-24 mx-auto"
+		class="container mx-auto my-24 rounded-lg bg-white px-4 py-4 md:max-w-2xl"
 	>
 		<div class="flex flex-row justify-between align-middle">
 			<h1 class="text-2xl font-bold">{modalTitle}</h1>
 			<button
-				class="hover:bg-gray-300 rounded-full px-1 py-1 hover:text-red-600"
+				class="rounded-full px-1 py-1 hover:bg-gray-300 hover:text-red-600"
 				on:click={() => {
-					showModal = false;
+					showModal.set(false);
 				}}
 			>
 				<CancelIcon />

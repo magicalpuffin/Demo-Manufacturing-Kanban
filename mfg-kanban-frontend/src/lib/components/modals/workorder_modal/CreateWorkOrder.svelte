@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { showCreateCardModal } from '$lib/stores/show_modal_stores';
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 
 	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
 
-	export let showModal: boolean;
 	export let Locations: LocationType[];
 	export let Parts: PartType[];
 
@@ -26,7 +26,7 @@
 	}
 </script>
 
-<ModalTemplate bind:showModal modalTitle="Create Work Order">
+<ModalTemplate showModal={showCreateCardModal} modalTitle="Create Work Order">
 	<div class="mx-2 my-2">
 		<form on:submit|preventDefault={submit}>
 			<div class="grid grid-cols-1 gap-6">

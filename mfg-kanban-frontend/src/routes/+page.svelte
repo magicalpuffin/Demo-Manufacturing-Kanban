@@ -22,27 +22,13 @@
 
 	// console.log(data);
 
-	let showCreateCardModal = false;
-	let showLocationsModal = false;
-	let showPartsModal = false;
 </script>
 
 <div class="flex h-screen flex-col">
-	<Navbar
-		on:clickCreateCard={() => {
-			showCreateCardModal = true;
-		}}
-		on:clickLocations={() => {
-			showLocationsModal = true;
-		}}
-		on:clickParts={() => {
-			showPartsModal = true;
-		}}
-	/>
+	<Navbar />
 	<div class="flex flex-1 overflow-x-auto">
 		<CreateCardModal
 			on:workorderCreate={(e) => onWorkorderCreate(e.detail, data.kanbanWorkorders)}
-			bind:showModal={showCreateCardModal}
 			Locations={data.kanbanLocations}
 			Parts={data.kanbanParts}
 		/>
@@ -51,13 +37,11 @@
 			on:locationDelete={(e) =>
 				onLocationDelete(e.detail, data.kanbanLocations, data.kanbanWorkorders)}
 			on:locationReorder={(e) => onLocationReorder(e.detail, data.kanbanLocations)}
-			bind:showModal={showLocationsModal}
 			Locations={data.kanbanLocations}
 		/>
 		<ManagePartModal
 			on:partCreate={(e) => onPartCreate(e.detail, data.kanbanParts)}
 			on:partDelete={(e) => onPartDelete(e.detail, data.kanbanParts, data.kanbanWorkorders)}
-			bind:showModal={showPartsModal}
 			Parts={data.kanbanParts}
 		/>
 		<div class="flex justify-center">

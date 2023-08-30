@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { PartType } from '$lib/types';
+	import { showPartsModal } from '$lib/stores/show_modal_stores';
+	import { createEventDispatcher } from 'svelte';
 
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import PartTable from './PartTable.svelte';
 
-	export let showModal: boolean;
 	export let Parts: PartType[];
 
 	const dispatch = createEventDispatcher<{ partCreate: Partial<PartType> }>();
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<ModalTemplate bind:showModal modalTitle="Manage Part">
+<ModalTemplate showModal={showPartsModal} modalTitle="Manage Part">
 	<div class="mx-2 my-2">
 		<div class="flex flex-col">
 			<form on:submit|preventDefault={submit}>

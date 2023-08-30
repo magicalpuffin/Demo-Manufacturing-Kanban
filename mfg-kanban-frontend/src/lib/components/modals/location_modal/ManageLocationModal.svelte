@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { LocationType } from '$lib/types';
+	import { showLocationsModal } from '$lib/stores/show_modal_stores';
+	import { createEventDispatcher } from 'svelte';
 
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import LocationReorder from './LocationReorder.svelte';
 
-	export let showModal: boolean;
 	export let Locations: LocationType[];
 
 	const dispatch = createEventDispatcher<{ locationCreate: Partial<LocationType> }>();
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<ModalTemplate bind:showModal modalTitle="Mange Location">
+<ModalTemplate showModal={showLocationsModal} modalTitle="Mange Location">
 	<div class="mx-2 my-2">
 		<div class="flex flex-col">
 			<form on:submit|preventDefault={submit}>
