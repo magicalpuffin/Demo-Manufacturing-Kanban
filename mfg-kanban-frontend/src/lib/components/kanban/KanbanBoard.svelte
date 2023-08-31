@@ -1,11 +1,15 @@
 <script lang="ts">
-	import type { LocationType, WorkOrderDetailType } from '$lib/types';
+	import type { LocationType, PartType, WorkOrderDetailType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	import { createEventDispatcher } from 'svelte';
 	import KanbanColumn from './KanbanColumn.svelte';
 
-	export let Locations: LocationType[];
-	export let WorkOrders: WorkOrderDetailType[];
-	const dispatch = createEventDispatcher();
+	import { onWorkorderDelete, onWorkorderColumnReorder } from '$lib/utils/workorder_utils';
+
+	export let Locations: Writable<LocationType[]>;
+	export let Parts: Writable<PartType[]>;
+	export let WorkOrders: Writable<WorkOrderDetailType[]>;
 
 	let LocationWorkOrders: { Location: LocationType; WorkOrders: WorkOrderDetailType[] }[] = [];
 
@@ -28,7 +32,7 @@
 	}
 
 	// Reactive to change when Locations and WorkOrders change
-	$: LocationWorkOrders = updateLocationWorkOrders(Locations, WorkOrders);
+	$: LocationWorkOrders = updateLocationWorkOrders($Locations, $WorkOrders);
 
 	// $: console.log(LocationWorkOrders);
 </script>
@@ -37,8 +41,9 @@
 	<div class="flex h-full flex-row divide-x-2">
 		{#each LocationWorkOrders as LocationWorkOrder}
 			<KanbanColumn
-				on:workorderDelete
-				on:workorderColumnReorder
+				on:workorderDelete={(e) => onWorkorderDelete(e.detail, WorkOrders)}
+				on:workorderColumnReorder={(e) =>
+					onWorkorderColumnReorder(e.detail, WorkOrders, $Locations, $Parts)}
 				Location={LocationWorkOrder.Location}
 				WorkOrders={LocationWorkOrder.WorkOrders}
 			/>

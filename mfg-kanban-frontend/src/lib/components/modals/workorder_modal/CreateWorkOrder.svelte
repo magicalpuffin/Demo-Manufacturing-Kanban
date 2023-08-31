@@ -1,14 +1,16 @@
 <script lang="ts">
+	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
+	import type { Writable } from 'svelte/store';
+
 	import { createEventDispatcher } from 'svelte';
-	import { showCreateCardModal } from '$lib/stores/modal_stores';
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 
-	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
+	import { onWorkorderCreate } from '$lib/utils/workorder_utils';
 
-	export let Locations: LocationType[];
-	export let Parts: PartType[];
-
-	const dispatch = createEventDispatcher<{ workorderCreate: Partial<WorkOrderType> }>();
+	export let showCreateCardModal: Writable<boolean>;
+	export let Workorders: Writable<WorkOrderDetailType[]>;
+	export let Locations: Writable<LocationType[]>;
+	export let Parts: Writable<PartType[]>;
 
 	let workorderName: string;
 	let workorderPriority: number;
@@ -22,7 +24,7 @@
 			location: locationId,
 			part: partId
 		};
-		dispatch('workorderCreate', partialWorkorder);
+		onWorkorderCreate(partialWorkorder, Workorders);
 	}
 </script>
 
@@ -54,7 +56,7 @@
 				<div class="block">
 					<span class="text-gray-600">Location</span>
 					<select bind:value={locationId} class="block w-full">
-						{#each Locations as Location}
+						{#each $Locations as Location}
 							<option value={Location.id}>{Location.name}</option>
 						{/each}
 					</select>
@@ -62,7 +64,7 @@
 				<div class="block">
 					<span class="text-gray-600">Part</span>
 					<select bind:value={partId} class="block w-full">
-						{#each Parts as Part}
+						{#each $Parts as Part}
 							<option value={Part.id}>{Part.name}</option>
 						{/each}
 					</select>

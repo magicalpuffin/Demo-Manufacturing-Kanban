@@ -39,9 +39,10 @@
 	<Navbar />
 	<div class="flex flex-1 overflow-x-auto">
 		<CreateCardModal
-			on:workorderCreate={(e) => onWorkorderCreate(e.detail, data.kanbanWorkorders)}
-			Locations={data.kanbanLocations}
-			Parts={data.kanbanParts}
+			{showCreateCardModal}
+			Workorders={kanbanWorkorders}
+			Locations={kanbanLocations}
+			Parts={kanbanParts}
 		/>
 		<ManageLocationModal
 			{showLocationsModal}
@@ -50,18 +51,7 @@
 		/>
 		<ManagePartModal {showPartsModal} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
 		<div class="flex justify-center">
-			<KanbanBoard
-				on:workorderDelete={(e) => onWorkorderDelete(e.detail, data.kanbanWorkorders)}
-				on:workorderColumnReorder={(e) =>
-					onWorkorderColumnReorder(
-						e.detail,
-						data.kanbanWorkorders,
-						data.kanbanLocations,
-						data.kanbanParts
-					)}
-				Locations={data.kanbanLocations}
-				WorkOrders={data.kanbanWorkorders}
-			/>
+			<KanbanBoard Locations={kanbanLocations} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
 		</div>
 	</div>
 </div>
