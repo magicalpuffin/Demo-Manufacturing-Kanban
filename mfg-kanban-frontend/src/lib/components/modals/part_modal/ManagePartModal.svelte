@@ -49,10 +49,7 @@
 						/>
 					</div>
 				</div>
-				<button
-					class="my-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:border hover:border-blue-600 hover:bg-white hover:text-blue-600"
-					type="submit">Create</button
-				>
+				<button class="btn btn-primary my-2 rounded-lg px-4 py-2" type="submit">Create</button>
 			</form>
 			<PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} />
 		</div>

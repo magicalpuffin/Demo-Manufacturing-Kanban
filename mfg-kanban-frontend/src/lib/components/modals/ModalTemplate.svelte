@@ -23,7 +23,7 @@
 		<div class="flex flex-row justify-between align-middle">
 			<h1 class="text-2xl font-bold">{modalTitle}</h1>
 			<button
-				class="rounded-full px-1 py-1 hover:bg-gray-300 hover:text-red-600"
+				class="btn btn-ghost btn-sm btn-circle hover:text-error"
 				on:click={() => {
 					showModal.set(false);
 				}}

@@ -30,7 +30,7 @@
 			<form on:submit|preventDefault={submit}>
 				<div class="my-2 flex flex-row gap-2">
 					<div class="block">
-						<span class="text-gray-600">Name</span>
+						<span class="text-neutral">Name</span>
 						<input
 							bind:value={locationName}
 							class="block w-full"
@@ -40,7 +40,7 @@
 						/>
 					</div>
 					<div class="block">
-						<span class="text-gray-600">Sequence</span>
+						<span class="text-neutral">Sequence</span>
 						<input
 							bind:value={locationSequence}
 							class="block w-full"
@@ -50,10 +50,7 @@
 							min="1"
 						/>
 					</div>
-					<button
-						class="mt-6 rounded-md bg-blue-600 px-4 py-2 text-white hover:border hover:border-blue-600 hover:bg-white hover:text-blue-600"
-						type="submit">Create</button
-					>
+					<button class="btn btn-primary mt-5 px-4 py-2" type="submit">Create</button>
 				</div>
 			</form>
 			<LocationReorder

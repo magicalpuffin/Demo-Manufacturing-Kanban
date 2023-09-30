@@ -33,7 +33,7 @@
 		<form on:submit|preventDefault={submit}>
 			<div class="grid grid-cols-1 gap-6">
 				<div class="block">
-					<span class="text-gray-600">Name</span>
+					<span class="text-neutral">Name</span>
 					<input
 						bind:value={workorderName}
 						class="block w-full"
@@ -43,7 +43,7 @@
 					/>
 				</div>
 				<div class="block">
-					<span class="text-gray-600">Priority</span>
+					<span class="text-neutral">Priority</span>
 					<input
 						bind:value={workorderPriority}
 						class="block w-full"
@@ -54,7 +54,7 @@
 					/>
 				</div>
 				<div class="block">
-					<span class="text-gray-600">Location</span>
+					<span class="text-neutral">Location</span>
 					<select bind:value={locationId} class="block w-full">
 						{#each $Locations as Location}
 							<option value={Location.id}>{Location.name}</option>
@@ -62,7 +62,7 @@
 					</select>
 				</div>
 				<div class="block">
-					<span class="text-gray-600">Part</span>
+					<span class="text-neutral">Part</span>
 					<select bind:value={partId} class="block w-full">
 						{#each $Parts as Part}
 							<option value={Part.id}>{Part.name}</option>
@@ -70,10 +70,7 @@
 					</select>
 				</div>
 			</div>
-			<button
-				class="my-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:border hover:border-blue-600 hover:bg-white hover:text-blue-600"
-				type="submit">Create</button
-			>
+			<button class="btn btn-primary my-2 rounded-lg px-4 py-2" type="submit">Create</button>
 		</form>
 	</div>
 </ModalTemplate>

@@ -24,12 +24,12 @@
 			</thead>
 			<tbody>
 				{#each $Parts as Part}
-					<tr>
+					<tr class="hover:bg-primary">
 						<td>{Part.name}</td>
 						<td>{Part.description}</td>
 						<td
 							><button
-								class="rounded-full hover:bg-gray-300 hover:text-red-600"
+								class="btn btn-circle btn-xs btn-ghost hover:text-error"
 								on:click={() => {
 									// TODO, add popup warning
 									dispatch('partDelete', Part);

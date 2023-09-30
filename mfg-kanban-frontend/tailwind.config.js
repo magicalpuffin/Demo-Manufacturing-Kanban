@@ -8,15 +8,15 @@ export default {
 		themes: [
 			{
 				mytheme: {
-					primary: '#8476d3',
-					secondary: '#4efc74',
-					accent: '#1723d1',
-					neutral: '#1e1c26',
-					'base-100': '#fbf8fc',
-					info: '#5a8ae2',
-					success: '#186839',
-					warning: '#fdbd5e',
-					error: '#f4736c'
+					primary: '#ef9d70',
+					secondary: '#53d6b5',
+					accent: '#343aed',
+					neutral: '#2a2b37',
+					'base-100': '#ffffff',
+					info: '#5382d5',
+					success: '#135832',
+					warning: '#d49b16',
+					error: '#ef4444'
 				}
 			}
 		]

@@ -8,11 +8,11 @@
 	const dispatch = createEventDispatcher<{ workorderDelete: WorkOrderDetailType }>();
 </script>
 
-<div class="h-48 rounded-lg border shadow-md" data-id={WorkOrder.id}>
-	<div class="flex flex-row justify-between bg-gray-100 px-2 py-2">
+<div class="card h-48 border shadow-md" data-id={WorkOrder.id}>
+	<div class="bg-base-200 hover:bg-primary flex flex-row justify-between rounded-t-lg px-2 py-2">
 		<h1 class="text-lg font-semibold">{WorkOrder.name}</h1>
 		<button
-			class="rounded-full hover:bg-gray-300 hover:text-red-600"
+			class="btn btn-xs btn-square btn-ghost hover:text-error hover:bg-error))"
 			on:click={() => {
 				dispatch('workorderDelete', WorkOrder);
 			}}><CancelIcon /></button
