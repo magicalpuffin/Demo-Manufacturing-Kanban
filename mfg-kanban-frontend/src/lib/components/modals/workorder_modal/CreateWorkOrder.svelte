@@ -7,7 +7,6 @@
 
 	import { onWorkorderCreate } from '$lib/utils/workorder_utils';
 
-	export let showCreateCardModal: Writable<boolean>;
 	export let Workorders: Writable<WorkOrderDetailType[]>;
 	export let Locations: Writable<LocationType[]>;
 	export let Parts: Writable<PartType[]>;
@@ -28,7 +27,8 @@
 	}
 </script>
 
-<ModalTemplate showModal={showCreateCardModal} modalTitle="Create Work Order">
+<ModalTemplate buttonName="Create Work Order">
+	<div>Create Work Order</div>
 	<div class="mx-2 my-2">
 		<form on:submit|preventDefault={submit}>
 			<div class="grid grid-cols-1 gap-6">

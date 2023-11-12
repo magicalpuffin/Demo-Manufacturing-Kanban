@@ -2,14 +2,11 @@
 	import type { PartType, WorkOrderDetailType } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 
-	import { createEventDispatcher } from 'svelte';
-
-	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import PartTable from './PartTable.svelte';
 
 	import { onPartCreate, onPartDelete } from '$lib/utils/part_utils';
+	import ModalTemplate from '../ModalTemplate.svelte';
 
-	export let showPartsModal: Writable<boolean>;
 	export let Parts: Writable<PartType[]>;
 	export let WorkOrders: Writable<WorkOrderDetailType[]>;
 
@@ -25,7 +22,8 @@
 	}
 </script>
 
-<ModalTemplate showModal={showPartsModal} modalTitle="Manage Part">
+<ModalTemplate buttonName="Parts">
+	<div>Manage Part</div>
 	<div class="mx-2 my-2">
 		<div class="flex flex-col">
 			<form on:submit|preventDefault={submit}>

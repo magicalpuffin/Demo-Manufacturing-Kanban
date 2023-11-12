@@ -8,7 +8,6 @@
 
 	import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
 
-	export let showLocationsModal: Writable<boolean>;
 	export let Locations: Writable<LocationType[]>;
 	export let WorkOrders: Writable<WorkOrderDetailType[]>;
 
@@ -24,7 +23,8 @@
 	}
 </script>
 
-<ModalTemplate showModal={showLocationsModal} modalTitle="Mange Location">
+<ModalTemplate buttonName="Locations">
+	<div>Mange Location</div>
 	<div class="mx-2 my-2">
 		<div class="flex flex-col">
 			<form on:submit|preventDefault={submit}>
