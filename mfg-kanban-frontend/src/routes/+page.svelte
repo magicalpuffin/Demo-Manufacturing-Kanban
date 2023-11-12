@@ -12,7 +12,7 @@
 		showPartsModal
 	} from '$lib/stores/modal_stores';
 
-	import Navbar from '$lib/components/Navbar.svelte';
+	import Navbar from '$lib/components/navbar/Navbar.svelte';
 	import CreateCardModal from '$lib/components/modals/workorder_modal/CreateWorkOrder.svelte';
 	import ManageLocationModal from '$lib/components/modals/location_modal/ManageLocationModal.svelte';
 	import ManagePartModal from '$lib/components/modals/part_modal/ManagePartModal.svelte';
