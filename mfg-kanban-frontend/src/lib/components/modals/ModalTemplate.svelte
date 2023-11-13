@@ -1,36 +1,20 @@
 <script lang="ts">
-	import type { Writable } from 'svelte/store';
-	import { clickOutside, focusOutside } from '$lib/utils/customEvents';
-	import CancelIcon from '$lib/icons/CancelIcon.svelte';
-
-	export let showModal: Writable<boolean>;
+	export let buttonName: string;
 	export let modalTitle: string;
+
+	let modalElement: HTMLDialogElement;
 </script>
 
-<div
-	on:close={() => showModal.set(false)}
-	class="absolute left-0 top-0 z-10 h-full w-full bg-black bg-opacity-40 {$showModal
-		? 'block'
-		: 'hidden'}"
->
-	<div
-		use:clickOutside
-		on:click_outside={() => {
-			showModal.set(false);
-		}}
-		class="container mx-auto my-24 rounded-lg bg-white px-4 py-4 md:max-w-2xl"
-	>
-		<div class="flex flex-row justify-between align-middle">
-			<h1 class="text-2xl font-bold">{modalTitle}</h1>
-			<button
-				class="rounded-full px-1 py-1 hover:bg-gray-300 hover:text-red-600"
-				on:click={() => {
-					showModal.set(false);
-				}}
-			>
-				<CancelIcon />
-			</button>
-		</div>
+<button class="btn btn-primary" on:click={() => modalElement.showModal()}>{buttonName}</button>
+<dialog bind:this={modalElement} class="modal">
+	<div class="modal-box container max-w-2xl">
+		<form method="dialog">
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+		</form>
+		<span class="text-2xl font-medium">{modalTitle}</span>
 		<slot />
 	</div>
-</div>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
+</dialog>

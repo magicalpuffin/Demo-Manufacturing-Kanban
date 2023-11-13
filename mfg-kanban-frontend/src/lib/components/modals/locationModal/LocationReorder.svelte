@@ -38,10 +38,13 @@
 	});
 </script>
 
-<span class="mt-2 text-gray-600">Re-Order Locations</span>
+<span class="mt-2 text-xl font-medium">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
 	{#each $Locations as Location (Location.id)}
-		<div class="flex flex-row justify-between rounded-lg border px-2 py-2" data-id={Location.id}>
+		<div
+			class="hover:bg-primary flex flex-row justify-between rounded-lg border px-2 py-2"
+			data-id={Location.id}
+		>
 			<div>
 				<span class="mr-4">
 					{Location.sequence}
@@ -51,7 +54,7 @@
 				</span>
 			</div>
 			<button
-				class="place-self-end rounded-full hover:bg-gray-300 hover:text-red-600"
+				class="btn btn-xs btn-circle btn-ghost hover:text-error place-self-end"
 				on:click={() => {
 					// add popup warning
 					dispatch('locationDelete', Location);
