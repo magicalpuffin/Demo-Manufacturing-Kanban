@@ -16,9 +16,7 @@
 
 <div class="flex h-screen flex-col">
 	<Navbar />
-	<div class="flex flex-1 overflow-x-auto">
-		<div class="flex justify-center">
-			<KanbanBoard Locations={kanbanLocations} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
-		</div>
+	<div class="grow overflow-x-auto">
+		<KanbanBoard Locations={kanbanLocations} Parts={kanbanParts} WorkOrders={kanbanWorkorders} />
 	</div>
 </div>

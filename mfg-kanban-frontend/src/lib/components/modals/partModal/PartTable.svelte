@@ -11,7 +11,7 @@
 	const dispatch = createEventDispatcher<{ partDelete: PartType }>();
 </script>
 
-<span class="mt-2 text-gray-600">Parts Table</span>
+<span class="mt-2 text-xl font-medium">Parts Table</span>
 <table class="table">
 	<thead>
 		<tr>

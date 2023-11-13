@@ -38,7 +38,7 @@
 	});
 </script>
 
-<span class="text-neutral mt-2">Re-Order Locations</span>
+<span class="mt-2 text-xl font-medium">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
 	{#each $Locations as Location (Location.id)}
 		<div

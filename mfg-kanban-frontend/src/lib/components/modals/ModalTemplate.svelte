@@ -11,7 +11,7 @@
 		<form method="dialog">
 			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
-		<span>{modalTitle}</span>
+		<span class="text-2xl font-medium">{modalTitle}</span>
 		<slot />
 	</div>
 	<form method="dialog" class="modal-backdrop">
