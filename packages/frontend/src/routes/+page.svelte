@@ -7,11 +7,7 @@
 
 	export let data: PageData;
 
-	kanbanLocations.set(data.kanbanLocations);
-	kanbanParts.set(data.kanbanParts);
-	kanbanWorkorders.set(data.kanbanWorkorders);
-
-	// console.log(data);
+	console.log(data);
 </script>
 
 <div class="flex h-screen flex-col">

@@ -1,48 +1,31 @@
 import type { PageLoad } from './$types';
-import type { LocationType, PartType, WorkOrderDetailType } from '$lib/types';
-import { PUBLIC_KANBAN_API } from '$env/static/public';
+import { workOrder, location, part } from '@Demo-Manufacturing-Kanban/core/schema';
+
+import { PUBLIC_API_URL } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
-	let kanbanLocations: LocationType[] = [];
-	let kanbanParts: PartType[] = [];
-	let kanbanWorkorders: WorkOrderDetailType[] = [];
+	type workOrderType = typeof workOrder.$inferSelect & {
+		location: typeof location.$inferSelect;
+	} & { part: typeof part.$inferSelect };
+
+	let kanbanWorkorders: workOrderType[] = [];
 
 	try {
-		const location_promise = fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
+		const workorderFetch = await fetch(`${PUBLIC_API_URL}/workorder`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		const part_promise = fetch(`${PUBLIC_KANBAN_API}/part/list/`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		});
-
-		const workorder_promise = fetch(`${PUBLIC_KANBAN_API}/workorder/list/`, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		});
-
-		let [location_response, part_response, workorder_response] = await Promise.all([
-			location_promise,
-			part_promise,
-			workorder_promise
-		]);
-
-		if (location_response.ok && part_response.ok && workorder_response.ok) {
-			kanbanLocations = await location_response.json();
-			kanbanParts = await part_response.json();
-			kanbanWorkorders = await workorder_response.json();
+		if (workorderFetch.ok) {
+			kanbanWorkorders = await workorderFetch.json();
 		} else {
-			console.log('Failed to fetch location, part, or workorders');
+			console.log('Failed to fetch workorders');
 		}
 	} catch (error) {
 		console.log(error);
 	}
 
 	return {
-		kanbanLocations,
-		kanbanParts,
 		kanbanWorkorders
 	};
 }) satisfies PageLoad;
