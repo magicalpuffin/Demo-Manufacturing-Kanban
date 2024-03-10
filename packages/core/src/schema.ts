@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   serial,
@@ -29,3 +30,14 @@ export const workOrder = pgTable("workOrder", {
     .references(() => part.id)
     .notNull(),
 });
+
+export const workOrderRelation = relations(workOrder, ({ one }) => ({
+  location: one(location, {
+    fields: [workOrder.locationId],
+    references: [location.id],
+  }),
+  part: one(part, {
+    fields: [workOrder.partId],
+    references: [part.id],
+  }),
+}));

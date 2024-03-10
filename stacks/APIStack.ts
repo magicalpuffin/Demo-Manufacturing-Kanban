@@ -20,11 +20,11 @@ export function APIStack({ stack }: StackContext) {
       "GET /location/{id}": "packages/functions/src/location.get",
       "PUT /location/{id}": "packages/functions/src/location.update",
       "DELETE /location/{id}": "packages/functions/src/location.remove",
-      //   "GET /workorder": "",
-      //   "POST /workorder": "",
-      //   "GET /workorder/{id}": "",
-      //   "PUT /workorder/{id}": "",
-      //   "DELETE /workorder/{id}": "",
+      "GET /workorder": "packages/functions/src/workorder.list",
+      "POST /workorder": "packages/functions/src/workorder.create",
+      "GET /workorder/{id}": "packages/functions/src/workorder.get",
+      "PUT /workorder/{id}": "packages/functions/src/workorder.update",
+      "DELETE /workorder/{id}": "packages/functions/src/workorder.remove",
     },
   });
 
