@@ -1,5 +1,5 @@
 {
-  "name": "@Demo-Manufacturing-Kanban/functions",
+  "name": "@demo-manufacturing-kanban/functions",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -7,9 +7,12 @@
     "typecheck": "tsc -noEmit"
   },
   "devDependencies": {
-    "@types/node": "^20.4.1",
     "@types/aws-lambda": "^8.10.119",
-    "vitest": "^0.33.0",
-    "sst": "^2.20.1"
+    "@types/node": "^20.4.1",
+    "sst": "^2.20.1",
+    "vitest": "^0.33.0"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.1"
   }
 }

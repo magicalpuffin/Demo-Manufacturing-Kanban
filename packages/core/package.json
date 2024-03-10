@@ -1,5 +1,5 @@
 {
-  "name": "@Demo-Manufacturing-Kanban/core",
+  "name": "@demo-manufacturing-kanban/core",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -7,11 +7,12 @@
     "typecheck": "tsc -noEmit"
   },
   "devDependencies": {
-    "vitest": "^0.33.0",
     "@types/node": "^20.4.1",
-    "sst": "^2.20.1"
+    "sst": "^2.20.1",
+    "vitest": "^0.33.0"
   },
   "dependencies": {
-    "zod": "^3.21.4"
+    "@aws-sdk/client-rds-data": "^3.529.1",
+    "drizzle-orm": "^0.30.1"
   }
 }
