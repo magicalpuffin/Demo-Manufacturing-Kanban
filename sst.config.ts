@@ -1,7 +1,7 @@
 import { SSTConfig } from "sst";
 import { APIStack } from "./stacks/APIStack";
 import { VPCStack } from "./stacks/VPCStack";
-import { RDSStack } from "./stacks/RDSStack";
+import { MigrateStack, RDSStack } from "./stacks/RDSStack";
 
 export default {
   config(_input) {
@@ -11,6 +11,6 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(VPCStack).stack(RDSStack).stack(APIStack);
+    app.stack(VPCStack).stack(RDSStack).stack(MigrateStack).stack(APIStack);
   },
 } satisfies SSTConfig;
