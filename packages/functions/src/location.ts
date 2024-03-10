@@ -1,11 +1,11 @@
 import { ApiHandler } from "sst/node/api";
-import { part } from "@Demo-Manufacturing-Kanban/core/schema";
+import { location } from "@Demo-Manufacturing-Kanban/core/schema";
 import { db } from "@Demo-Manufacturing-Kanban/core/db";
 import { eq } from "drizzle-orm";
 
 export const list = ApiHandler(async (event) => {
   try {
-    const result = await db.select().from(part);
+    const result = await db.select().from(location);
 
     return {
       statusCode: 200,
@@ -39,12 +39,12 @@ export const create = ApiHandler(async (event) => {
     // bug with serialized
     // https://github.com/drizzle-team/drizzle-orm/issues/663
     const result = await db
-      .insert(part)
+      .insert(location)
       .values({
         // @ts-ignore
         id: undefined,
         name: data.name,
-        description: data.description,
+        sequence: Number(data.sequence),
       })
       .returning();
 
@@ -77,8 +77,8 @@ export const get = ApiHandler(async (event) => {
   }
 
   try {
-    const result = await db.query.part.findFirst({
-      where: eq(part.id, Number(id)),
+    const result = await db.query.location.findFirst({
+      where: eq(location.id, Number(id)),
     });
 
     return {
@@ -120,9 +120,9 @@ export const update = ApiHandler(async (event) => {
 
   try {
     const result = await db
-      .update(part)
-      .set({ name: data.name, description: data.description })
-      .where(eq(part.id, Number(id)))
+      .update(location)
+      .set({ name: data.name, sequence: Number(data.sequence) })
+      .where(eq(location.id, Number(id)))
       .returning();
 
     return {
@@ -155,8 +155,8 @@ export const remove = ApiHandler(async (event) => {
 
   try {
     const result = await db
-      .delete(part)
-      .where(eq(part.id, Number(id)))
+      .delete(location)
+      .where(eq(location.id, Number(id)))
       .returning();
 
     return {
