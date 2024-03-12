@@ -46,8 +46,8 @@ export const create = ApiHandler(async (event) => {
         // @ts-ignore
         id: undefined,
         name: data.name,
-        locationId: Number(data.location_id),
-        partId: Number(data.part_id),
+        locationId: Number(data.locationId),
+        partId: Number(data.partId),
       })
       .returning();
 

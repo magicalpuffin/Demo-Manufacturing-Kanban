@@ -9,7 +9,7 @@ export function APIStack({ stack }: StackContext) {
   });
   const api = new Api(stack, "api", {
     routes: {
-      "GET /": "packages/functions/src/lambda.handler",
+      "GET /": "packages/functions/src/home.list",
       "GET /part": "packages/functions/src/part.list",
       "POST /part": "packages/functions/src/part.create",
       "GET /part/{id}": "packages/functions/src/part.get",

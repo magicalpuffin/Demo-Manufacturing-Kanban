@@ -1,7 +1,9 @@
 import type { Config } from "drizzle-kit";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const { PRIVATE_DB_URL } = process.env;
-if (!PRIVATE_DB_URL) {
+const { DB_URL } = process.env;
+if (!DB_URL) {
   throw new Error("No url");
 }
 export default {
@@ -9,6 +11,6 @@ export default {
   driver: "pg",
   out: "./drizzle",
   dbCredentials: {
-    connectionString: PRIVATE_DB_URL,
+    connectionString: DB_URL,
   },
 } satisfies Config;

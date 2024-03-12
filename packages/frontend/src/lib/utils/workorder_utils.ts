@@ -1,4 +1,4 @@
-import type { LocationType, PartType, WorkOrderType, WorkOrderDetailType } from '$lib/types';
+import type { LocationSelect, PartSelect, WorkOrderType, WorkOrderDetailType } from '$lib/types';
 import type { Writable } from 'svelte/store';
 
 import { PUBLIC_KANBAN_API } from '$env/static/public';
@@ -7,7 +7,7 @@ import { get } from 'svelte/store';
 import { toast } from '@zerodevx/svelte-toast';
 
 interface ColumnReorderData {
-	location: LocationType;
+	location: LocationSelect;
 	workorderIds: string[];
 }
 
@@ -52,8 +52,8 @@ export async function onWorkorderDelete(
 export async function onWorkorderColumnReorder(
 	eventDetail: ColumnReorderData,
 	kanbanWorkorders: Writable<WorkOrderDetailType[]>,
-	kanbanLocations: LocationType[],
-	kanbanParts: PartType[]
+	kanbanLocations: LocationSelect[],
+	kanbanParts: PartSelect[]
 ) {
 	let { location, workorderIds } = eventDetail;
 

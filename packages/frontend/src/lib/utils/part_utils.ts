@@ -1,4 +1,4 @@
-import type { PartType, WorkOrderDetailType } from '$lib/types';
+import type { PartSelect, WorkOrderDetailType } from '$lib/types';
 import type { Writable } from 'svelte/store';
 import { PUBLIC_KANBAN_API } from '$env/static/public';
 
@@ -8,8 +8,8 @@ import { toast } from '@zerodevx/svelte-toast';
 // I think this isn't a good pattern avoid setting stores in utility functions
 // Should just return results and set by parent
 export async function onPartCreate(
-	partialPart: Partial<PartType>,
-	kanbanParts: Writable<PartType[]>
+	partialPart: Partial<PartSelect>,
+	kanbanParts: Writable<PartSelect[]>
 ) {
 	// console.log('onPartCreate triggered', partialPart);
 	const response = await fetch(`${PUBLIC_KANBAN_API}/part/create/`, {
@@ -18,7 +18,7 @@ export async function onPartCreate(
 		body: JSON.stringify(partialPart)
 	});
 	if (response.ok) {
-		let createdPart: PartType = await response.json();
+		let createdPart: PartSelect = await response.json();
 		kanbanParts.update((parts) => [...parts, createdPart]);
 
 		toast.push(`Part, ${createdPart.name}, created`);
@@ -27,8 +27,8 @@ export async function onPartCreate(
 }
 
 export async function onPartDelete(
-	removePart: PartType,
-	kanbanParts: Writable<PartType[]>,
+	removePart: PartSelect,
+	kanbanParts: Writable<PartSelect[]>,
 	kanbanWorkorders: Writable<WorkOrderDetailType[]>
 ) {
 	// console.log('onPartDelete triggered', removePart);

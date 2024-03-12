@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LocationType, PartType, WorkOrderDetailType, WorkOrderType } from '$lib/types';
+	import type { PartSelect, WorkOrderInsert, LocationSelect } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 
 	import { createEventDispatcher } from 'svelte';
@@ -7,23 +7,24 @@
 
 	import { onWorkorderCreate } from '$lib/utils/workorder_utils';
 
-	export let Workorders: Writable<WorkOrderDetailType[]>;
-	export let Locations: Writable<LocationType[]>;
-	export let Parts: Writable<PartType[]>;
+	export let Locations: LocationSelect[];
+	export let Parts: PartSelect[];
 
 	let workorderName: string;
 	let workorderPriority: number;
 	let locationId: number;
 	let partId: number;
 
+	const dispatch = createEventDispatcher();
+
 	async function submit() {
-		let partialWorkorder: Partial<WorkOrderType> = {
+		let partialWorkorder: Partial<WorkOrderInsert> = {
 			name: workorderName,
 			priority: workorderPriority,
-			location: locationId,
-			part: partId
+			locationId: locationId,
+			partId: partId
 		};
-		onWorkorderCreate(partialWorkorder, Workorders);
+		dispatch('createWorkorder', partialWorkorder);
 	}
 </script>
 
@@ -54,7 +55,7 @@
 			<div class="block">
 				<span class="text-neutral">Location</span>
 				<select bind:value={locationId} class="block w-full">
-					{#each $Locations as Location}
+					{#each Locations as Location}
 						<option value={Location.id}>{Location.name}</option>
 					{/each}
 				</select>
@@ -62,7 +63,7 @@
 			<div class="block">
 				<span class="text-neutral">Part</span>
 				<select bind:value={partId} class="block w-full">
-					{#each $Parts as Part}
+					{#each Parts as Part}
 						<option value={Part.id}>{Part.name}</option>
 					{/each}
 				</select>

@@ -4,8 +4,16 @@ import { db } from "@Demo-Manufacturing-Kanban/core/db";
 import { eq } from "drizzle-orm";
 
 export const list = ApiHandler(async (event) => {
+  const queryParam = event.queryStringParameters;
   try {
-    const result = await db.select().from(location);
+    let result;
+    if (queryParam?.detail) {
+      result = await db.query.location.findMany({
+        with: { workorders: { with: { part: true } } },
+      });
+    } else {
+      result = await db.select().from(location);
+    }
 
     return {
       statusCode: 200,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LocationType, WorkOrderDetailType } from '$lib/types';
+	import type { LocationSelect } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 
@@ -8,18 +8,17 @@
 
 	import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
 
-	export let Locations: Writable<LocationType[]>;
-	export let WorkOrders: Writable<WorkOrderDetailType[]>;
+	export let Locations: LocationSelect[];
 
 	let locationName: string;
 	let locationSequence: number;
 
 	async function submit() {
-		let partialLocation: Partial<LocationType> = {
-			name: locationName,
-			sequence: locationSequence
-		};
-		onLocationCreate(partialLocation, Locations);
+		// let partialLocation: Partial<LocationSelect> = {
+		// 	name: locationName,
+		// 	sequence: locationSequence
+		// };
+		// onLocationCreate(partialLocation, Locations);
 	}
 </script>
 
@@ -50,9 +49,10 @@
 			<button class="btn btn-primary mt-5 px-4 py-2" type="submit">Create</button>
 		</div>
 	</form>
-	<LocationReorder
+	<!-- <LocationReorder
 		on:locationDelete={(e) => onLocationDelete(e.detail, Locations, WorkOrders)}
 		on:locationReorder={(e) => onLocationReorder(e.detail, Locations)}
 		{Locations}
-	/>
+	/> -->
+	<LocationReorder {Locations} />
 </ModalTemplate>

@@ -1,23 +1,26 @@
 import type { PageLoad } from './$types';
-import { workOrder, location, part } from '@Demo-Manufacturing-Kanban/core/schema';
+
+import type { LocationDetailSelect, WorkOrderDetailSelect, PartSelect } from '$lib/types';
 
 import { PUBLIC_API_URL } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
-	type workOrderType = typeof workOrder.$inferSelect & {
-		location: typeof location.$inferSelect;
-	} & { part: typeof part.$inferSelect };
-
-	let kanbanWorkorders: workOrderType[] = [];
+	let locationDetailList: LocationDetailSelect[] = [];
+	let workOrderDetailList: WorkOrderDetailSelect[] = [];
+	let partList: PartSelect[] = [];
 
 	try {
-		const workorderFetch = await fetch(`${PUBLIC_API_URL}/workorder`, {
+		// fetching kanban board data
+		const response = await fetch(`${PUBLIC_API_URL}`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
-		if (workorderFetch.ok) {
-			kanbanWorkorders = await workorderFetch.json();
+		if (response.ok) {
+			let data = await response.json();
+			locationDetailList = data.locations;
+			workOrderDetailList = data.workorders;
+			partList = data.parts;
 		} else {
 			console.log('Failed to fetch workorders');
 		}
@@ -26,6 +29,8 @@ export const load = (async ({ fetch }) => {
 	}
 
 	return {
-		kanbanWorkorders
+		locationDetailList,
+		workOrderDetailList,
+		partList
 	};
 }) satisfies PageLoad;

@@ -8,6 +8,13 @@
       "when": 1710092626247,
       "tag": "0000_cold_wildside",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710211325226,
+      "tag": "0001_loud_black_knight",
+      "breakpoints": true
     }
   ]
 }

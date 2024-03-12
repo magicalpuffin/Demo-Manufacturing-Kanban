@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PartType, WorkOrderDetailType } from '$lib/types';
+	import type { PartSelect } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 
 	import PartTable from './PartTable.svelte';
@@ -7,18 +7,17 @@
 	import { onPartCreate, onPartDelete } from '$lib/utils/part_utils';
 	import ModalTemplate from '../ModalTemplate.svelte';
 
-	export let Parts: Writable<PartType[]>;
-	export let WorkOrders: Writable<WorkOrderDetailType[]>;
+	export let Parts: PartSelect[];
 
 	let partName: string;
 	let partDescription: string;
 
 	async function submit() {
-		let partialPart: Partial<PartType> = {
-			name: partName,
-			description: partDescription
-		};
-		onPartCreate(partialPart, Parts);
+		// let partialPart: Partial<PartSelect> = {
+		// 	name: partName,
+		// 	description: partDescription
+		// };
+		// onPartCreate(partialPart, Parts);
 	}
 </script>
 
@@ -46,5 +45,6 @@
 		</div>
 		<button class="btn btn-primary my-2 rounded-lg px-4 py-2" type="submit">Create</button>
 	</form>
-	<PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} />
+	<!-- <PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} /> -->
+	<PartTable {Parts} />
 </ModalTemplate>

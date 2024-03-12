@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LocationType } from '$lib/types';
+	import type { LocationSelect } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 
 	import { createEventDispatcher } from 'svelte';
@@ -8,11 +8,11 @@
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let Locations: Writable<LocationType[]>;
+	export let Locations: LocationSelect[];
 
 	const dispatch = createEventDispatcher<{
-		locationReorder: LocationType[];
-		locationDelete: LocationType;
+		locationReorder: LocationSelect[];
+		locationDelete: LocationSelect;
 	}>();
 
 	let sortableEle: HTMLElement;
@@ -28,7 +28,9 @@
 
 				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
-					let updatingLocation = $Locations.find((item) => item.id == parseInt(id)) as LocationType;
+					let updatingLocation = Locations.find(
+						(item) => item.id == parseInt(id)
+					) as LocationSelect;
 					return { ...updatingLocation, sequence: index };
 				});
 
@@ -40,9 +42,9 @@
 
 <span class="mt-2 text-xl font-medium">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each $Locations as Location (Location.id)}
+	{#each Locations as Location (Location.id)}
 		<div
-			class="hover:bg-primary flex flex-row justify-between rounded-lg border px-2 py-2"
+			class="flex flex-row justify-between rounded-lg border px-2 py-2 hover:bg-primary"
 			data-id={Location.id}
 		>
 			<div>
@@ -54,7 +56,7 @@
 				</span>
 			</div>
 			<button
-				class="btn btn-xs btn-circle btn-ghost hover:text-error place-self-end"
+				class="btn btn-circle btn-ghost btn-xs place-self-end hover:text-error"
 				on:click={() => {
 					// add popup warning
 					dispatch('locationDelete', Location);

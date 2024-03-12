@@ -1,22 +1,22 @@
-import type { LocationType, WorkOrderDetailType } from '$lib/types';
+import type { LocationSelect, WorkOrderDetailSelect } from '$lib/types';
 import type { Writable } from 'svelte/store';
-import { PUBLIC_KANBAN_API } from '$env/static/public';
+import { PUBLIC_API_URL } from '$env/static/public';
 
 import { toast } from '@zerodevx/svelte-toast';
 
 export async function onLocationCreate(
-	partialLocation: Partial<LocationType>,
-	kanbanLocations: Writable<LocationType[]>
+	partialLocation: Partial<LocationSelect>,
+	kanbanLocations: Writable<LocationSelect[]>
 ) {
 	// console.log('onLocationCreate triggered', partialLocation);
 
-	const response = await fetch(`${PUBLIC_KANBAN_API}/location/create/`, {
+	const response = await fetch(`${PUBLIC_API_URL}/location`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(partialLocation)
 	});
 	if (response.ok) {
-		let createdLocation: LocationType = await response.json();
+		let createdLocation: LocationSelect = await response.json();
 		kanbanLocations.update((locations) =>
 			[...locations, createdLocation].sort((a, b) => a.sequence - b.sequence)
 		);
@@ -27,12 +27,12 @@ export async function onLocationCreate(
 }
 
 export async function onLocationDelete(
-	removeLocation: LocationType,
-	kanbanLocations: Writable<LocationType[]>,
-	kanbanWorkorders: Writable<WorkOrderDetailType[]>
+	removeLocation: LocationSelect,
+	kanbanLocations: Writable<LocationSelect[]>,
+	kanbanWorkorders: Writable<WorkOrderDetailSelect[]>
 ) {
 	// console.log('onLocationDelete triggered', removeLocation);
-	const response = await fetch(`${PUBLIC_KANBAN_API}/location/${removeLocation.id}`, {
+	const response = await fetch(`${PUBLIC_API_URL}/location/${removeLocation.id}`, {
 		method: 'DELETE',
 		headers: { 'Content-Type': 'application/json' }
 	});
@@ -49,11 +49,11 @@ export async function onLocationDelete(
 }
 
 export async function onLocationReorder(
-	reorderedLocations: LocationType[],
-	kanbanLocations: Writable<LocationType[]>
+	reorderedLocations: LocationSelect[],
+	kanbanLocations: Writable<LocationSelect[]>
 ) {
 	// console.log('onLocationReorder triggered', reorderedLocations);
-	const response = await fetch(`${PUBLIC_KANBAN_API}/location/list/`, {
+	const response = await fetch(`${PUBLIC_API_URL}/location/list/`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(reorderedLocations)

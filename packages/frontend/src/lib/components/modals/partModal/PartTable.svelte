@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { PartType } from '$lib/types';
+	import type { PartSelect } from '$lib/types';
 	import type { Writable } from 'svelte/store';
 
 	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let Parts: Writable<PartType[]>;
+	export let Parts: PartSelect[];
 
-	const dispatch = createEventDispatcher<{ partDelete: PartType }>();
+	const dispatch = createEventDispatcher<{ partDelete: PartSelect }>();
 </script>
 
 <span class="mt-2 text-xl font-medium">Parts Table</span>
@@ -21,13 +21,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each $Parts as Part}
+		{#each Parts as Part}
 			<tr class="hover:bg-primary">
 				<td>{Part.name}</td>
 				<td>{Part.description}</td>
 				<td
 					><button
-						class="btn btn-circle btn-xs btn-ghost hover:text-error"
+						class="btn btn-circle btn-ghost btn-xs hover:text-error"
 						on:click={() => {
 							// TODO, add popup warning
 							dispatch('partDelete', Part);

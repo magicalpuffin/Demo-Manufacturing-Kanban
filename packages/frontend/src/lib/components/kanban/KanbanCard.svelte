@@ -1,18 +1,18 @@
 <script lang="ts">
-	import type { WorkOrderDetailType } from '$lib/types';
+	import type { WorkOrderDetailSelect } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	export let WorkOrder: WorkOrderDetailType;
-	const dispatch = createEventDispatcher<{ workorderDelete: WorkOrderDetailType }>();
+	export let WorkOrder: WorkOrderDetailSelect;
+	const dispatch = createEventDispatcher<{ workorderDelete: WorkOrderDetailSelect }>();
 </script>
 
 <div class="card h-48 border shadow-md" data-id={WorkOrder.id}>
-	<div class="bg-base-200 hover:bg-primary flex flex-row justify-between rounded-t-lg px-2 py-2">
+	<div class="flex flex-row justify-between rounded-t-lg bg-base-200 px-2 py-2 hover:bg-primary">
 		<h1 class="text-lg font-semibold">{WorkOrder.name}</h1>
 		<button
-			class="btn btn-xs btn-square btn-ghost hover:text-error hover:bg-error))"
+			class="hover:bg-error)) btn btn-square btn-ghost btn-xs hover:text-error"
 			on:click={() => {
 				dispatch('workorderDelete', WorkOrder);
 			}}><CancelIcon /></button
