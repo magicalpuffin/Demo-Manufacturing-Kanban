@@ -52,7 +52,7 @@
 	<h1 class="px-2 pb-4 pt-2 text-2xl font-bold">{LocationDetail.name}</h1>
 	<div bind:this={sortableEle} class="flex min-h-[100px] flex-col gap-2 py-2">
 		{#each LocationDetail.workorders as WorkOrder (WorkOrder.id)}
-			<KanbanCard on:workorderDelete {WorkOrder} />
+			<KanbanCard on:deleteWorkorder {WorkOrder} />
 		{/each}
 	</div>
 </div>

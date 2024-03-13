@@ -11,8 +11,8 @@
 	export let Locations: LocationSelect[];
 
 	const dispatch = createEventDispatcher<{
-		locationReorder: LocationSelect[];
-		locationDelete: LocationSelect;
+		reorderLocations: LocationSelect[];
+		deleteLocation: LocationSelect;
 	}>();
 
 	let sortableEle: HTMLElement;
@@ -34,7 +34,7 @@
 					return { ...updatingLocation, sequence: index };
 				});
 
-				dispatch('locationReorder', reorderedLocations);
+				dispatch('reorderLocations', reorderedLocations);
 			}
 		});
 	});
@@ -59,7 +59,7 @@
 				class="btn btn-circle btn-ghost btn-xs place-self-end hover:text-error"
 				on:click={() => {
 					// add popup warning
-					dispatch('locationDelete', Location);
+					dispatch('deleteLocation', Location);
 				}}><CancelIcon /></button
 			>
 		</div>

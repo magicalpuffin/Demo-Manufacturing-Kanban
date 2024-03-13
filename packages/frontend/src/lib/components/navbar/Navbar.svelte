@@ -15,8 +15,13 @@
 	</div>
 	<div class="navbar-center gap-2">
 		<WorkOrderModal Parts={kanbanParts} Locations={kanbanLocations} on:createWorkorder />
-		<LocationModal Locations={kanbanLocations} />
-		<PartModal Parts={kanbanParts} />
+		<LocationModal
+			Locations={kanbanLocations}
+			on:createLocation,
+			on:reorderLocations
+			on:deleteLocation
+		/>
+		<PartModal Parts={kanbanParts} on:createPart on:deletePart />
 	</div>
 	<div class="navbar-end" />
 </div>

@@ -5,7 +5,7 @@
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
 	export let WorkOrder: WorkOrderDetailSelect;
-	const dispatch = createEventDispatcher<{ workorderDelete: WorkOrderDetailSelect }>();
+	const dispatch = createEventDispatcher<{ deleteWorkorder: WorkOrderDetailSelect }>();
 </script>
 
 <div class="card h-48 border shadow-md" data-id={WorkOrder.id}>
@@ -14,7 +14,7 @@
 		<button
 			class="hover:bg-error)) btn btn-square btn-ghost btn-xs hover:text-error"
 			on:click={() => {
-				dispatch('workorderDelete', WorkOrder);
+				dispatch('deleteWorkorder', WorkOrder);
 			}}><CancelIcon /></button
 		>
 	</div>

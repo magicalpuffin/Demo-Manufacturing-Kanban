@@ -13,12 +13,14 @@
 	let locationName: string;
 	let locationSequence: number;
 
+	let dispatch = createEventDispatcher();
+
 	async function submit() {
-		// let partialLocation: Partial<LocationSelect> = {
-		// 	name: locationName,
-		// 	sequence: locationSequence
-		// };
-		// onLocationCreate(partialLocation, Locations);
+		let partialLocation: Partial<LocationSelect> = {
+			name: locationName,
+			sequence: locationSequence
+		};
+		dispatch('createLocation', partialLocation);
 	}
 </script>
 
@@ -54,5 +56,5 @@
 		on:locationReorder={(e) => onLocationReorder(e.detail, Locations)}
 		{Locations}
 	/> -->
-	<LocationReorder {Locations} />
+	<LocationReorder on:reorderLocations on:deleteLocation {Locations} />
 </ModalTemplate>

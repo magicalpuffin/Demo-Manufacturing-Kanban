@@ -5,6 +5,7 @@
 	import KanbanBoard from '$lib/components/kanban/KanbanBoard.svelte';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { json } from '@sveltejs/kit';
+	import { onWorkorderDelete } from '$lib/utils/workorder_utils';
 
 	export let data: PageData;
 
@@ -28,9 +29,29 @@
 			if (response.ok) {
 				console.log(await response.json());
 			}
+
+			const locationDetailResponse = await fetch(`${PUBLIC_API_URL}/location?detail=true`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			});
+			if (locationDetailResponse.ok) {
+				locationDetailList = await locationDetailResponse.json();
+			}
 		}}
 	/>
 	<div class="grow overflow-x-auto">
-		<KanbanBoard LocationDetailList={locationDetailList} />
+		<KanbanBoard
+			LocationDetailList={locationDetailList}
+			on:deleteWorkorder={async (event) => {
+				await onWorkorderDelete(event.detail);
+				const locationDetailResponse = await fetch(`${PUBLIC_API_URL}/location?detail=true`, {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json' }
+				});
+				if (locationDetailResponse.ok) {
+					locationDetailList = await locationDetailResponse.json();
+				}
+			}}
+		/>
 	</div>
 </div>

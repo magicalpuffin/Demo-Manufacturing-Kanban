@@ -1,7 +1,12 @@
-import type { LocationSelect, PartSelect, WorkOrderType, WorkOrderDetailType } from '$lib/types';
+import type {
+	LocationSelect,
+	PartSelect,
+	WorkOrderDetailSelect,
+	WorkOrderSelect
+} from '$lib/types';
 import type { Writable } from 'svelte/store';
 
-import { PUBLIC_KANBAN_API } from '$env/static/public';
+import { PUBLIC_API_URL } from '$env/static/public';
 import { get } from 'svelte/store';
 
 import { toast } from '@zerodevx/svelte-toast';
@@ -12,17 +17,17 @@ interface ColumnReorderData {
 }
 
 export async function onWorkorderCreate(
-	partialWorkorder: Partial<WorkOrderType>,
-	kanbanWorkorders: Writable<WorkOrderDetailType[]>
+	partialWorkorder: Partial<WorkOrderDetailSelect>,
+	kanbanWorkorders: Writable<WorkOrderDetailSelect[]>
 ) {
 	// console.log('onWorkorderCreate triggered', partialWorkorder);
-	const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/create/`, {
+	const response = await fetch(`${PUBLIC_API_URL}/workorder/create/`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(partialWorkorder)
 	});
 	if (response.ok) {
-		let createdWorkorder: WorkOrderDetailType = await response.json();
+		let createdWorkorder: WorkOrderDetailSelect = await response.json();
 		kanbanWorkorders.update((workorders) => [...workorders, createdWorkorder]);
 
 		// console.log(data.kanbanWorkorders);
@@ -32,18 +37,18 @@ export async function onWorkorderCreate(
 }
 
 export async function onWorkorderDelete(
-	removeWorkorder: WorkOrderDetailType,
-	kanbanWorkorders: Writable<WorkOrderDetailType[]>
+	removeWorkorder: WorkOrderDetailSelect
+	// kanbanWorkorders: WorkOrderDetailSelect[]
 ) {
 	// Using workorder detail while API uses workorder without detail
 	// console.log('onWorkorderDelete triggered', removeWorkorder);
-	const response = await fetch(`${PUBLIC_KANBAN_API}/workorder/${removeWorkorder.id}`, {
+	const response = await fetch(`${PUBLIC_API_URL}/workorder/${removeWorkorder.id}`, {
 		method: 'DELETE',
 		headers: { 'Content-Type': 'application/json' }
 	});
 	if (response.ok) {
 		// Need to handle cascade delete
-		kanbanWorkorders.update((workorders) => workorders.filter((t) => t.id != removeWorkorder.id));
+		// kanbanWorkorders.filter((t) => t.id != removeWorkorder.id);
 		toast.push(`Workorder, ${removeWorkorder.name}, deleted`);
 		// console.log(data.kanbanWorkorders);
 	}
@@ -51,7 +56,7 @@ export async function onWorkorderDelete(
 
 export async function onWorkorderColumnReorder(
 	eventDetail: ColumnReorderData,
-	kanbanWorkorders: Writable<WorkOrderDetailType[]>,
+	kanbanWorkorders: Writable<WorkOrderDetailSelect[]>,
 	kanbanLocations: LocationSelect[],
 	kanbanParts: PartSelect[]
 ) {
@@ -60,7 +65,7 @@ export async function onWorkorderColumnReorder(
 	let reorderedWorkorders = workorderIds.map((id, index) => {
 		let updatingWorkorderDetail = get(kanbanWorkorders).find((item) => item.id == parseInt(id));
 		if (updatingWorkorderDetail) {
-			let updatingWorkorder: WorkOrderType = {
+			let updatingWorkorder: WorkOrderDetailSelect = {
 				...updatingWorkorderDetail,
 				priority: index,
 				location: location.id,
@@ -80,7 +85,7 @@ export async function onWorkorderColumnReorder(
 		body: JSON.stringify(reorderedWorkorders)
 	});
 	if (response.ok) {
-		let reorderedWorkorders: WorkOrderType[] = await response.json();
+		let reorderedWorkorders: WorkOrderDetailSelect[] = await response.json();
 		kanbanWorkorders.update((workorders) =>
 			workorders.map((workorder) => {
 				let updatedWorkorder = reorderedWorkorders.find((item) => item.id == workorder.id);

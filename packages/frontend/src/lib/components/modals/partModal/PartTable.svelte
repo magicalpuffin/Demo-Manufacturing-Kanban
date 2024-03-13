@@ -8,7 +8,7 @@
 
 	export let Parts: PartSelect[];
 
-	const dispatch = createEventDispatcher<{ partDelete: PartSelect }>();
+	const dispatch = createEventDispatcher<{ deletePart: PartSelect }>();
 </script>
 
 <span class="mt-2 text-xl font-medium">Parts Table</span>
@@ -30,7 +30,7 @@
 						class="btn btn-circle btn-ghost btn-xs hover:text-error"
 						on:click={() => {
 							// TODO, add popup warning
-							dispatch('partDelete', Part);
+							dispatch('deletePart', Part);
 						}}><CancelIcon /></button
 					></td
 				>

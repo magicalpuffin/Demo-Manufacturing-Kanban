@@ -44,7 +44,7 @@
 <div class="h-full w-full">
 	<div class="flex h-full flex-row divide-x-2">
 		{#each LocationDetailList as LocationDetail}
-			<KanbanColumn on:workorderDelete on:workorderColumnReorder {LocationDetail} />
+			<KanbanColumn on:deleteWorkorder on:workorderColumnReorder {LocationDetail} />
 		{/each}
 	</div>
 </div>
