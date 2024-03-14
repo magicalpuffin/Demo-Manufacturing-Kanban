@@ -7,20 +7,19 @@
 	import { onPartCreate, onPartDelete } from '$lib/utils/part_utils';
 	import ModalTemplate from '../ModalTemplate.svelte';
 	import { createEventDispatcher } from 'svelte';
-
-	export let Parts: PartSelect[];
+	import { partStore } from '$lib/stores/modal_stores';
 
 	let partName: string;
 	let partDescription: string;
 
-	let dispatch = createEventDispatcher();
+	// let dispatch = createEventDispatcher();
 
 	async function submit() {
 		let partialPart: Partial<PartSelect> = {
 			name: partName,
 			description: partDescription
 		};
-		dispatch('createPart', partialPart);
+		partStore.add(partialPart);
 	}
 </script>
 
@@ -49,5 +48,5 @@
 		<button class="btn btn-primary my-2 rounded-lg px-4 py-2" type="submit">Create</button>
 	</form>
 	<!-- <PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} /> -->
-	<PartTable on:deletePart {Parts} />
+	<PartTable />
 </ModalTemplate>

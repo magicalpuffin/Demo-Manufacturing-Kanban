@@ -7,9 +7,9 @@
 
 <button class="btn btn-primary" on:click={() => modalElement.showModal()}>{buttonName}</button>
 <dialog bind:this={modalElement} class="modal">
-	<div class="modal-box container max-w-2xl">
+	<div class="container modal-box max-w-2xl">
 		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+			<button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
 		</form>
 		<span class="text-2xl font-medium">{modalTitle}</span>
 		<slot />

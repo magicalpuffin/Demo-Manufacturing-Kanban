@@ -6,21 +6,18 @@
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import LocationReorder from './LocationReorder.svelte';
 
-	import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
-
-	export let Locations: LocationSelect[];
+	// import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
+	import { locationStore } from '$lib/stores/modal_stores';
 
 	let locationName: string;
 	let locationSequence: number;
-
-	let dispatch = createEventDispatcher();
 
 	async function submit() {
 		let partialLocation: Partial<LocationSelect> = {
 			name: locationName,
 			sequence: locationSequence
 		};
-		dispatch('createLocation', partialLocation);
+		locationStore.add(partialLocation);
 	}
 </script>
 
@@ -56,5 +53,5 @@
 		on:locationReorder={(e) => onLocationReorder(e.detail, Locations)}
 		{Locations}
 	/> -->
-	<LocationReorder on:reorderLocations on:deleteLocation {Locations} />
+	<LocationReorder />
 </ModalTemplate>

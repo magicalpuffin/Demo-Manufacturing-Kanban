@@ -5,10 +5,9 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
+	import { partStore } from '$lib/stores/modal_stores';
 
-	export let Parts: PartSelect[];
-
-	const dispatch = createEventDispatcher<{ deletePart: PartSelect }>();
+	// const dispatch = createEventDispatcher<{ deletePart: PartSelect }>();
 </script>
 
 <span class="mt-2 text-xl font-medium">Parts Table</span>
@@ -21,7 +20,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each Parts as Part}
+		{#each $partStore as Part}
 			<tr class="hover:bg-primary">
 				<td>{Part.name}</td>
 				<td>{Part.description}</td>
@@ -30,7 +29,9 @@
 						class="btn btn-circle btn-ghost btn-xs hover:text-error"
 						on:click={() => {
 							// TODO, add popup warning
-							dispatch('deletePart', Part);
+							if (confirm(`Are you sure you want to delete${Part.name}`)) {
+								partStore.remove(Part);
+							}
 						}}><CancelIcon /></button
 					></td
 				>

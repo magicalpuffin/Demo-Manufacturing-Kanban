@@ -3,19 +3,17 @@ import { db } from "@Demo-Manufacturing-Kanban/core/db";
 
 export const list = ApiHandler(async (event) => {
   try {
-    const [workorders, locations, parts] = await Promise.all([
-      db.query.workOrder.findMany({
-        with: { location: true, part: true },
-      }),
-      db.query.location.findMany({
-        with: { workorders: { with: { part: true } } },
-      }),
-      db.query.part.findMany(),
-    ]);
+    let workorders = await db.query.workOrder.findMany();
+    let locations = await db.query.location.findMany();
+    let parts = await db.query.part.findMany();
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ workorders, locations, parts }),
+      body: JSON.stringify({
+        workorders,
+        locations,
+        parts,
+      }),
     };
   } catch (error) {
     let message;

@@ -7,8 +7,9 @@
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
+	import { locationStore } from '$lib/stores/modal_stores';
 
-	export let Locations: LocationSelect[];
+	// export let Locations: LocationSelect[];
 
 	const dispatch = createEventDispatcher<{
 		reorderLocations: LocationSelect[];
@@ -26,15 +27,16 @@
 			onSort: function (evt) {
 				// console.log('sort ended');
 
+				// TODO detmerine what to return
 				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
-					let updatingLocation = Locations.find(
+					let updatingLocation = $locationStore.find(
 						(item) => item.id == parseInt(id)
 					) as LocationSelect;
 					return { ...updatingLocation, sequence: index };
 				});
-
-				dispatch('reorderLocations', reorderedLocations);
+				console.log(sortableObj.toArray());
+				locationStore.reorder(sortableObj.toArray().map((n) => Number(n)));
 			}
 		});
 	});
@@ -42,7 +44,7 @@
 
 <span class="mt-2 text-xl font-medium">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each Locations as Location (Location.id)}
+	{#each $locationStore as Location (Location.id)}
 		<div
 			class="flex flex-row justify-between rounded-lg border px-2 py-2 hover:bg-primary"
 			data-id={Location.id}
@@ -58,8 +60,7 @@
 			<button
 				class="btn btn-circle btn-ghost btn-xs place-self-end hover:text-error"
 				on:click={() => {
-					// add popup warning
-					dispatch('deleteLocation', Location);
+					locationStore.remove(Location);
 				}}><CancelIcon /></button
 			>
 		</div>
