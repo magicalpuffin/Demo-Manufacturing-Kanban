@@ -26,18 +26,6 @@
 <div class="flex h-screen flex-col">
 	<Navbar />
 	<div class="grow overflow-x-auto">
-		<!-- <KanbanBoard
-			LocationDetailList={locationDetailList}
-			on:deleteWorkorder={async (event) => {
-				await onWorkorderDelete(event.detail);
-				const locationDetailResponse = await fetch(`${PUBLIC_API_URL}/location?detail=true`, {
-					method: 'GET',
-					headers: { 'Content-Type': 'application/json' }
-				});
-				if (locationDetailResponse.ok) {
-					locationDetailList = await locationDetailResponse.json();
-				}
-			}}
-		/> -->
+		<KanbanBoard />
 	</div>
 </div>

@@ -4,6 +4,8 @@
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
+	import { workorderStore } from '$lib/stores/modal_stores';
+
 	export let WorkOrder: WorkOrderDetailSelect;
 	const dispatch = createEventDispatcher<{ deleteWorkorder: WorkOrderDetailSelect }>();
 </script>
@@ -14,6 +16,7 @@
 		<button
 			class="hover:bg-error)) btn btn-square btn-ghost btn-xs hover:text-error"
 			on:click={() => {
+				workorderStore.remove(WorkOrder);
 				dispatch('deleteWorkorder', WorkOrder);
 			}}><CancelIcon /></button
 		>

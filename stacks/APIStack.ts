@@ -23,6 +23,7 @@ export function APIStack({ stack }: StackContext) {
       "DELETE /location/{id}": "packages/functions/src/location.remove",
       "GET /workorder": "packages/functions/src/workorder.list",
       "POST /workorder": "packages/functions/src/workorder.create",
+      "PUT /workorder": "packages/functions/src/workorder.updateList",
       "GET /workorder/{id}": "packages/functions/src/workorder.get",
       "PUT /workorder/{id}": "packages/functions/src/workorder.update",
       "DELETE /workorder/{id}": "packages/functions/src/workorder.remove",

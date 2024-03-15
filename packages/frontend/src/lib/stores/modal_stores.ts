@@ -1,10 +1,17 @@
-import type { LocationSelect, PartSelect, WorkOrderInsert, WorkOrderSelect } from '$lib/types';
+import type {
+	LocationSelect,
+	PartSelect,
+	WorkOrderInsert,
+	WorkOrderSelect,
+	LocationDetailSelect,
+	WorkOrderDetailSelect
+} from '$lib/types';
 
 import { PUBLIC_API_URL } from '$env/static/public';
 import { toast } from '@zerodevx/svelte-toast';
 
-import type { Writable } from 'svelte/store';
-import { writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
 // export let kanbanParts: Writable<PartSelect[]> = writable([]);
 
@@ -135,11 +142,38 @@ function createWorkorderStore() {
 		});
 
 		if (response.ok) {
-			const data = await response.json();
-			update((n) => [...n, data]);
+			const data: WorkOrderSelect[] = await response.json();
+			update((n) => [...n, data[0]]);
 			toast.push('Created workorder');
 		} else {
 			toast.push('Failed to create workorder');
+		}
+	}
+
+	async function reorder(workorderSequence: WorkOrderSelect[]) {
+		const response = await fetch(`${PUBLIC_API_URL}/workorder`, {
+			method: 'PUT',
+			body: JSON.stringify(workorderSequence)
+		});
+		if (response.ok) {
+			const data: WorkOrderSelect[] = await response.json();
+			update((n) =>
+				n.map((n) => {
+					const updatedWorkorder = data.find((updatedWorkorder) => updatedWorkorder.id == n.id);
+					if (updatedWorkorder) {
+						return {
+							...n,
+							priority: updatedWorkorder.priority,
+							locationId: updatedWorkorder.locationId,
+							partId: updatedWorkorder.partId
+						};
+					}
+					return n;
+				})
+			);
+			toast.push('Updated workorders');
+		} else {
+			toast.push('Failed to update workorders');
 		}
 	}
 
@@ -147,11 +181,53 @@ function createWorkorderStore() {
 		update((n) => n.map((n) => (n.id == updateWorkorder.id ? { ...n, ...updateWorkorder } : n)));
 	}
 
+	async function remove(removeWorkorder: WorkOrderSelect) {
+		const response = await fetch(`${PUBLIC_API_URL}/workorder/${removeWorkorder.id}`, {
+			method: 'DELETE'
+		});
+
+		if (response.ok) {
+			const data: WorkOrderSelect[] = await response.json();
+
+			update((n) => n.filter((n) => n.id != data[0].id));
+			toast.push(`Removed workorder ${data[0].name}`);
+		} else {
+			toast.push('Failed to remove workorder');
+		}
+	}
+
 	return {
 		subscribe,
 		set,
 		reset: () => set([]),
 		add: addWorkorder,
-		update: updateWorkorder
+		update: updateWorkorder,
+		reorder,
+		remove
 	};
 }
+
+export const workorderDetail: Readable<WorkOrderDetailSelect[]> = derived(
+	[workorderStore, partStore, locationStore],
+	([$workorderStore, $partStore, $locationStore]) => {
+		return $workorderStore.map((workorder) => {
+			return {
+				...workorder,
+				part: $partStore.find((part) => part.id == workorder.partId),
+				location: $locationStore.find((location) => location.id == workorder.locationId)
+			} as WorkOrderDetailSelect;
+		});
+	}
+);
+
+export const kanbanBoardStore: Readable<LocationDetailSelect[]> = derived(
+	[workorderDetail, locationStore],
+	([$workorderDetail, $locationStore]) => {
+		return $locationStore.map((location) => {
+			return {
+				...location,
+				workorders: $workorderDetail.filter((workorder) => location.id == workorder.locationId)
+			} as LocationDetailSelect;
+		});
+	}
+);

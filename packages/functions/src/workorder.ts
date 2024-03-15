@@ -103,6 +103,60 @@ export const get = ApiHandler(async (event) => {
   }
 });
 
+export const updateList = ApiHandler(async (event) => {
+  if (!event.body) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: true }),
+    };
+  }
+  const data: (typeof workOrder.$inferInsert)[] = JSON.parse(event.body);
+
+  // extremely inefficient to update each object individually
+  // maybe have a separate database model for sequencing?
+  try {
+    // why is this faster?
+    data.map(
+      async (n) =>
+        await db
+          .update(workOrder)
+          .set({
+            name: n.name,
+            priority: n.priority,
+            locationId: n.locationId,
+            partId: n.partId,
+          })
+          .where(eq(workOrder.id, n.id))
+    );
+    // why is this slow?
+    // await db.transaction(async (tx) => {
+    //   await Promise.all(
+    //     data.map((n) =>
+    //       tx
+    //         .update(location)
+    //         .set({ name: n.name, sequence: n.sequence })
+    //         .where(eq(location.id, n.id))
+    //     )
+    //   );
+    // });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } catch (error) {
+    let message;
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: message }),
+    };
+  }
+});
+
 export const update = ApiHandler(async (event) => {
   const id = event.pathParameters?.id;
 
