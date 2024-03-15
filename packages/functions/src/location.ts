@@ -3,6 +3,8 @@ import { location } from "@Demo-Manufacturing-Kanban/core/schema";
 import { db } from "@Demo-Manufacturing-Kanban/core/db";
 import { eq } from "drizzle-orm";
 
+type LocationSelect = typeof location.$inferInsert;
+
 export const list = ApiHandler(async (event) => {
   const queryParam = event.queryStringParameters;
   try {
@@ -92,6 +94,55 @@ export const get = ApiHandler(async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify(result),
+    };
+  } catch (error) {
+    let message;
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: message }),
+    };
+  }
+});
+
+export const updateList = ApiHandler(async (event) => {
+  if (!event.body) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: true }),
+    };
+  }
+  const data: (typeof location.$inferInsert)[] = JSON.parse(event.body);
+
+  // extremely inefficient to update each object individually
+  // maybe have a separate database model for sequencing?
+  try {
+    // why is this faster?
+    data.map(
+      async (n) =>
+        await db
+          .update(location)
+          .set({ name: n.name, sequence: n.sequence })
+          .where(eq(location.id, n.id))
+    );
+    // why is this slow?
+    // await db.transaction(async (tx) => {
+    //   await Promise.all(
+    //     data.map((n) =>
+    //       tx
+    //         .update(location)
+    //         .set({ name: n.name, sequence: n.sequence })
+    //         .where(eq(location.id, n.id))
+    //     )
+    //   );
+    // });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
     };
   } catch (error) {
     let message;

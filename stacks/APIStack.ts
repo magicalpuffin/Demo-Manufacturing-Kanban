@@ -17,6 +17,7 @@ export function APIStack({ stack }: StackContext) {
       "DELETE /part/{id}": "packages/functions/src/part.remove",
       "GET /location": "packages/functions/src/location.list",
       "POST /location": "packages/functions/src/location.create",
+      "PUT /location": "packages/functions/src/location.updateList",
       "GET /location/{id}": "packages/functions/src/location.get",
       "PUT /location/{id}": "packages/functions/src/location.update",
       "DELETE /location/{id}": "packages/functions/src/location.remove",

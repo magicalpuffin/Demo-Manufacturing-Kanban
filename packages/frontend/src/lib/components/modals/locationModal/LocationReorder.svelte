@@ -35,8 +35,8 @@
 					) as LocationSelect;
 					return { ...updatingLocation, sequence: index };
 				});
-				console.log(sortableObj.toArray());
-				locationStore.reorder(sortableObj.toArray().map((n) => Number(n)));
+				console.log(reorderedLocations);
+				locationStore.reorder(reorderedLocations);
 			}
 		});
 	});
@@ -44,7 +44,7 @@
 
 <span class="mt-2 text-xl font-medium">Re-Order Locations</span>
 <div bind:this={sortableEle} class="flex max-w-sm flex-col gap-2">
-	{#each $locationStore as Location (Location.id)}
+	{#each $locationStore.sort((a, b) => a.sequence - b.sequence) as Location (Location.id)}
 		<div
 			class="flex flex-row justify-between rounded-lg border px-2 py-2 hover:bg-primary"
 			data-id={Location.id}

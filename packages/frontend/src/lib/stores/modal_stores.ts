@@ -44,13 +44,23 @@ function createLocationStore() {
 		}
 	}
 
-	function reorder(locationSequence: LocationSelect['id'][]) {
-		update((n) => {
-			return n.map((n) => {
-				const index = locationSequence.indexOf(n.id);
-				return { ...n, sequence: index !== -1 ? index : n.sequence };
-			});
+	async function reorder(locationSequence: LocationSelect[]) {
+		const response = await fetch(`${PUBLIC_API_URL}/location`, {
+			method: 'PUT',
+			body: JSON.stringify(locationSequence)
 		});
+		if (response.ok) {
+			const data: LocationSelect[] = await response.json();
+			update((n) =>
+				n.map((n) => {
+					const updatedLocation = data.find((updatedLocation) => updatedLocation.id == n.id);
+					return { ...n, sequence: updatedLocation ? updatedLocation.sequence : n.sequence };
+				})
+			);
+			toast.push('Updated locations');
+		} else {
+			toast.push('Failed to update locations');
+		}
 	}
 
 	function updateLocation(updateLocation: LocationSelect) {
