@@ -1,17 +1,22 @@
 # Demo-Manufacturing-Kanban
 
-**OUTDATED**
+A demo web of a manufacturing kanban system. Create workorders, locations and parts. Drag workorder cards to between different locations. Data is stored in a database.
 
-A basic demo web app of a manufacturing kanban system. Create workorders, locations and parts. Workorder cards can be dragged and dropped into different locations. Locations can be reorded to indicate sequence production. Workorders can be reordered to indicate priority of production. Data is stored into a sqlite database.
-
-Svelte frontend. Uses tailwindcss, sortablejs, svelte toast.
-
-Django Rest Framework backend.
+AWS, SST, SvelteKit, Drizzle, Tailwindcss, sortablejs, svelte toast
 
 ## How to run
 
-- Run this stack using docker
+- Run dev to start SST dev
+- Run frontend
 
 ```
-docker compose up
+npm run dev
+cd packages/frontend
+npm run dev
+```
+
+- Deploy
+
+```
+npx sst deploy --stage <STAGENAME>
 ```
