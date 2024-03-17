@@ -14,7 +14,9 @@
 		<button
 			class="hover:bg-error)) btn btn-square btn-ghost btn-xs hover:text-error"
 			on:click={() => {
-				workorderStore.remove(WorkOrder);
+				if (confirm(`Are you sure you want to delete ${WorkOrder.name}?`)) {
+					workorderStore.remove(WorkOrder);
+				}
 			}}><CancelIcon /></button
 		>
 	</div>

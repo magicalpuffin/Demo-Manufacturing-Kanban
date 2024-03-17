@@ -55,7 +55,9 @@
 			<button
 				class="btn btn-circle btn-ghost btn-xs place-self-end hover:text-error"
 				on:click={() => {
-					locationStore.remove(Location);
+					if (confirm(`Are you sure you want to delete ${Location.name}?`)) {
+						locationStore.remove(Location);
+					}
 				}}><CancelIcon /></button
 			>
 		</div>

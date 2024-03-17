@@ -28,8 +28,7 @@
 					><button
 						class="btn btn-circle btn-ghost btn-xs hover:text-error"
 						on:click={() => {
-							// TODO, add popup warning
-							if (confirm(`Are you sure you want to delete${Part.name}`)) {
+							if (confirm(`Are you sure you want to delete ${Part.name}?`)) {
 								partStore.remove(Part);
 							}
 						}}><CancelIcon /></button
