@@ -8,7 +8,8 @@
 
 <div class="h-full w-full">
 	<div class="flex h-full flex-row divide-x-2">
-		{#each $kanbanBoardStore as LocationDetail}
+		<!-- not sure about sorting in each component -->
+		{#each $kanbanBoardStore.sort((a, b) => a.sequence - b.sequence) as LocationDetail}
 			<KanbanColumn {LocationDetail} />
 		{/each}
 	</div>
