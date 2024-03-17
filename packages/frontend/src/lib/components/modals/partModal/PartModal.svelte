@@ -4,10 +4,9 @@
 
 	import PartTable from './PartTable.svelte';
 
-	import { onPartCreate, onPartDelete } from '$lib/utils/part_utils';
 	import ModalTemplate from '../ModalTemplate.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { partStore } from '$lib/stores/modal_stores';
+	import { partStore } from '$lib/stores';
 
 	let partName: string;
 	let partDescription: string;

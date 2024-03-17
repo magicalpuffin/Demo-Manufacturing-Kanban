@@ -5,7 +5,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
-	import { partStore } from '$lib/stores/modal_stores';
+	import { partStore } from '$lib/stores';
 
 	// const dispatch = createEventDispatcher<{ deletePart: PartSelect }>();
 </script>

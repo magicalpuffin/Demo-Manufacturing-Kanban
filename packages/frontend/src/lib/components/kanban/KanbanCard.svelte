@@ -1,13 +1,11 @@
 <script lang="ts">
 	import type { WorkOrderDetailSelect } from '$lib/types';
-	import { createEventDispatcher } from 'svelte';
 
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 
-	import { workorderStore } from '$lib/stores/modal_stores';
+	import { workorderStore } from '$lib/stores';
 
 	export let WorkOrder: WorkOrderDetailSelect;
-	const dispatch = createEventDispatcher<{ deleteWorkorder: WorkOrderDetailSelect }>();
 </script>
 
 <div class="card h-48 border shadow-md" data-id={WorkOrder.id}>
@@ -17,7 +15,6 @@
 			class="hover:bg-error)) btn btn-square btn-ghost btn-xs hover:text-error"
 			on:click={() => {
 				workorderStore.remove(WorkOrder);
-				dispatch('deleteWorkorder', WorkOrder);
 			}}><CancelIcon /></button
 		>
 	</div>

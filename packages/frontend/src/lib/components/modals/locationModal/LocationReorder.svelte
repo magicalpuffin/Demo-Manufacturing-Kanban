@@ -7,14 +7,9 @@
 
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
-	import { locationStore } from '$lib/stores/modal_stores';
+	import { locationStore } from '$lib/stores';
 
 	// export let Locations: LocationSelect[];
-
-	const dispatch = createEventDispatcher<{
-		reorderLocations: LocationSelect[];
-		deleteLocation: LocationSelect;
-	}>();
 
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
@@ -35,7 +30,7 @@
 					) as LocationSelect;
 					return { ...updatingLocation, sequence: index };
 				});
-				console.log(reorderedLocations);
+				// console.log(reorderedLocations);
 				locationStore.reorder(reorderedLocations);
 			}
 		});

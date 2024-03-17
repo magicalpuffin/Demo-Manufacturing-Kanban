@@ -1,27 +1,13 @@
 <script lang="ts">
-	import type {
-		LocationSelect,
-		WorkOrderDetailSelect,
-		LocationDetailSelect,
-		WorkOrderSelect
-	} from '$lib/types';
+	import type { LocationDetailSelect, WorkOrderSelect } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { createEventDispatcher } from 'svelte';
 
 	import KanbanCard from './KanbanCard.svelte';
 	import Sortable from 'sortablejs';
-	import { workorderStore } from '$lib/stores/modal_stores';
+	import { workorderStore } from '$lib/stores';
 
 	export let LocationDetail: LocationDetailSelect;
 
-	// $: sortedWorkOrders = WorkOrders.sort((a, b) => a.priority - b.priority);
-
-	interface ColumnReorderData {
-		location: LocationSelect;
-		workorderIds: string[];
-	}
-
-	const dispatch = createEventDispatcher();
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
 
@@ -30,26 +16,8 @@
 			group: 'location',
 			animation: 150,
 			ghostClass: 'blue-background-class',
-			// onSort: function (evt) {
-			// 	// Need to figure out how update database
-			// 	// console.log('sort ended');
-			// 	// console.log(evt.from);
-			// 	// console.log(evt.to);
-			// 	// let reorderedWorkorders = sortableObj.toArray().map((id, index) => {
-			// 	// 	let updatingWorkorder = WorkOrders.find((item) => item.id == parseInt(id));
-			// 	// 	return { ...updatingWorkorder, priority: index, location: Location };
-			// 	// });
-			// 	// console.log(Location.name);
-			// 	// console.log(sortableObj.toArray());
-			// 	// console.log(reorderedWorkorders);
 
-			// 	const eventData: ColumnReorderData = {
-			// 		location: LocationDetail,
-			// 		workorderIds: sortableObj.toArray()
-			// 	};
-			// 	console.log(eventData);
-			// }
-			// Event when reording within a columnt
+			// Event when reording within a column
 			onUpdate: (evt) => {
 				let reorderedWorkorders = sortableObj.toArray().map((id, index) => {
 					let updatingWorkorder = $workorderStore.find(
@@ -57,7 +25,7 @@
 					) as WorkOrderSelect;
 					return { ...updatingWorkorder, priority: index, locationId: LocationDetail.id };
 				});
-				console.log(reorderedWorkorders);
+				// console.log(reorderedWorkorders);
 				workorderStore.reorder(reorderedWorkorders);
 			},
 			// Event when adding to new column
@@ -69,7 +37,7 @@
 					) as WorkOrderSelect;
 					return { ...updatingWorkorder, priority: index, locationId: LocationDetail.id };
 				});
-				console.log(reorderedWorkorders);
+				// console.log(reorderedWorkorders);
 				workorderStore.reorder(reorderedWorkorders);
 			}
 		});

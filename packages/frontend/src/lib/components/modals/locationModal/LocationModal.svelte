@@ -6,8 +6,7 @@
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 	import LocationReorder from './LocationReorder.svelte';
 
-	// import { onLocationCreate, onLocationDelete, onLocationReorder } from '$lib/utils/location_utils';
-	import { locationStore } from '$lib/stores/modal_stores';
+	import { locationStore } from '$lib/stores';
 
 	let locationName: string;
 	let locationSequence: number;

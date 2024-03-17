@@ -1,12 +1,10 @@
 <script lang="ts">
 	import type { PartSelect, WorkOrderInsert, LocationSelect } from '$lib/types';
-	import type { Writable } from 'svelte/store';
 
 	// import { createEventDispatcher } from 'svelte';
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
 
-	import { onWorkorderCreate } from '$lib/utils/workorder_utils';
-	import { locationStore, partStore, workorderStore } from '$lib/stores/modal_stores';
+	import { locationStore, partStore, workorderStore } from '$lib/stores';
 
 	let workorderName: string;
 	let workorderPriority: number;

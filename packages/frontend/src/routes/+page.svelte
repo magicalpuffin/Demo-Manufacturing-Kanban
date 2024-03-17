@@ -3,23 +3,15 @@
 
 	import Navbar from '$lib/components/navbar/Navbar.svelte';
 	import KanbanBoard from '$lib/components/kanban/KanbanBoard.svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import { json } from '@sveltejs/kit';
-	import { onWorkorderDelete } from '$lib/utils/workorder_utils';
 
-	import { locationStore, partStore, workorderStore } from '$lib/stores/modal_stores';
+	import { locationStore, partStore, workorderStore } from '$lib/stores/index';
 
 	export let data: PageData;
-
-	// kanbanParts.set(data.partList);
 
 	locationStore.set(data.locationDetailList);
 	partStore.set(data.partList);
 	workorderStore.set(data.workOrderDetailList);
 
-	// let partsList = data.partList;
-	// let locationDetailList = data.locationDetailList;
-	// let workorderDetailList = data.workOrderDetailList;
 	// console.log(data);
 </script>
 
