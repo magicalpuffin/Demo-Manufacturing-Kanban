@@ -20,8 +20,13 @@
 	}
 </script>
 
-<ModalTemplate buttonName="Locations" modalTitle="Manage Location">
-	<form on:submit|preventDefault={submit}>
+<ModalTemplate buttonName="Locations" modalTitle="Manage Location" let:modalElement>
+	<form
+		on:submit|preventDefault={() => {
+			submit();
+			modalElement.close();
+		}}
+	>
 		<div class="my-2 flex flex-row gap-2">
 			<div class="block">
 				<span class="text-neutral">Name</span>

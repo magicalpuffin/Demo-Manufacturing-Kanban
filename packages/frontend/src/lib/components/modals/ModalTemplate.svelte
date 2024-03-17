@@ -12,7 +12,7 @@
 			<button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">✕</button>
 		</form>
 		<span class="text-2xl font-medium">{modalTitle}</span>
-		<slot />
+		<slot {modalElement} />
 	</div>
 	<form method="dialog" class="modal-backdrop">
 		<button>close</button>

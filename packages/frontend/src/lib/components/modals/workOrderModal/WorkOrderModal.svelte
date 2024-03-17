@@ -24,8 +24,13 @@
 	}
 </script>
 
-<ModalTemplate buttonName="Create Work Order" modalTitle="Create Work Order">
-	<form on:submit|preventDefault={submit}>
+<ModalTemplate buttonName="Create Work Order" modalTitle="Create Work Order" let:modalElement>
+	<form
+		on:submit|preventDefault={() => {
+			submit();
+			modalElement.close();
+		}}
+	>
 		<div class="grid grid-cols-1 gap-6">
 			<div class="block">
 				<span class="text-neutral">Name</span>
