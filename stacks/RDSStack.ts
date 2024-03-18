@@ -59,6 +59,6 @@ export function MigrateStack({ stack }: StackContext) {
 
   const migrateScript = new Script(stack, "MigrateScript", {
     onCreate: migrateFunction,
-    onUpdate: migrateFunction,
+    // onUpdate: migrateFunction,
   });
 }

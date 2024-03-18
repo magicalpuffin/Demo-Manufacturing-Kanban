@@ -1,6 +1,10 @@
 import type { LocationSelect } from '$lib/types';
+import type {
+	locationInsertType,
+	locationSelectType
+} from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { PUBLIC_API_URL } from '$env/static/public';
+import { trpc } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -10,42 +14,29 @@ export const locationStore = createLocationStore();
 function createLocationStore() {
 	const { subscribe, set, update } = writable<LocationSelect[]>([]);
 
-	async function addLocation(newLocation: Partial<LocationSelect>) {
-		const response = await fetch(`${PUBLIC_API_URL}/location`, {
-			method: 'POST',
-			body: JSON.stringify(newLocation)
-		});
-
-		if (response.ok) {
-			const data: LocationSelect[] = await response.json();
+	async function addLocation(newLocation: locationInsertType) {
+		try {
+			const data = await trpc.createLocation.mutate(newLocation);
 			update((n) => [...n, data[0]]);
-			toast.push('Created location');
-		} else {
+			toast.push(`Created location ${data[0].name}`);
+		} catch {
 			toast.push('Failed to create location');
 		}
 	}
-	async function remove(removeLocation: LocationSelect) {
-		const response = await fetch(`${PUBLIC_API_URL}/location/${removeLocation.id}`, {
-			method: 'DELETE'
-		});
-
-		if (response.ok) {
-			const data: LocationSelect[] = await response.json();
+	async function remove(removeLocation: locationSelectType) {
+		try {
+			const data = await trpc.deleteLocation.mutate(removeLocation);
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed location ${data[0].name}`);
-		} else {
+		} catch {
 			toast.push('Failed to remove location');
 		}
 	}
 
-	async function reorder(locationSequence: LocationSelect[]) {
-		const response = await fetch(`${PUBLIC_API_URL}/location`, {
-			method: 'PUT',
-			body: JSON.stringify(locationSequence)
-		});
-		if (response.ok) {
-			const data: LocationSelect[] = await response.json();
+	async function reorder(locationSequence: locationSelectType[]) {
+		try {
+			const data = await trpc.updateListLocation.mutate(locationSequence);
 			update((n) =>
 				n.map((n) => {
 					const updatedLocation = data.find((updatedLocation) => updatedLocation.id == n.id);
@@ -53,11 +44,12 @@ function createLocationStore() {
 				})
 			);
 			toast.push('Updated locations');
-		} else {
+		} catch {
 			toast.push('Failed to update locations');
 		}
 	}
 
+	// unused
 	function updateLocation(updateLocation: LocationSelect) {
 		update((n) => n.map((n) => (n.id == updateLocation.id ? { ...n, ...updateLocation } : n)));
 	}

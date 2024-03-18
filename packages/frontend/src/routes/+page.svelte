@@ -8,9 +8,9 @@
 
 	export let data: PageData;
 
-	locationStore.set(data.locationDetailList);
-	partStore.set(data.partList);
-	workorderStore.set(data.workOrderDetailList);
+	locationStore.set(data.locations);
+	partStore.set(data.parts);
+	workorderStore.set(data.workorders);
 
 	// console.log(data);
 </script>

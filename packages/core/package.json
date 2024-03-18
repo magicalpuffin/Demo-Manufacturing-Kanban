@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-rds-data": "^3.529.1",
-    "drizzle-orm": "^0.30.1"
+    "@trpc/server": "^10.45.2",
+    "drizzle-orm": "^0.30.1",
+    "drizzle-zod": "^0.5.1"
   }
 }
