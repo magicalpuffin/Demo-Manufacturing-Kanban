@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type { LocationSelect } from '$lib/types';
+	import type {
+		locationInsertType,
+		locationSelectType
+	} from '@Demo-Manufacturing-Kanban/core/zodSchema';
 	import type { Writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 
@@ -12,7 +15,7 @@
 	let locationSequence: number;
 
 	async function submit() {
-		let partialLocation: Partial<LocationSelect> = {
+		let partialLocation: locationInsertType = {
 			name: locationName,
 			sequence: locationSequence
 		};
@@ -52,10 +55,5 @@
 			<button class="btn btn-primary mt-5 px-4 py-2" type="submit">Create</button>
 		</div>
 	</form>
-	<!-- <LocationReorder
-		on:locationDelete={(e) => onLocationDelete(e.detail, Locations, WorkOrders)}
-		on:locationReorder={(e) => onLocationReorder(e.detail, Locations)}
-		{Locations}
-	/> -->
 	<LocationReorder />
 </ModalTemplate>

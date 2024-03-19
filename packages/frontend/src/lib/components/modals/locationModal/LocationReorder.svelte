@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LocationSelect } from '$lib/types';
+	import type { locationSelectType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 	import type { Writable } from 'svelte/store';
 
 	import { createEventDispatcher } from 'svelte';
@@ -8,8 +8,6 @@
 	import Sortable from 'sortablejs';
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 	import { locationStore } from '$lib/stores';
-
-	// export let Locations: LocationSelect[];
 
 	let sortableEle: HTMLElement;
 	let sortableObj: Sortable;
@@ -22,12 +20,10 @@
 			onSort: function (evt) {
 				// console.log('sort ended');
 
-				// TODO detmerine what to return
-				// uses new sequence of location id to update sequence
 				let reorderedLocations = sortableObj.toArray().map((id, index) => {
 					let updatingLocation = $locationStore.find(
 						(item) => item.id == parseInt(id)
-					) as LocationSelect;
+					) as locationSelectType;
 					return { ...updatingLocation, sequence: index };
 				});
 				// console.log(reorderedLocations);

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { LocationDetailSelect, WorkOrderSelect } from '$lib/types';
+	import type { LocationDetailSelect } from '$lib/types';
+	import type { workorderSelectType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 	import { onMount } from 'svelte';
 
 	import KanbanCard from './KanbanCard.svelte';
@@ -22,7 +23,7 @@
 				let reorderedWorkorders = sortableObj.toArray().map((id, index) => {
 					let updatingWorkorder = $workorderStore.find(
 						(item) => item.id == parseInt(id)
-					) as WorkOrderSelect;
+					) as workorderSelectType;
 					return { ...updatingWorkorder, priority: index, locationId: LocationDetail.id };
 				});
 				// console.log(reorderedWorkorders);
@@ -34,7 +35,7 @@
 				let reorderedWorkorders = sortableObj.toArray().map((id, index) => {
 					let updatingWorkorder = $workorderStore.find(
 						(item) => item.id == parseInt(id)
-					) as WorkOrderSelect;
+					) as workorderSelectType;
 					return { ...updatingWorkorder, priority: index, locationId: LocationDetail.id };
 				});
 				// console.log(reorderedWorkorders);

@@ -1,13 +1,6 @@
 <script lang="ts">
-	import type { PartSelect } from '$lib/types';
-	import type { Writable } from 'svelte/store';
-
-	import { createEventDispatcher } from 'svelte';
-
 	import CancelIcon from '$lib/icons/CancelIcon.svelte';
 	import { partStore } from '$lib/stores';
-
-	// const dispatch = createEventDispatcher<{ deletePart: PartSelect }>();
 </script>
 
 <span class="mt-2 text-xl font-medium">Parts Table</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PartSelect, WorkOrderInsert, LocationSelect } from '$lib/types';
+	import type { workorderInsertType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
 	// import { createEventDispatcher } from 'svelte';
 	import ModalTemplate from '$lib/components/modals/ModalTemplate.svelte';
@@ -14,7 +14,7 @@
 	// const dispatch = createEventDispatcher();
 
 	async function submit() {
-		let partialWorkorder: Partial<WorkOrderInsert> = {
+		let partialWorkorder: workorderInsertType = {
 			name: workorderName,
 			priority: workorderPriority,
 			locationId: locationId,

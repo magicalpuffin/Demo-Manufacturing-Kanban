@@ -1,4 +1,3 @@
-import type { LocationSelect } from '$lib/types';
 import type {
 	locationInsertType,
 	locationSelectType
@@ -12,7 +11,7 @@ import { writable } from 'svelte/store';
 export const locationStore = createLocationStore();
 
 function createLocationStore() {
-	const { subscribe, set, update } = writable<LocationSelect[]>([]);
+	const { subscribe, set, update } = writable<locationSelectType[]>([]);
 
 	async function addLocation(newLocation: locationInsertType) {
 		try {
@@ -50,7 +49,7 @@ function createLocationStore() {
 	}
 
 	// unused
-	function updateLocation(updateLocation: LocationSelect) {
+	function updateLocation(updateLocation: locationSelectType) {
 		update((n) => n.map((n) => (n.id == updateLocation.id ? { ...n, ...updateLocation } : n)));
 	}
 

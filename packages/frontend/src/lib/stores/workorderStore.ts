@@ -1,4 +1,3 @@
-import type { WorkOrderInsert, WorkOrderSelect } from '$lib/types';
 import type {
 	workorderInsertType,
 	workorderSelectType
@@ -12,7 +11,7 @@ import { writable } from 'svelte/store';
 export const workorderStore = createWorkorderStore();
 
 function createWorkorderStore() {
-	const { subscribe, set, update } = writable<WorkOrderSelect[]>([]);
+	const { subscribe, set, update } = writable<workorderSelectType[]>([]);
 
 	async function addWorkorder(newWorkorder: workorderInsertType) {
 		try {
@@ -48,7 +47,7 @@ function createWorkorderStore() {
 		}
 	}
 
-	function updateWorkorder(updateWorkorder: WorkOrderSelect) {
+	function updateWorkorder(updateWorkorder: workorderSelectType) {
 		update((n) => n.map((n) => (n.id == updateWorkorder.id ? { ...n, ...updateWorkorder } : n)));
 	}
 
