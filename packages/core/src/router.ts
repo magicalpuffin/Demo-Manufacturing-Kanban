@@ -16,6 +16,14 @@ import {
 export const t = initTRPC.create();
 
 export const appRouter = t.router({
+  listAll: t.procedure.query(async () => {
+    const [workorders, locations, parts] = await Promise.all([
+      db.query.workOrder.findMany(),
+      db.query.location.findMany(),
+      db.query.part.findMany(),
+    ]);
+    return { workorders, locations, parts };
+  }),
   listWorkorder: t.procedure.query(async () => {
     const workorders = await db.query.workOrder.findMany();
     // return array of obj directly? this feels illegal
