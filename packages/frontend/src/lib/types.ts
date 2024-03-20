@@ -1,18 +1,13 @@
-import { workOrder, location, part } from '@Demo-Manufacturing-Kanban/core/schema';
+import type {
+	locationSelectType,
+	workorderSelectType,
+	partSelectType
+} from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-// issues with drizzle pgserial
-export type WorkOrderSelect = typeof workOrder.$inferSelect;
-export type WorkOrderInsert = typeof workOrder.$inferInsert;
-
-export type PartSelect = typeof part.$inferSelect;
-
-export type LocationSelect = typeof location.$inferSelect;
-
-// detail types might not be useful? Could manage through stores?
-export type LocationDetailSelect = LocationSelect & {
+export type LocationDetailSelect = locationSelectType & {
 	workorders: WorkOrderDetailSelect[];
 };
 
-export type WorkOrderDetailSelect = WorkOrderSelect & {
-	location: LocationSelect;
-} & { part: PartSelect };
+export type WorkOrderDetailSelect = workorderSelectType & {
+	location: locationSelectType;
+} & { part: partSelectType };

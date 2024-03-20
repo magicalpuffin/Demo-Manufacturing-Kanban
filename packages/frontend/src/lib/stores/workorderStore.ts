@@ -1,6 +1,9 @@
-import type { WorkOrderInsert, WorkOrderSelect } from '$lib/types';
+import type {
+	workorderInsertType,
+	workorderSelectType
+} from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { PUBLIC_API_URL } from '$env/static/public';
+import { trpc, isTRPCClientError } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -8,34 +11,30 @@ import { writable } from 'svelte/store';
 export const workorderStore = createWorkorderStore();
 
 function createWorkorderStore() {
-	const { subscribe, set, update } = writable<WorkOrderSelect[]>([]);
+	const { subscribe, set, update } = writable<workorderSelectType[]>([]);
 
-	async function addWorkorder(newWorkorder: Partial<WorkOrderInsert>) {
-		const response = await fetch(`${PUBLIC_API_URL}/workorder`, {
-			method: 'POST',
-			body: JSON.stringify(newWorkorder)
-		});
-
-		if (response.ok) {
-			const data: WorkOrderSelect[] = await response.json();
+	async function addWorkorder(newWorkorder: workorderInsertType) {
+		try {
+			const data = await trpc.createWorkorder.mutate(newWorkorder);
 			update((n) => [...n, data[0]]);
 			toast.push('Created workorder');
-		} else {
-			toast.push('Failed to create workorder');
+		} catch (error) {
+			if (isTRPCClientError(error)) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to create workorder');
+			}
 		}
 	}
 
-	async function reorder(workorderSequence: WorkOrderSelect[]) {
-		const response = await fetch(`${PUBLIC_API_URL}/workorder`, {
-			method: 'PUT',
-			body: JSON.stringify(workorderSequence)
-		});
-		if (response.ok) {
-			const data: WorkOrderSelect[] = await response.json();
+	async function reorder(workorderSequence: workorderSelectType[]) {
+		try {
+			const data = await trpc.updateListWorkorder.mutate(workorderSequence);
 			update((n) =>
 				n.map((n) => {
 					const updatedWorkorder = data.find((updatedWorkorder) => updatedWorkorder.id == n.id);
 					if (updatedWorkorder) {
+						// why not just spread the new obj?
 						return {
 							...n,
 							priority: updatedWorkorder.priority,
@@ -47,27 +46,27 @@ function createWorkorderStore() {
 				})
 			);
 			toast.push('Updated workorders');
-		} else {
+		} catch {
 			toast.push('Failed to update workorders');
 		}
 	}
 
-	function updateWorkorder(updateWorkorder: WorkOrderSelect) {
+	function updateWorkorder(updateWorkorder: workorderSelectType) {
 		update((n) => n.map((n) => (n.id == updateWorkorder.id ? { ...n, ...updateWorkorder } : n)));
 	}
 
-	async function remove(removeWorkorder: WorkOrderSelect) {
-		const response = await fetch(`${PUBLIC_API_URL}/workorder/${removeWorkorder.id}`, {
-			method: 'DELETE'
-		});
-
-		if (response.ok) {
-			const data: WorkOrderSelect[] = await response.json();
+	async function remove(removeWorkorder: workorderSelectType) {
+		try {
+			const data = await trpc.deleteWorkorder.mutate(removeWorkorder);
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed workorder ${data[0].name}`);
-		} else {
-			toast.push('Failed to remove workorder');
+		} catch (error) {
+			if (typeof error === 'object' && error !== null && 'message' in error) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to remove workorder');
+			}
 		}
 	}
 

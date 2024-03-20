@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PartSelect } from '$lib/types';
+	import type { partInsertType, partSelectType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 	import type { Writable } from 'svelte/store';
 
 	import PartTable from './PartTable.svelte';
@@ -14,7 +14,7 @@
 	// let dispatch = createEventDispatcher();
 
 	async function submit() {
-		let partialPart: Partial<PartSelect> = {
+		let partialPart: partInsertType = {
 			name: partName,
 			description: partDescription
 		};
@@ -46,6 +46,5 @@
 		</div>
 		<button class="btn btn-primary my-2 rounded-lg px-4 py-2" type="submit">Create</button>
 	</form>
-	<!-- <PartTable on:partDelete={(e) => onPartDelete(e.detail, Parts, WorkOrders)} {Parts} /> -->
 	<PartTable />
 </ModalTemplate>

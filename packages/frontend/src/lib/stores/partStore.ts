@@ -1,6 +1,6 @@
-import type { PartSelect } from '$lib/types';
+import type { partInsertType, partSelectType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { PUBLIC_API_URL } from '$env/static/public';
+import { trpc, isTRPCClientError } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -8,39 +8,38 @@ import { writable } from 'svelte/store';
 export const partStore = createPartStore();
 
 function createPartStore() {
-	const { subscribe, set, update } = writable<PartSelect[]>([]);
+	const { subscribe, set, update } = writable<partSelectType[]>([]);
 
-	async function addPart(newPart: Partial<PartSelect>) {
-		const response = await fetch(`${PUBLIC_API_URL}/part`, {
-			method: 'POST',
-			body: JSON.stringify(newPart)
-		});
-
-		if (response.ok) {
-			const data: PartSelect[] = await response.json();
+	async function addPart(newPart: partInsertType) {
+		try {
+			const data = await trpc.createPart.mutate(newPart);
 			update((n) => [...n, data[0]]);
-			toast.push('Created part');
-		} else {
-			toast.push('Failed to create part');
+			toast.push(`Created part ${data[0].name}`);
+		} catch (error) {
+			if (isTRPCClientError(error)) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to create part');
+			}
 		}
 	}
 
-	async function remove(removePart: PartSelect) {
-		const response = await fetch(`${PUBLIC_API_URL}/part/${removePart.id}`, {
-			method: 'DELETE'
-		});
-
-		if (response.ok) {
-			const data: PartSelect[] = await response.json();
+	async function remove(removePart: partSelectType) {
+		try {
+			const data = await trpc.deletePart.mutate(removePart);
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed part ${data[0].name}`);
-		} else {
-			toast.push('Failed to remove part');
+		} catch (error) {
+			if (typeof error === 'object' && error !== null && 'message' in error) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push(`Failed to remove part`);
+			}
 		}
 	}
 
-	function updatePart(updatePart: PartSelect) {
+	function updatePart(updatePart: partSelectType) {
 		update((n) => n.map((n) => (n.id == updatePart.id ? { ...n, ...updatePart } : n)));
 	}
 
