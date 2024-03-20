@@ -1,6 +1,6 @@
 import type { partInsertType, partSelectType } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { trpc } from '$lib/client';
+import { trpc, isTRPCClientError } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -15,8 +15,12 @@ function createPartStore() {
 			const data = await trpc.createPart.mutate(newPart);
 			update((n) => [...n, data[0]]);
 			toast.push(`Created part ${data[0].name}`);
-		} catch {
-			toast.push('Failed to create part');
+		} catch (error) {
+			if (isTRPCClientError(error)) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to create part');
+			}
 		}
 	}
 
@@ -26,8 +30,12 @@ function createPartStore() {
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed part ${data[0].name}`);
-		} catch {
-			toast.push('Failed to remove part');
+		} catch (error) {
+			if (typeof error === 'object' && error !== null && 'message' in error) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push(`Failed to remove part`);
+			}
 		}
 	}
 

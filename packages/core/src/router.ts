@@ -1,8 +1,8 @@
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { db } from "./db";
 import { z } from "zod";
 import { workOrder, location, part } from "./schema";
-import { eq } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 
 import {
   workorderInsert,
@@ -30,6 +30,15 @@ export const appRouter = t.router({
     return workorders;
   }),
   createWorkorder: t.procedure.input(workorderInsert).mutation(async (opt) => {
+    const total = await db.select({ count: count() }).from(workOrder);
+
+    if (total[0].count > 20) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Too many workorders",
+      });
+    }
+
     const newWorkorder = await db
       .insert(workOrder)
       .values(
@@ -76,6 +85,15 @@ export const appRouter = t.router({
     return locations;
   }),
   createLocation: t.procedure.input(locationInsert).mutation(async (opt) => {
+    const total = await db.select({ count: count() }).from(location);
+
+    if (total[0].count > 20) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Too many locations",
+      });
+    }
+
     const newLocation = await db
       .insert(location)
       .values(
@@ -119,6 +137,15 @@ export const appRouter = t.router({
     return parts;
   }),
   createPart: t.procedure.input(partInsert).mutation(async (opt) => {
+    const total = await db.select({ count: count() }).from(part);
+
+    if (total[0].count > 20) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Too many parts",
+      });
+    }
+
     const newPart = await db
       .insert(part)
       .values(

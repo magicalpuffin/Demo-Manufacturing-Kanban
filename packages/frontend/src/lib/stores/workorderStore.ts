@@ -3,7 +3,7 @@ import type {
 	workorderSelectType
 } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { trpc } from '$lib/client';
+import { trpc, isTRPCClientError } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -18,8 +18,12 @@ function createWorkorderStore() {
 			const data = await trpc.createWorkorder.mutate(newWorkorder);
 			update((n) => [...n, data[0]]);
 			toast.push('Created workorder');
-		} catch {
-			toast.push('Failed to create workorder');
+		} catch (error) {
+			if (isTRPCClientError(error)) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to create workorder');
+			}
 		}
 	}
 
@@ -57,8 +61,12 @@ function createWorkorderStore() {
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed workorder ${data[0].name}`);
-		} catch {
-			toast.push('Failed to remove workorder');
+		} catch (error) {
+			if (typeof error === 'object' && error !== null && 'message' in error) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to remove workorder');
+			}
 		}
 	}
 

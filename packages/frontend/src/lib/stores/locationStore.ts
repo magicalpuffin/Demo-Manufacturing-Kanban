@@ -3,7 +3,7 @@ import type {
 	locationSelectType
 } from '@Demo-Manufacturing-Kanban/core/zodSchema';
 
-import { trpc } from '$lib/client';
+import { isTRPCClientError, trpc } from '$lib/client';
 import { toast } from '@zerodevx/svelte-toast';
 
 import { writable } from 'svelte/store';
@@ -18,8 +18,12 @@ function createLocationStore() {
 			const data = await trpc.createLocation.mutate(newLocation);
 			update((n) => [...n, data[0]]);
 			toast.push(`Created location ${data[0].name}`);
-		} catch {
-			toast.push('Failed to create location');
+		} catch (error) {
+			if (isTRPCClientError(error)) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to create location');
+			}
 		}
 	}
 	async function remove(removeLocation: locationSelectType) {
@@ -28,8 +32,12 @@ function createLocationStore() {
 
 			update((n) => n.filter((n) => n.id != data[0].id));
 			toast.push(`Removed location ${data[0].name}`);
-		} catch {
-			toast.push('Failed to remove location');
+		} catch (error) {
+			if (typeof error === 'object' && error !== null && 'message' in error) {
+				toast.push(`${error.message}`);
+			} else {
+				toast.push('Failed to remove location');
+			}
 		}
 	}
 
