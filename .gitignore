@@ -17,3 +17,5 @@ __pycache__
 .env*.local
 
 .env
+
+cdk.context.json
