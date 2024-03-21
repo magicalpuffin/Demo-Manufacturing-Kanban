@@ -8,6 +8,11 @@ export function APIStack({ stack }: StackContext) {
     bind: [rds],
   });
   const api = new Api(stack, "api", {
+    defaults: {
+      function: {
+        timeout: "60 seconds",
+      },
+    },
     routes: {
       "GET /{proxy+}": "packages/functions/src/lambda.handler",
       "POST /{proxy+}": "packages/functions/src/lambda.handler",

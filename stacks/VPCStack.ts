@@ -6,7 +6,7 @@ export function VPCStack({ app, stack }: StackContext) {
   //   maxAzs: 2, // Adjust as needed
   // });
   const vpc = ec2.Vpc.fromLookup(stack, "dev-vpc", {
-    vpcId: "vpc-05aced05d1ac8c50a",
+    vpcName: "dev-vpc",
   });
   const bastionSecurityGroup = new ec2.SecurityGroup(
     stack,
