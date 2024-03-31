@@ -29,6 +29,7 @@ export function RDSStack({ app, stack }: StackContext) {
   const rds = new RDS(stack, "rds", {
     engine: "postgresql13.9",
     defaultDatabaseName: "mydb",
+    scaling: { maxCapacity: "ACU_4" },
     cdk: {
       cluster: {
         vpc,
