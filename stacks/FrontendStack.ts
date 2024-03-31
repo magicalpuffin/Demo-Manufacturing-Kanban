@@ -1,6 +1,6 @@
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { StackContext, SvelteKitSite, use } from "sst/constructs";
 import { APIStack } from "./APIStack";
-import { RDSStack } from "./RDSStack";
 
 export function FrontendStack({ app, stack }: StackContext) {
   const { api } = use(APIStack);
@@ -9,8 +9,15 @@ export function FrontendStack({ app, stack }: StackContext) {
     path: "packages/frontend/",
     environment: { PUBLIC_API_URL: api.url },
     customDomain: {
+      isExternalDomain: true,
       domainName: "demo.kanban.puffinsystems.com",
-      hostedZone: "puffinsystems.com",
+      cdk: {
+        certificate: Certificate.fromCertificateArn(
+          stack,
+          "mycert",
+          process.env.CERT_ARN ?? ""
+        ),
+      },
     },
   });
   stack.addOutputs({ FrontendUrl: frontend.url });
